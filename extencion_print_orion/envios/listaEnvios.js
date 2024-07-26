@@ -1,16 +1,9 @@
 /** Lista de Envios */
 function main() {
   try {
-    const tbody = document.querySelector('#gvEnvioListas_ctl00 > tbody');
+    document.addEventListener('click', eventClick);
 
-    if (!tbody) {
-      console.error('No existe el elemento tbody');
-      return;
-    }
-
-    tbody.addEventListener('click', eventClick);
-
-    function eventClick(e) {
+    async function eventClick(e) {
       const element = e.target;
 
       if (
@@ -19,6 +12,8 @@ function main() {
       ) {
         const anchor = element.closest('a');
         const trElement = element.closest('tr');
+
+        console.log('anchor:', anchor);
 
         if (!anchor) {
           console.error('Elemento <a> no encontrado');
@@ -30,9 +25,8 @@ function main() {
           return;
         }
 
-        transformAnchor({ trElement, anchor });
-      } else {
-        console.warn('Elemento no válido:');
+        // Redirigir al enlace deseado
+        await transformAnchor({ trElement, anchor });
       }
     }
   } catch (error) {
@@ -40,16 +34,20 @@ function main() {
   }
 
   function transformAnchor({ trElement, anchor }) {
-    // Verifica si los índices de los hijos existen antes de acceder a ellos
-    const cells = trElement.children;
-    const GENERADO_POR = cells[9] ? cells[9].textContent.trim() : 'No disponible';
-    const FECHA_ENVIO = cells[5] ? cells[5].textContent.trim() : 'No disponible';
+    return new Promise(resolve => {
+      // Verifica si los índices de los hijos existen antes de acceder a ellos
+      const cells = trElement.children;
+      const GENERADO_POR = cells[9] ? cells[9].textContent.trim() : 'No disponible';
+      const FECHA_ENVIO = cells[5] ? cells[5].textContent.trim() : 'No disponible';
 
-    // Actualiza el href del anchor si no existe ya el parámetro
-    const url = new URL(anchor.href);
-    url.searchParams.set('UserEnvio', GENERADO_POR);
-    url.searchParams.set('FechaEnvio', FECHA_ENVIO);
-    anchor.href = url.toString();
+      // Actualiza el href del anchor si no existe ya el parámetro
+      const url = new URL(anchor.href);
+      url.searchParams.set('UserEnvio', GENERADO_POR);
+      url.searchParams.set('FechaEnvio', FECHA_ENVIO);
+      anchor.href = url.toString();
+
+      resolve();
+    });
   }
 }
 
