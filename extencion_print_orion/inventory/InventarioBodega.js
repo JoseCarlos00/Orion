@@ -1,13 +1,17 @@
-async function initialEvents() {
+async function main() {
   /** Banderas Globales */
   let activarFilas = false;
   let isVerificarLineasDeImpresionExecuted = false;
+
+  const PASSWORD = '12345678';
+  let authorizationUser = '';
 
   try {
     /** Isertar Button Imprimir */
     await insertarButtonPrint();
 
     setEvents();
+    ShowInventoryTuti();
 
     const body = document.querySelector('body');
     const enlace =
@@ -242,6 +246,69 @@ async function initialEvents() {
       incompletePrintTr.remove();
     }
   }
+
+  function insertElementShowInventoryTuti() {
+    return new Promise((resolve, reject) => {
+      const elementToInsert = document.querySelector('#frmConsultaMiodani > main > h1');
+      if (!elementToInsert) {
+        console.error('No existe el elemento [h1]');
+        reject();
+        return;
+      }
+
+      elementToInsert.innerHTML =
+        '<label id="insertInventoryTulti"><input type="checkbox"><small>Inventario por Bodega</small></label>';
+      setTimeout(resolve, 50);
+    });
+  }
+
+  async function ShowInventoryTuti() {
+    try {
+      await insertElementShowInventoryTuti();
+      eventCheckBokShowInventoryTulti();
+    } catch (error) {
+      console.error('Error:', error);
+    }
+
+    function validateAuthorization() {
+      return new Promise((resolve, reject) => {
+        if (authorizationUser === PASSWORD) {
+          resolve(true);
+          return;
+        }
+        const key = prompt('Ingrese una contraseña valida') ?? '';
+        authorizationUser = key;
+
+        if (key === PASSWORD) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      });
+    }
+
+    function eventCheckBokShowInventoryTulti() {
+      const btnInsertKey = document.querySelector('#insertInventoryTulti');
+      const table = document.querySelector('#gvInventario_ctl00');
+
+      if (btnInsertKey) {
+        btnInsertKey.addEventListener('change', () => eventChange({ table, btnInsertKey }));
+      }
+    }
+
+    async function eventChange({ table, btnInsertKey }) {
+      if (!table) {
+        console.error('Error: no existe el elemento table');
+        return;
+      }
+
+      const authorization = await validateAuthorization();
+
+      if (authorization) {
+        table.classList.toggle('show-inventory-tulti', btnInsertKey.checked);
+      }
+    }
+  }
 }
 
-window.addEventListener('load', initialEvents, { once: true });
+window.addEventListener('load', main, { once: true });
