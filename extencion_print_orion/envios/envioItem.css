@@ -35,8 +35,6 @@ html {
   }
 
   .main-overview {
-    height: 250px !important  ;
-
     .overview-card {
       border: none !important;
       background-color: transparent !important;
@@ -70,7 +68,7 @@ html {
     > tbody
     > tr:is(:nth-child(3), :nth-child(4), :nth-child(5), :nth-child(6), :nth-child(7)),
   main > hr {
-    display: none;
+    display: none !important;
   }
 
   .table tr th {
@@ -94,12 +92,14 @@ html {
     padding: 0 !important;
   }
 
-  .container-work-unit {
-    top: 180px !important;
-  }
-
   .RadGrid_Bootstrap {
     border: none !important;
+  }
+
+  #UpdatePanel > main > div.main-overview.row .overview-card,
+  #UpdatePanel > main > div.main-overview.row .overview-card .p-3.m-3 {
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
   }
 
   .work-unit {

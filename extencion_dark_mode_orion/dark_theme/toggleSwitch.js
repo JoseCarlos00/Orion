@@ -356,6 +356,13 @@ html body .RadInput_Focused_Bootstrap {
   opacity: 0.9 !important;
 }
 
+#divImpresionRepCotizacion > table {
+  color: #fff !important;
+  img {
+    filter: invert(1);
+  }
+}
+
 @media print {
   .rgPager .rgPagerCell .rgNumPart a,
   .RadComboBox_Bootstrap .rcbArrowCell a,
