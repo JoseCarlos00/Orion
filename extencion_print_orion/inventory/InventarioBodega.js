@@ -7,15 +7,27 @@ async function initialEvents() {
     /** Isertar Button Imprimir */
     await insertarButtonPrint();
 
-    const printButtonInventory = document.querySelector('#printButtonInventory');
-    printButtonInventory &&
-      printButtonInventory.addEventListener('click', verificarLineasDeImpresion);
+    setEvents();
 
     const body = document.querySelector('body');
     const enlace =
       '<a href="#gvInventario_ctl00_ctl03_ctl01_ddlPageSize_Det" id="irALista" hidden="">Ir a Lista</a>';
 
-    body && body.insertAdjacentHTML('afterbegin', enlace);
+    if (body) {
+      body.insertAdjacentHTML('afterbegin', enlace);
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  } finally {
+    inventarioBodegaFitros();
+  }
+
+  function setEvents() {
+    const printButtonInventory = document.querySelector('#printButtonInventory');
+
+    if (printButtonInventory) {
+      printButtonInventory.addEventListener('click', verificarLineasDeImpresion);
+    }
 
     window.addEventListener('beforeprint', verificarLineasDeImpresion);
     window.addEventListener('afterprint', activartodasLasLineas);
@@ -28,29 +40,31 @@ async function initialEvents() {
         verificarLineasDeImpresion();
       }
     });
-  } catch (error) {
-    console.error('Error:', error);
-  } finally {
-    inventarioBodegaFitros();
   }
 
   function insertarButtonPrint() {
+    const buttonPrint = `
+      <div >
+        <button id="printButtonInventory" type="button" class="btn btn-sm btn-purple"><i class="fas fa-print"></i>Imprimir</button>
+      </div>
+      `;
+
     return new Promise(resolve => {
       const elementoInsert = document.querySelector(
         '#frmConsultaMiodani > main > div.row > div > div > div.card-table > div.form-inline'
       );
 
-      if (elementoInsert) {
-        elementoInsert.classList.add('container-print');
-        elementoInsert.children[0].classList.remove('col');
-
-        elementoInsert.insertAdjacentHTML('beforeend', buttonPrint);
-
-        resolve(true);
-      } else {
+      if (!elementoInsert) {
         console.log(new Error('No se encontroe el elemento a insertar: Button Print'));
-        resolve(false);
+        resolve();
+        return;
       }
+
+      elementoInsert.classList.add('container-print');
+      elementoInsert.children[0].classList.remove('col');
+
+      elementoInsert.insertAdjacentHTML('beforeend', buttonPrint);
+      resolve();
     });
   }
 
@@ -130,7 +144,14 @@ async function initialEvents() {
 
     if (userResponse) {
       activarFilas = false;
-      window.print();
+      insertarMessageIncompletePrint()
+        .then(() => {
+          window.print();
+        })
+        .catch(err => {
+          console.error('Error:', err);
+          window.print();
+        });
     } else {
       activarFilas = true;
       console.log('activarFilas = true');
@@ -140,6 +161,8 @@ async function initialEvents() {
 
   function activartodasLasLineas() {
     isVerificarLineasDeImpresionExecuted = false;
+
+    mensajeDeImpresionIncompleto();
 
     if (!isActivarFilasValido()) {
       return;
@@ -185,13 +208,40 @@ async function initialEvents() {
       listaDeActivarFilas.classList.add('bounce-active');
     }, 100);
   }
-}
 
-// Boton imprimir
-const buttonPrint = `
-<div >
-  <button id="printButtonInventory" type="button" class="btn btn-sm btn-purple"><i class="fas fa-print"></i>Imprimir</button>
-</div>
-`;
+  function insertarMessageIncompletePrint() {
+    const htmlTrPrint = `
+      <tr id="incompletePrint">
+        <td colspan="21"><h4>Impresion Incompleta</h4></td>
+      </tr>
+    `;
+
+    return new Promise(resolve => {
+      const tbody = document.querySelector('#gvInventario_ctl00 > tbody');
+
+      if (!tbody) {
+        console.error('Error: no se encontro el elemento [tbody]');
+        resolve();
+        return;
+      }
+
+      const incompletePrintTr = document.querySelector('#incompletePrint');
+
+      if (!incompletePrintTr) {
+        tbody.insertAdjacentHTML('beforeend', htmlTrPrint);
+      }
+
+      resolve();
+    });
+  }
+
+  function mensajeDeImpresionIncompleto() {
+    const incompletePrintTr = document.querySelector('#incompletePrint');
+
+    if (incompletePrintTr) {
+      incompletePrintTr.remove();
+    }
+  }
+}
 
 window.addEventListener('load', initialEvents, { once: true });

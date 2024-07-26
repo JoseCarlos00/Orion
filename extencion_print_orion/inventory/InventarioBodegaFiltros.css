@@ -1,0 +1,33 @@
+/* Inventory Filtros */
+/* Ocultar filas con la clase hidden-row por defecto */
+.hidden-row {
+  display: none;
+}
+
+/* Mostrar filas con la clase hidden-row cuando la tabla tiene la clase show-rows */
+.show-rows .hidden-row {
+  display: table-row;
+}
+
+#gvInventario_ctl00 > tfoot > tr > td > div > div > div:nth-child(7) {
+  margin-right: 12px !important;
+
+  label {
+    margin-right: 4px !important;
+  }
+}
+
+.contadores-show-hidden {
+  label {
+    margin-right: 4px !important;
+  }
+}
+
+.show-rows .contadores-show-hidden {
+  opacity: 0 !important;
+}
+
+.table-no-show-rows > tfoot > tr > td > div > div > div:nth-child(7) label,
+.table-no-show-rows .contadores-show-hidden label {
+  font-weight: bold !important;
+}
