@@ -84,7 +84,7 @@ html {
   #btnGuardarEnvio,
   main > div:nth-child(7) > div > div.d-flex.bd-highlight.mb-3,
   #gvEnvio_ctl00 > tfoot,
-  #gvEnvio_ctl00 tr :is(td:nth-child(1), th:nth-child(1)) {
+  #gvEnvio_ctl00 tr:not(#incompletePrint) :is(td:nth-child(1), th:nth-child(1)) {
     display: none !important;
   }
 

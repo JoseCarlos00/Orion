@@ -212,7 +212,7 @@ async function initialEvents() {
   function insertarMessageIncompletePrint() {
     const htmlTrPrint = `
       <tr id="incompletePrint">
-        <td colspan="21"><h4>Impresion Incompleta</h4></td>
+         <td colspan="21"><h4 style="text-align: center;">Impresion Incompleta</h4></td>
       </tr>
     `;
 

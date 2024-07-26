@@ -108,7 +108,14 @@ async function alertaPrint() {
 
     if (userResponse) {
       activarFilas = false;
-      window.print();
+      insertarMessageIncompletePrint()
+        .then(() => {
+          window.print();
+        })
+        .catch(err => {
+          console.error('Error:', err);
+          window.print();
+        });
     } else {
       activarFilas = true;
       console.log('activarFilas = true');
@@ -118,6 +125,8 @@ async function alertaPrint() {
 
   function activartodasLasLineas() {
     isVerificarLineasDeImpresionExecuted = false;
+
+    mensajeDeImpresionIncompleto();
 
     if (!isActivarFilasValido()) {
       return;
@@ -168,5 +177,39 @@ async function alertaPrint() {
     setTimeout(() => {
       listaDeActivarFilas.classList.add('bounce-active');
     }, 100);
+  }
+
+  function insertarMessageIncompletePrint() {
+    const htmlTrPrint = `
+      <tr id="incompletePrint">
+        <td colspan="21"><h4 style="text-align: center;">Impresion Incompleta</h4></td>
+      </tr>
+    `;
+
+    return new Promise(resolve => {
+      const tbody = document.querySelector('#gvEnvio_ctl00 > tbody');
+
+      if (!tbody) {
+        console.error('Error: no se encontro el elemento [tbody]');
+        resolve();
+        return;
+      }
+
+      const incompletePrintTr = document.querySelector('#incompletePrint');
+
+      if (!incompletePrintTr) {
+        tbody.insertAdjacentHTML('beforeend', htmlTrPrint);
+      }
+
+      resolve();
+    });
+  }
+
+  function mensajeDeImpresionIncompleto() {
+    const incompletePrintTr = document.querySelector('#incompletePrint');
+
+    if (incompletePrintTr) {
+      incompletePrintTr.remove();
+    }
   }
 }
