@@ -33,7 +33,6 @@ async function inventarioBodegaFitros() {
       }
 
       elementToInsert.insertAdjacentHTML('beforeend', htmlInputCheck);
-
       setTimeout(resolve, 50);
     });
   }
@@ -56,6 +55,7 @@ async function inventarioBodegaFitros() {
       }
 
       table.classList.add('table-no-show-rows');
+      const showAll = true;
 
       checkbox.addEventListener('change', event => {
         if (checkbox.checked) {
@@ -112,17 +112,30 @@ async function inventarioBodegaFitros() {
   }
 
   function updateRowCount(showAll) {
-    const visibleRow = document.querySelectorAll('#gvInventario_ctl00 > tbody tr:not(.hidden-row)');
-    const hiddenRow = document.querySelectorAll('#gvInventario_ctl00 > tbody tr.hidden-row');
+    const visibleRows = document.querySelectorAll(
+      '#gvInventario_ctl00 > tbody tr:not(.hidden-row)'
+    );
+    const hiddenRows = document.querySelectorAll('#gvInventario_ctl00 > tbody tr.hidden-row');
 
-    const visibleCountInput = document.getElementById('totalShow');
-    const hiddenCountInput = document.getElementById('totalHidden');
+    const visibleCountElement = document.getElementById('totalShow');
+    const hiddenCountElement = document.getElementById('totalHidden');
 
-    const visibleTotal = showAll ? '' : visibleRow.length;
-    const hiddenTotal = showAll ? '' : hiddenRow.length;
+    const visibleTotal = showAll ? '' : visibleRows.length;
+    const hiddenTotal = showAll ? '' : hiddenRows.length;
 
-    visibleCountInput && (visibleCountInput.textContent = visibleTotal);
-    hiddenCountInput && (hiddenCountInput.textContent = hiddenTotal);
+    if (visibleCountElement) {
+      visibleCountElement.textContent = isEmptyTable() ? '' : visibleTotal;
+    }
+
+    if (hiddenCountElement) {
+      hiddenCountElement.textContent = isEmptyTable() ? '' : hiddenTotal;
+    }
+
+    function isEmptyTable() {
+      const firstRow = document.querySelector('#gvInventario_ctl00 > tbody tr td');
+      const firstRowText = firstRow ? firstRow.textContent.trim() : '';
+      return firstRowText.includes('No contiene Registros');
+    }
   }
 
   function insertCounterElements() {
