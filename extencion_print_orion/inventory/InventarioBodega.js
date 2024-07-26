@@ -3,7 +3,7 @@ async function main() {
   let activarFilas = false;
   let isVerificarLineasDeImpresionExecuted = false;
 
-  const PASSWORD = '12345678';
+  const PASSWORD = 'TULTITLAN';
   let authorizationUser = '';
 
   try {
@@ -271,15 +271,21 @@ async function main() {
     }
 
     function validateAuthorization() {
-      return new Promise((resolve, reject) => {
-        if (authorizationUser === PASSWORD) {
+      const passworInSessionStorage = getValueSessionStorage();
+
+      return new Promise(resolve => {
+        if (
+          authorizationUser.toLocaleLowerCase() === PASSWORD.toLocaleLowerCase() ||
+          passworInSessionStorage.toLocaleLowerCase() === PASSWORD.toLocaleLowerCase()
+        ) {
           resolve(true);
           return;
         }
         const key = prompt('Ingrese una contraseña valida') ?? '';
-        authorizationUser = key;
+        authorizationUser = key.trim();
+        setValueSessionStorage(authorizationUser);
 
-        if (key === PASSWORD) {
+        if (key.toLocaleLowerCase() === PASSWORD.toLocaleLowerCase()) {
           resolve(true);
         } else {
           resolve(false);
@@ -303,11 +309,21 @@ async function main() {
       }
 
       const authorization = await validateAuthorization();
+      console.log('event:', authorization);
 
       if (authorization) {
         table.classList.toggle('show-inventory-tulti', btnInsertKey.checked);
       }
     }
+  }
+
+  function setValueSessionStorage(value) {
+    // Guardar en sessionStorage
+    sessionStorage.setItem('passwordInventory', value);
+  }
+
+  function getValueSessionStorage() {
+    return sessionStorage.getItem('passwordInventory') || '';
   }
 }
 
