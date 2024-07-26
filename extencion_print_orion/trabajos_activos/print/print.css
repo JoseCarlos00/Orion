@@ -1,0 +1,255 @@
+table {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  border: 1px solid;
+  border-collapse: collapse;
+}
+
+table tr td,
+table tr th {
+  display: none;
+}
+
+table
+  tr
+  :is(
+    td[aria-describedby='ListPaneDataGrid_SHIPMENT_ID'],
+    td[aria-describedby='ListPaneDataGrid_PARENT_CONTAINER_ID'],
+    td[aria-describedby='ListPaneDataGrid_QUANTITY'],
+    td[aria-describedby='ListPaneDataGrid_ITEM'],
+    td[aria-describedby='ListPaneDataGrid_ITEM_DESC']
+  ) {
+  display: table-cell;
+}
+
+th,
+td {
+  text-align: left;
+  vertical-align: top;
+  border: 1px solid #000;
+  padding: 0.3em;
+}
+
+th {
+  background-color: #bebebe;
+}
+
+table a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.ocultar {
+  display: none;
+}
+
+.filters {
+  margin-top: 19px;
+  margin-bottom: 30px;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  flex-direction: column;
+  max-width: 950px;
+
+  form {
+    width: fit-content;
+
+    label:active {
+      transform: scale(0.96);
+    }
+  }
+
+  fieldset {
+    padding: 4px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border-radius: 4px;
+  }
+}
+
+/* Checkboox */
+#checkboxContainer {
+  align-self: center;
+  transition: all 0.5s ease;
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 6px 16px;
+
+  height: 0;
+  opacity: 0;
+  transition: height 0.5s ease, opacity 0.5s ease;
+
+  background-color: #fff;
+  filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.589));
+  border-radius: 8px;
+  padding: 6px 4px 8px 4px;
+
+  .checkbox-container {
+    display: inline-block;
+    position: relative;
+    padding-left: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    user-select: none;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .checkbox-container:active {
+    transform: scale(0.96);
+  }
+
+  .column-toggle {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+
+  .checkmark {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    height: 16px;
+    width: 16px;
+    background-color: #eee;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.589);
+    border: 1px solid #0000005e;
+  }
+
+  .checkmark::after {
+    content: '';
+    position: absolute;
+    display: none;
+    left: 5.4px;
+    top: 2.6px;
+    width: 6px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+  }
+
+  .column-toggle:checked ~ .checkmark {
+    background-color: #2196f3;
+    box-shadow: 1px 1px 4px rgba(33, 150, 243, 0.3);
+    border: none;
+  }
+
+  .column-toggle:checked ~ .checkmark::after {
+    display: block;
+    animation: checkAnim 0.2s forwards;
+  }
+
+  .checkbox-checked {
+    opacity: 0.6;
+  }
+
+  .column-toggle:focus ~ .checkmark {
+    outline: red solid 2px;
+    outline-offset: -2px;
+  }
+}
+
+.mostrar {
+  height: auto !important;
+  opacity: 1 !important;
+}
+
+.hidden {
+  display: none !important;
+}
+
+@keyframes checkAnim {
+  0% {
+    height: 0;
+  }
+
+  100% {
+    height: 10px;
+  }
+}
+
+@keyframes fade-out {
+  to {
+    display: none;
+  }
+}
+
+/* Boton ver mas */
+.btn-ver-mas {
+  position: relative;
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  border-radius: 0.8em;
+  cursor: pointer;
+  border: none;
+  background: #000;
+  color: ghostwhite;
+  overflow: hidden;
+  width: fit-content;
+
+  svg.toggleIcon {
+    width: 1.2em;
+    height: 1.2em;
+    margin-right: 0.1em;
+  }
+
+  span {
+    position: relative;
+    z-index: 10;
+    transition: color 0.4s;
+    display: inline-flex;
+    align-items: center;
+    padding: 5.4 5.9;
+  }
+
+  &::before,
+  &::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+
+  &::before {
+    content: '';
+    background: linear-gradient(to right, #8e2de2, #007acc);
+    width: 120%;
+    left: -10%;
+    transform: skew(30deg);
+    transition: transform 0.4s cubic-bezier(0.3, 1, 0.8, 1);
+    background-color: #007acc;
+  }
+
+  &:not([disabled]):hover::before {
+    transform: translate3d(100%, 0, 0);
+  }
+
+  &:not([disabled]):active {
+    transform: scale(0.95);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+@media print {
+  .filters {
+    display: none;
+  }
+}

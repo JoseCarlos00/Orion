@@ -1,0 +1,184 @@
+/** Inventory */
+html {
+  scroll-behavior: smooth;
+}
+
+@media print {
+  .table-container {
+    margin-top: 0 !important;
+  }
+
+  .RadGrid_Bootstrap {
+    border: none !important;
+  }
+
+  table#gvInventario_ctl00 {
+    border-color: #000 !important;
+
+    .rgHeader {
+      border-color: #000 !important;
+      font-weight: bold !important;
+    }
+
+    .rgHeader,
+    .rgHeader > a {
+      color: #000 !important;
+    }
+
+    thead > tr > th {
+      color: #000 !important;
+      font-weight: bold !important;
+    }
+
+    .rgRow td,
+    .rgAltRow td {
+      border-color: #000 !important;
+      font-weight: 600 !important;
+      color: #000 !important;
+    }
+  }
+
+  .d-flex.justify-content-center .btn,
+  .container-print .btn {
+    color: #000 !important;
+    border: 1px solid #000 !important;
+  }
+
+  #divmain-header {
+    .form-control {
+      border: 1px solid #000;
+    }
+
+    label {
+      color: #000 !important;
+    }
+
+    .custom-select {
+      border: 1px solid #000;
+    }
+  }
+
+  .table tr th {
+    vertical-align: baseline !important;
+  }
+
+  .header,
+  .footer,
+  .d-flex.justify-content-center,
+  .card-table .container-print,
+  .card-table table tfoot {
+    display: none !important;
+  }
+
+  .grid-container {
+    min-height: calc(100vh - 50px) !important;
+  }
+}
+
+.container-print {
+  gap: 12px;
+  padding-left: 15px;
+}
+
+/* Table Print */
+@media print {
+  #gvInventario_ctl00 {
+    thead th:nth-child(11),
+    tbody td:nth-child(11) {
+      display: none !important;
+    }
+  }
+}
+
+/* Table Mostrar - Ocultar*/
+#gvInventario_ctl00 {
+  thead th:nth-child(20),
+  tbody td:nth-child(20),
+  thead th:nth-child(22),
+  tbody td:nth-child(22) {
+    display: table-cell !important;
+  }
+
+  thead th:nth-child(14),
+  tbody td:nth-child(14),
+  thead th:nth-child(24),
+  tbody td:nth-child(24),
+  thead th:nth-child(26),
+  tbody td:nth-child(26) {
+    display: none !important;
+  }
+}
+
+.bounce-active {
+  animation: bounce 1.5s infinite;
+}
+
+.bounce-active .rcbInputCell,
+.bounce-active .rcbArrowCell {
+  animation: change-color 1.5s infinite;
+}
+
+select.bounce-active {
+  animation: bounce 1.5s infinite, change-color 1.5s infinite;
+}
+
+@keyframes bounce {
+  0% {
+    transform: scale3d(1, 1, 1);
+  }
+  50% {
+    transform: scale3d(1.15, 0.85, 1);
+  }
+  100% {
+    transform: scale3d(0.75, 0.95, 1);
+  }
+}
+
+@keyframes change-color {
+  0% {
+    background-color: #fff;
+    color: #000;
+  }
+  50% {
+    background-color: #7575af;
+    color: #fff;
+  }
+  100% {
+    background-color: #53e06b;
+    color: #0505f9;
+  }
+}
+
+/* Inventory Filtros */
+/* Ocultar filas con la clase hidden-row por defecto */
+.hidden-row {
+  display: none;
+}
+
+/* Mostrar filas con la clase hidden-row cuando la tabla tiene la clase show-rows */
+.show-rows .hidden-row {
+  display: table-row;
+}
+
+#gvInventario_ctl00 > tfoot > tr > td > div > div > div:nth-child(7) {
+  margin-right: 12px !important;
+
+  label {
+    margin-right: 4px !important;
+  }
+}
+
+.contadores-show-hidden {
+  label {
+    margin-right: 4px !important;
+  }
+}
+
+.show-rows .contadores-show-hidden {
+  opacity: 0 !important;
+}
+
+.table-no-show-rows > tfoot > tr > td > div > div > div:nth-child(7) label,
+.table-no-show-rows .contadores-show-hidden label {
+  font-weight: bold !important;
+}

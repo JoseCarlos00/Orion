@@ -1,0 +1,71 @@
+{
+  "manifest_version": 3,
+  "name": "Orion Dark Mode",
+  "version": "3.0",
+  "description": "Agrega funcionalidad para el modo oscuro en orion",
+  "permissions": ["scripting", "activeTab", "storage", "tabs"],
+  "icons": {
+    "16": "images/print16.png",
+    "32": "images/print32.png",
+    "48": "images/print48.png",
+    "128": "images/print128.png"
+  },
+  "host_permissions": ["http://fmorion.dnsalias.com/*"],
+  "content_scripts": [
+    {
+      "matches": ["http://fmorion.dnsalias.com/*"],
+      "js": ["dark_theme/toggleSwitch.js"],
+      "css": ["dark_theme/toggleSwitch.css"]
+    },
+    {
+      "matches": ["http://fmorion.dnsalias.com/orion/paginas/Reportes/ReporteTableau2.aspx*"],
+      "js": ["dark_theme/reporteTableu.js"]
+    },
+    {
+      "matches": [
+        "http://fmorion.dnsalias.com/orion/Default.aspx*",
+        "http://fmorion.dnsalias.com/Bodega/Default.aspx*",
+        "http://fmorion.dnsalias.com/orion/paginas/Dashboard/Dashboard.aspx*"
+      ],
+      "js": ["dark_theme/defaulDashBoard.js"]
+    },
+    {
+      "matches": ["http://fmorion.dnsalias.com/orion/paginas/Bodega/Productos3Cajas.aspx*"],
+      "js": ["dark_theme/producto3Cajas.js"]
+    },
+    {
+      "matches": ["http://fmorion.dnsalias.com/orion/paginas/Envios/Envio.aspx?EnvioNum=*"],
+      "js": ["dark_theme/envioItem.js"]
+    },
+    {
+      "matches": [
+        "http://fmorion.dnsalias.com/orion/paginas/Bodega/TrabajosActivos.aspx*",
+        "http://fmorion.dnsalias.com/Bodega/Bodega*",
+        "https://tableau.fantasiasmiguel.com.mx/trusted/ijShoAskRoeVKTlcCIxTGA==:Umbs4BtTpnexPcQY4OKAytXz/views/TareasAbiertasTiendasMariano/TareasAbiertasTiendas*"
+      ],
+      "js": ["dark_theme/trabajoActivo.js"]
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "defaul_icon": {
+      "16": "images/print16.png",
+      "32": "images/print32.png",
+      "48": "images/print48.png",
+      "128": "images/print128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["darkTheme.css"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "content_security_policy": {
+    "script-src": ["'self'", "'unsafe-inline'"],
+    "object-src": "'self'"
+  }
+}

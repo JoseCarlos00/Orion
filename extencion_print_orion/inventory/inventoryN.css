@@ -1,0 +1,47 @@
+table#gvInventario_ctl00 {
+  thead tr th:nth-child(3),
+  tbody tr td:nth-child(3),
+  thead tr th:nth-child(4),
+  tbody tr td:nth-child(4),
+  thead tr > th:nth-child(5),
+  tbody tr td:nth-child(5) {
+    display: table-cell !important;
+  }
+
+  thead tr > th:nth-child(22),
+  tbody tr td:nth-child(22),
+  thead tr > th:nth-child(24),
+  tbody tr td:nth-child(24),
+  thead tr > th:nth-child(25),
+  tbody tr td:nth-child(25),
+  thead tr > th:nth-child(28),
+  tbody tr td:nth-child(28) {
+    display: none !important;
+  }
+
+  thead tr th:nth-child(6),
+  tbody tr td:nth-child(6) {
+    text-wrap: nowrap;
+  }
+}
+
+@media print {
+  table#gvInventario_ctl00 {
+    thead tr th:nth-child(3),
+    tbody tr td:nth-child(3),
+    thead tr th:nth-child(4),
+    tbody tr td:nth-child(4),
+    thead tr > th:nth-child(5),
+    tbody tr td:nth-child(5),
+    thead tr > th:nth-child(22),
+    tbody tr td:nth-child(22),
+    thead tr > th:nth-child(24),
+    tbody tr td:nth-child(24),
+    thead tr > th:nth-child(25),
+    tbody tr td:nth-child(25),
+    thead tr > th:nth-child(28),
+    tbody tr td:nth-child(28) {
+      display: none !important;
+    }
+  }
+}

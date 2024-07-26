@@ -1,0 +1,78 @@
+{
+  "manifest_version": 3,
+  "name": "Print Orion",
+  "version": "3.0",
+  "description": "Agrega distintan funcionalidades a Orion",
+  "permissions": ["scripting", "activeTab", "storage", "tabs"],
+  "icons": {
+    "16": "images/print16.png",
+    "32": "images/print32.png",
+    "48": "images/print48.png",
+    "128": "images/print128.png"
+  },
+  "host_permissions": ["http://fmorion.dnsalias.com/*"],
+  "content_scripts": [
+    {
+      "matches": ["http://fmorion.dnsalias.com/*"],
+      "js": ["favicon.js"]
+    },
+    {
+      "matches": ["http://fmorion.dnsalias.com/orion/paginas/Bodega/Productos3Cajas.aspx*"],
+      "js": ["reporte3_cajas/reporte3Cajas.js"],
+      "css": ["reporte3_cajas/reporte3Cajas.css"]
+    },
+    {
+      "matches": ["http://fmorion.dnsalias.com/orion/paginas/Envios/Envio.aspx?EnvioNum=*"],
+      "js": ["envios/enviosItems.js", "envios/alertaPrint.js"],
+      "css": ["envios/envioItem.css"]
+    },
+    {
+      "matches": ["http://fmorion.dnsalias.com/orion/paginas/Dashboard/Dashboard.aspx"],
+      "css": ["dashboard.css"]
+    },
+    {
+      "matches": ["http://fmorion.dnsalias.com/orion/paginas/Envios/EnviosListas.aspx"],
+      "js": ["envios/listaEnvios.js"]
+    },
+    {
+      "matches": ["http://fmorion.dnsalias.com/orion/paginas/Medidas/InventarioBodega.aspx*"],
+      "js": ["inventory/inventarioBodega.js", "inventory/InventarioBodegaFiltros.js"],
+      "css": ["inventory/inventory.css"]
+    },
+    {
+      "matches": ["http://fmorion.dnsalias.com/orion/paginas/Medidas/InventarioSeparadoN.aspx*"],
+      "js": ["inventory/inventarioBodegaN.js"],
+      "css": ["inventory/inventory.css", "inventory/inventoryN.css"]
+    },
+    {
+      "matches": ["http://fmorion.dnsalias.com/orion/paginas/Bodega/TrabajosActivos.aspx*"],
+      "js": ["trabajos_activos/trabajoActivoPaginasBodega.js"]
+    },
+    {
+      "matches": ["http://fmorion.dnsalias.com/Bodega/Bodega*"],
+      "js": ["trabajos_activos/trabajosActivoVisualizador.js"]
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "defaul_icon": {
+      "16": "images/print16.png",
+      "32": "images/print32.png",
+      "48": "images/print48.png",
+      "128": "images/print128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["print/print.html"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "content_security_policy": {
+    "script-src": ["'self'", "'unsafe-inline'"],
+    "object-src": "'self'"
+  }
+}

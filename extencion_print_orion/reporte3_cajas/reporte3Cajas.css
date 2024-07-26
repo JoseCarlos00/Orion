@@ -1,0 +1,140 @@
+html {
+  scroll-behavior: smooth;
+}
+
+@media print {
+  .header,
+  .sidenav,
+  .footer,
+  .main
+    :is(
+      .main-filtros,
+      .d-flex.justify-content-center,
+      .row .d-flex.bd-highlight.mb-3,
+      .row .form-inline
+    ) {
+    display: none !important;
+  }
+
+  #gvPedidosTienda table {
+    width: 1000px !important;
+    color: #000 !important;
+
+    thead tr th:first-child,
+    tbody tr td:first-child,
+    thead tr th:last-child,
+    tbody tr td:last-child {
+      display: none !important;
+    }
+
+    tfoot {
+      display: none !important;
+    }
+
+    thead tr th {
+      color: #000 !important;
+      background-color: #fff !important;
+
+      a {
+        color: #000 !important;
+        background-color: #fff !important;
+      }
+      input {
+        display: none !important;
+      }
+    }
+
+    tbody tr {
+      color: #000 !important;
+      background-color: #fff !important;
+    }
+
+    tr td,
+    tr th {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    /* Columna description */
+    thead > tr > th:nth-child(6) {
+      width: 45%;
+    }
+
+    > tbody tr td:nth-last-child(2) {
+      text-align: center !important;
+    }
+  }
+
+  .RadGrid_Bootstrap .rgRow > td,
+  .RadGrid_Bootstrap .rgAltRow > td,
+  .RadGrid_Bootstrap .rgEditRow > td {
+    padding: 2px 4px !important;
+  }
+
+  .RadGrid .rgHeader,
+  .RadGrid th.rgResizeCol {
+    padding: 2px 2px !important;
+  }
+
+  .RadGrid_Bootstrap {
+    border: none !important;
+  }
+
+  .RadGrid_Bootstrap .rgMasterTable .rgSelectedCell,
+  .RadGrid_Bootstrap .rgSelectedRow > td,
+  .RadGrid_Bootstrap td.rgEditRow .rgSelectedRow,
+  .RadGrid_Bootstrap .rgSelectedRow td.rgSorted {
+    color: #000 !important;
+    background-color: #fff !important;
+    border-color: #000 !important;
+  }
+
+  div.AddBorders .rgHeader,
+  div.AddBorders .rgRow td,
+  div.AddBorders .rgAltRow td,
+  div.AddBorders .rgFooter td {
+    border-color: #000 !important;
+  }
+
+  .table-sm th,
+  .table-sm td {
+    font-size: 16px !important;
+  }
+}
+
+.bounce-active {
+  animation: bounce 1.5s infinite;
+}
+
+.bounce-active .rcbInputCell,
+.bounce-active .rcbArrowCell {
+  animation: change-color 1.5s infinite;
+}
+
+@keyframes bounce {
+  0% {
+    transform: scale3d(1, 1, 1);
+  }
+  50% {
+    transform: scale3d(1.15, 0.85, 1);
+  }
+  100% {
+    transform: scale3d(0.75, 0.95, 1);
+  }
+}
+
+@keyframes change-color {
+  0% {
+    background-color: #fff;
+    color: #000;
+  }
+  50% {
+    background-color: #7575af;
+    color: #fff;
+  }
+  100% {
+    background-color: #53e06b;
+    color: #0505f9;
+  }
+}

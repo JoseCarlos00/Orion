@@ -1,0 +1,64 @@
+@media print {
+  #RMReportes,
+  #Panel15 > main > div.main-filtros,
+  #TrabajoActivoV3 main .d-flex.justify-content-center,
+  #Panel15 > main > div.row > div > div.d-flex.bd-highlight.mb-3,
+  #gvTrabajoActivoV3_ctl00 > tfoot,
+  #gvTrabajoActivoV3_ctl00 > thead > tr > th > input {
+    display: none !important;
+  }
+
+  #Panel15 > main > h1 {
+    margin-bottom: 0 !important;
+  }
+
+  #gvTrabajoActivoV3 table tr > td:nth-child(8),
+  #gvTrabajoActivoV3 table tr > th:nth-child(8) {
+    width: 56px !important;
+  }
+
+  #gvTrabajoActivoV3 table tr > td:nth-child(1),
+  #gvTrabajoActivoV3 table tr > th:nth-child(1) {
+    width: 63px !important;
+  }
+
+  #gvTrabajoActivoV3 table tr > td:nth-child(7),
+  #gvTrabajoActivoV3 table tr > th:nth-child(7) {
+    display: none !important;
+  }
+
+  #gvTrabajoActivoV3_ctl00 {
+    table-layout: auto !important;
+  }
+
+  #gvTrabajoActivoV3_ctl00 > thead > tr > th a,
+  #gvTrabajoActivoV3_ctl00 > tbody > tr > td {
+    font-size: 16px;
+  }
+
+  #gvTrabajoActivoV3_ctl00 > thead > tr > th,
+  #gvTrabajoActivoV3_ctl00 > tbody > tr > td,
+  #gvTrabajoActivoV3_ctl00 {
+    border-color: #000 !important;
+  }
+
+  #gvTrabajoActivoV3_ctl00 > thead > tr > th a {
+    color: #000 !important;
+    font-weight: bold !important;
+  }
+
+  #gvTrabajoActivoV3 {
+    border: none !important;
+  }
+
+  #gvTrabajoActivoV3_ctl00 tr > th:nth-child(3),
+  #gvTrabajoActivoV3_ctl00 tr > td:nth-child(3) {
+    overflow: hidden;
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
+@page {
+  size: auto !important;
+}

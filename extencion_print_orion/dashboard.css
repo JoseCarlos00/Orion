@@ -1,0 +1,22 @@
+#WucHeader_myInput:hover {
+  border: none;
+}
+
+.grid-container .container-fluid {
+  display: none;
+}
+.main-cards {
+  display: none;
+}
+
+.bg-craft-header {
+  background: none !important;
+}
+
+.grid-container .main {
+  background-image: url(http://fmorion.dnsalias.com/orion/imagenes/bg3-1.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-align: center;
+}
