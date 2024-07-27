@@ -50,12 +50,18 @@
     },
     {
       "matches": ["http://fmorion.dnsalias.com/orion/paginas/Bodega/TrabajosActivos.aspx*"],
-      "js": ["trabajos_activos/trabajoActivoPaginasBodega.js", "trabajos_activos/alertPrint.js"],
+      "js": [
+        "trabajos_activos/paginas/trabajoActivoPaginasBodega.js",
+        "trabajos_activos/alertPrint.js"
+      ],
       "css": ["trabajos_activos/alertPrint.css"]
     },
     {
       "matches": ["http://fmorion.dnsalias.com/Bodega/Bodega*"],
-      "js": ["trabajos_activos/trabajosActivoVisualizador.js", "trabajos_activos/alertPrint.js"],
+      "js": [
+        "trabajos_activos/visualizador/trabajosActivoVisualizador.js",
+        "trabajos_activos/alertPrint.js"
+      ],
       "css": ["trabajos_activos/alertPrint.css"]
     }
   ],
