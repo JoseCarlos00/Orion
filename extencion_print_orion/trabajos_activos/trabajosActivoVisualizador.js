@@ -1,6 +1,6 @@
 console.log('[Trbajos Activos Print Visualizador]');
 
-async function inicio() {
+async function main() {
   try {
     await insertElementPrint();
 
@@ -8,7 +8,7 @@ async function inicio() {
   } catch (error) {
     console.error(error);
   } finally {
-    alertaPrint();
+    alertPrintTrabajosActivos();
   }
 }
 
@@ -58,4 +58,4 @@ function getDataForToPrint() {
     });
   }
 }
-window.addEventListener('load', inicio, { once: true });
+window.addEventListener('load', main, { once: true });

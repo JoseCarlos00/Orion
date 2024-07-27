@@ -1,4 +1,4 @@
-async function alertaPrint() {
+async function alertPrintEnvioItem() {
   /** Banderas Globales */
   let activarFilas = false;
   let isVerificarLineasDeImpresionExecuted = false;
@@ -9,7 +9,7 @@ async function alertaPrint() {
     /** Inserar Enlace */
     const body = document.querySelector('body');
     const enlace =
-      '<a href="#gvEnvio_ctl00_ctl03_ctl01_PageSizeComboBox_Input" id="irALista" hidden="">Ir a Lista</a>';
+      '<a href="#gvEnvio_ctl00_ctl03_ctl01_PageSizeComboBox_Input" id="irALista" hidden>Ir a Lista</a>';
 
     body && body.insertAdjacentHTML('afterbegin', enlace);
   } catch (error) {
@@ -17,6 +17,9 @@ async function alertaPrint() {
   }
 
   function setEventsListener() {
+    const printButtonEnvio = document.querySelector('#printButtonEnvio');
+    printButtonEnvio && printButtonEnvio.addEventListener('click', verificarLineasDeImpresion);
+
     /** Insertar Eventos de Impresion */
     window.addEventListener('beforeprint', verificarLineasDeImpresion);
     window.addEventListener('afterprint', activartodasLasLineas);
@@ -61,32 +64,30 @@ async function alertaPrint() {
 
   function obtenerTotalNumber() {
     const selector =
-      '#gvTrabajoActivoV3_ctl00 > tfoot > tr > td > table > tbody > tr > td > div.rgWrap.rgInfoPart';
+      '#gvEnvio_ctl00 > tfoot > tr > td > table > tbody > tr > td > div.rgWrap.rgInfoPart';
     const totalElement = document.querySelector(selector);
 
     // Obtener el contenido del elemento
     const text = totalElement ? totalElement.textContent.trim() : '';
-    const match = text.match(/^(\d+) items in/);
+    const match = text.match(/^(\d+) elemento/);
     const number = match ? match[1] : '0';
 
     return number ? Number(number) : null;
   }
 
   function obtenerNumFilas() {
-    // return numFilasElement.length;
+    const totalRows = document.querySelectorAll('#gvEnvio_ctl00 > tbody tr');
+    const firstRow = document.querySelector('#gvEnvio_ctl00 > tbody tr td');
 
-    const numFilasElements = document.querySelectorAll('#gvEnvio_ctl00 > tbody tr');
-    const noRegistrosElement = document.querySelector('#gvEnvio_ctl00 > tbody tr td');
-
-    const noRegistrosText = noRegistrosElement ? noRegistrosElement.textContent.trim() : '';
-    const numTotalFilas = numFilasElements.length;
+    const firstRowText = firstRow ? firstRow.textContent.trim() : '';
+    const totalNumberRows = totalRows.length;
 
     // Si el texto en noRegistrosElement contiene "No contiene Registros", entonces retornamos 0
-    if (noRegistrosText.includes('No contiene Registros')) {
+    if (firstRowText.toLowerCase().includes('no contiene registros')) {
       return 0;
     }
 
-    return Number(numTotalFilas);
+    return Number(totalNumberRows);
   }
 
   function esImpresionCompleta(numFilas, totalNumber) {

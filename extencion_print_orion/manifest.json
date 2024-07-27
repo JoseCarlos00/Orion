@@ -23,7 +23,7 @@
     },
     {
       "matches": ["http://fmorion.dnsalias.com/orion/paginas/Envios/Envio.aspx?EnvioNum=*"],
-      "js": ["envios/enviosItems.js", "envios/alertaPrint.js"],
+      "js": ["envios/enviosItems.js", "envios/alertPrint.js"],
       "css": ["envios/envioItem.css"]
     },
     {
@@ -50,11 +50,13 @@
     },
     {
       "matches": ["http://fmorion.dnsalias.com/orion/paginas/Bodega/TrabajosActivos.aspx*"],
-      "js": ["trabajos_activos/trabajoActivoPaginasBodega.js"]
+      "js": ["trabajos_activos/trabajoActivoPaginasBodega.js", "trabajos_activos/alertPrint.js"],
+      "css": ["trabajos_activos/alertPrint.css"]
     },
     {
       "matches": ["http://fmorion.dnsalias.com/Bodega/Bodega*"],
-      "js": ["trabajos_activos/trabajosActivoVisualizador.js"]
+      "js": ["trabajos_activos/trabajosActivoVisualizador.js", "trabajos_activos/alertPrint.js"],
+      "css": ["trabajos_activos/alertPrint.css"]
     }
   ],
   "action": {

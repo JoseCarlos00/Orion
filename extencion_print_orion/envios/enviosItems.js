@@ -20,7 +20,7 @@ async function main() {
   } catch (error) {
     console.error('Error:', error);
   } finally {
-    alertaPrint();
+    alertPrintEnvioItem();
   }
 
   function insertButtons() {

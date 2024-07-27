@@ -1,4 +1,4 @@
-async function alertaPrint() {
+async function alertPrintTrabajosActivos() {
   /** Banderas Globales */
   let activarFilas = false;
   let isVerificarLineasDeImpresionExecuted = false;
@@ -9,7 +9,7 @@ async function alertaPrint() {
     /** Inserar Enlace */
     const body = document.querySelector('body');
     const enlace =
-      '<a href="#gvEnvio_ctl00_ctl03_ctl01_PageSizeComboBox_Input" id="irALista" hidden="">Ir a Lista</a>';
+      '<a href="#gvTrabajoActivoV3_ctl00_ctl03_ctl01_PageSizeComboBox_Input" id="irALista" hidden>Ir a Lista</a>';
 
     body && body.insertAdjacentHTML('afterbegin', enlace);
   } catch (error) {
@@ -17,9 +17,6 @@ async function alertaPrint() {
   }
 
   function setEventsListener() {
-    const printButtonEnvio = document.querySelector('#printButtonEnvio');
-    printButtonEnvio && printButtonEnvio.addEventListener('click', verificarLineasDeImpresion);
-
     /** Insertar Eventos de Impresion */
     window.addEventListener('beforeprint', verificarLineasDeImpresion);
     window.addEventListener('afterprint', activartodasLasLineas);
@@ -64,20 +61,22 @@ async function alertaPrint() {
 
   function obtenerTotalNumber() {
     const selector =
-      '#gvEnvio_ctl00 > tfoot > tr > td > table > tbody > tr > td > div.rgWrap.rgInfoPart';
+      '#gvTrabajoActivoV3_ctl00 > tfoot > tr > td > table > tbody > tr > td > div.rgWrap.rgInfoPart';
     const totalElement = document.querySelector(selector);
 
     // Obtener el contenido del elemento
     const text = totalElement ? totalElement.textContent.trim() : '';
-    const match = text.match(/^(\d+) elemento/);
+    const match = text.match(/^(\d+) items in/);
     const number = match ? match[1] : '0';
 
     return number ? Number(number) : null;
   }
 
   function obtenerNumFilas() {
-    const totalRows = document.querySelectorAll('#gvEnvio_ctl00 > tbody tr');
-    const firstRow = document.querySelector('#gvEnvio_ctl00 > tbody tr td');
+    // return numFilasElement.length;
+
+    const totalRows = document.querySelectorAll('#gvTrabajoActivoV3_ctl00 > tbody tr');
+    const firstRow = document.querySelector('#gvTrabajoActivoV3_ctl00 > tbody tr td');
 
     const firstRowText = firstRow ? firstRow.textContent.trim() : '';
     const totalNumberRows = totalRows.length;
@@ -158,7 +157,7 @@ async function alertaPrint() {
 
   function activarFilasLista() {
     const listaDeActivarFilasIunput = document.querySelector(
-      '#gvEnvio_ctl00_ctl03_ctl01_PageSizeComboBox_Input'
+      '#gvTrabajoActivoV3_ctl00_ctl03_ctl01_PageSizeComboBox_Input'
     );
 
     if (!listaDeActivarFilasIunput) {
@@ -167,6 +166,7 @@ async function alertaPrint() {
     }
 
     const listaDeActivarFilas = listaDeActivarFilasIunput.closest('tr.rcbReadOnly');
+
     if (!listaDeActivarFilas) {
       console.warn('La lista de filas activas no se encontró.');
       return;
@@ -182,14 +182,8 @@ async function alertaPrint() {
   }
 
   function insertarMessageIncompletePrint() {
-    const htmlTrPrint = `
-      <tr id="incompletePrint">
-        <td colspan="21"><h4 style="text-align: center;">Impresion Incompleta</h4></td>
-      </tr>
-    `;
-
     return new Promise(resolve => {
-      const tbody = document.querySelector('#gvEnvio_ctl00 > tbody');
+      const tbody = document.querySelector('#gvTrabajoActivoV3_ctl00 > tbody');
 
       if (!tbody) {
         console.error('Error: no se encontro el elemento [tbody]');
@@ -200,6 +194,16 @@ async function alertaPrint() {
       const incompletePrintTr = document.querySelector('#incompletePrint');
 
       if (!incompletePrintTr) {
+        const numColspan = document.querySelectorAll(
+          '#gvTrabajoActivoV3_ctl00 > tbody > tr:first-child > td'
+        );
+
+        const htmlTrPrint = `
+        <tr id="incompletePrint">
+          <td colspan="${numColspan.length}"><h4 style="text-align: center;">Impresion Incompleta</h4></td>
+        </tr>
+      `;
+
         tbody.insertAdjacentHTML('beforeend', htmlTrPrint);
       }
 

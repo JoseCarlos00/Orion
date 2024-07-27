@@ -1,11 +1,15 @@
 console.log('[Trabajos Activos Print Paginas]');
 
-async function inicio() {
+async function main() {
   try {
     await insertElementPrint();
 
     setEventForPint();
-  } catch (error) {}
+  } catch (error) {
+    console.error('Error:', error);
+  } finally {
+    alertPrintTrabajosActivos();
+  }
 }
 
 function setEventForPint() {
@@ -58,4 +62,4 @@ function getDataForToPrint() {
     });
   }
 }
-window.addEventListener('load', inicio, { once: true });
+window.addEventListener('load', main, { once: true });
