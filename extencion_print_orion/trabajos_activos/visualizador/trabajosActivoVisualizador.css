@@ -1,39 +1,36 @@
 @media print {
   #RMReportes,
-  #Panel15 > main > div.main-filtros,
-  #TrabajoActivoV3 main .d-flex.justify-content-center,
   #Panel15 > main > div.row > div > div.d-flex.bd-highlight.mb-3,
+  #Panel15 > main > div.d-flex.bd-highlight > div,
   #gvTrabajoActivoV3_ctl00 > tfoot,
   #gvTrabajoActivoV3_ctl00 > thead > tr > th > input {
     display: none !important;
   }
 
-  #Panel15 > main > h1 {
+  #Panel15 > main > div.main-filtros > div.page-header.bg-grey > div > div textarea {
+    overflow: hidden !important;
+    resize: none !important;
+  }
+
+  #Panel15 > main > div.main-filtros > div.page-header.bg-grey > div > div label {
+    text-wrap: nowrap !important;
+  }
+
+  #Panel15 > main > div.main-filtros div.page-header.bg-grey {
     margin-bottom: 0 !important;
+    padding: 8px 0 !important;
+  }
+  #Panel15 > main > div.main-filtros div.page-header .page-header.row {
+    margin-bottom: 12px !important;
   }
 
-  #gvTrabajoActivoV3 table tr > td:nth-child(8),
-  #gvTrabajoActivoV3 table tr > th:nth-child(8) {
-    width: 56px !important;
+  #Panel15 > main > div.d-flex.justify-content-center {
+    margin-bottom: 30px !important;
   }
 
-  #gvTrabajoActivoV3 table tr > td:nth-child(1),
-  #gvTrabajoActivoV3 table tr > th:nth-child(1) {
-    width: 63px !important;
-  }
-
-  #gvTrabajoActivoV3 table tr > td:nth-child(7),
-  #gvTrabajoActivoV3 table tr > th:nth-child(7) {
-    display: none !important;
-  }
-
-  #gvTrabajoActivoV3_ctl00 {
-    table-layout: auto !important;
-  }
-
-  #gvTrabajoActivoV3_ctl00 > thead > tr > th a,
-  #gvTrabajoActivoV3_ctl00 > tbody > tr > td {
-    font-size: 16px;
+  #gvTrabajoActivoV3 table tbody {
+    color: #000 !important;
+    font-weight: 500 !important;
   }
 
   #gvTrabajoActivoV3_ctl00 > thead > tr > th,
@@ -51,14 +48,8 @@
     border: none !important;
   }
 
-  #gvTrabajoActivoV3_ctl00 tr > th:nth-child(3),
-  #gvTrabajoActivoV3_ctl00 tr > td:nth-child(3) {
-    overflow: hidden;
-    text-wrap: nowrap;
-    text-overflow: ellipsis;
+  .RadGrid_Bootstrap .rgSelectedRow > td {
+    background-color: #fff !important;
+    color: #000 !important;
   }
-}
-
-@page {
-  size: auto !important;
 }

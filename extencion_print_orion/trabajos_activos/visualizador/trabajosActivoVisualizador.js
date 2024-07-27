@@ -24,7 +24,7 @@ function insertElementPrint() {
     const buttonPrint = `
       <div class="d-flex bd-highlight">
         <div class="p-2 bd-highlight">
-          <button id="printButtonTrabajoActivo" type="button" class="btn btn-sm text-grey btn-purple mt-3"><i class="fas fa-print" aria-hidden="true"></i>Imprimir</button>
+          <button disabled id="printButtonTrabajoActivo" type="button" class="btn btn-sm text-grey btn-purple mt-3"><i class="fas fa-print" aria-hidden="true"></i>Imprimir</button>
         </div>
       </div>
       `;
