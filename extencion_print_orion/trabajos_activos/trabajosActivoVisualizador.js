@@ -7,6 +7,8 @@ async function inicio() {
     setEventForPint();
   } catch (error) {
     console.error(error);
+  } finally {
+    alertaPrint();
   }
 }
 

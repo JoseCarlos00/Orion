@@ -75,24 +75,24 @@ async function inventarioBodegaFitros() {
 
   function hideInventory() {
     try {
-      const filas = document.querySelectorAll('#gvInventario_ctl00 > tbody tr');
-      const primeraFila = document.querySelector('#gvInventario_ctl00 > tbody > tr > td');
+      const totalRows = document.querySelectorAll('#gvInventario_ctl00 > tbody tr');
+      const firstRow = document.querySelector('#gvInventario_ctl00 > tbody > tr > td');
 
-      if (filas.length === 0) {
+      if (totalRows.length === 0) {
         console.error('No se encontraron filas en la tabla');
         return;
       }
 
-      const primeraFilaText = primeraFila ? primeraFila.textContent.trim() : '';
+      const firstRowText = firstRow ? firstRow.textContent.trim() : '';
 
-      if (primeraFilaText.includes('No contiene Registros')) {
+      if (firstRowText.toLowerCase().includes('no contiene registros')) {
         console.warn('La tabla no contiene registros');
         return;
       }
 
       const regex = /^\/(Mty|Gdl|Tij)/;
 
-      filas.forEach(tr => {
+      totalRows.forEach(tr => {
         const colorColumnElement = tr.querySelector('td:nth-child(9)');
 
         if (colorColumnElement) {

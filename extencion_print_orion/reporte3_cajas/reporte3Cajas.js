@@ -97,8 +97,18 @@ async function main() {
   }
 
   function obtenerNumFilas() {
-    const numFilasElements = document.querySelectorAll('#gvPedidosTienda_ctl00 > tbody tr');
-    return numFilasElements.length;
+    const totalRows = document.querySelectorAll('#gvPedidosTienda_ctl00 > tbody tr');
+    const firstRow = document.querySelector('#gvPedidosTienda_ctl00 > tbody tr td');
+
+    const firstRowText = firstRow ? firstRow.textContent.trim() : '';
+    const totalNumberRows = totalRows.length;
+
+    // Si el texto en noRegistrosElement contiene "No contiene Registros", entonces retornamos 0
+    if (firstRowText.toLowerCase().includes('no contiene registros')) {
+      return 0;
+    }
+
+    return Number(totalNumberRows);
   }
 
   function esImpresionCompleta(numFilas, totalNumber) {

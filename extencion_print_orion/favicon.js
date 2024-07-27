@@ -9,9 +9,10 @@
       head.insertAdjacentHTML('afterbegin', favicon);
     }
 
-    const NOMBRE = document.querySelector('#lblNombreUsuario') ?? undefined;
-    if (NOMBRE && NOMBRE.innerHTML.includes('Octavio')) {
-      NOMBRE.innerHTML = 'Octavio Ameneyro';
+    const nameUser = document.querySelector('#lblNombreUsuario') ?? '';
+
+    if (nameUser && nameUser.textContent.trim().includes('Octavio')) {
+      nameUser.textContent = 'Octavio Ameneyro';
     }
   }
 

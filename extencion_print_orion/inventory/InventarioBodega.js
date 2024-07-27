@@ -111,18 +111,18 @@ async function main() {
   }
 
   function obtenerNumFilas() {
-    const numFilasElements = document.querySelectorAll('#gvInventario_ctl00 > tbody tr');
-    const noRegistrosElement = document.querySelector('#gvInventario_ctl00 > tbody tr td');
+    const totalRows = document.querySelectorAll('#gvInventario_ctl00 > tbody tr');
+    const firstRow = document.querySelector('#gvInventario_ctl00 > tbody tr td');
 
-    const noRegistrosText = noRegistrosElement ? noRegistrosElement.textContent.trim() : '';
-    const numTotalFilas = numFilasElements.length;
+    const firstRowText = firstRow ? firstRow.textContent.trim() : '';
+    const totalNumberRows = totalRows.length;
 
     // Si el texto en noRegistrosElement contiene "No contiene Registros", entonces retornamos 0
-    if (noRegistrosText.includes('No contiene Registros')) {
+    if (firstRowText.toLowerCase().includes('no contiene registros')) {
       return 0;
     }
 
-    return Number(numTotalFilas);
+    return Number(totalNumberRows);
   }
 
   function esImpresionCompleta(numFilas, totalNumber) {
