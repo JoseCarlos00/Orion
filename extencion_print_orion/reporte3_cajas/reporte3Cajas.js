@@ -35,6 +35,12 @@ async function main() {
   }
 
   function insertarButtonPrint() {
+    const buttonPrint = `
+      <div class="p-2 bd-highlight">
+          <button id="printButtonInventory" type="button" class="btn btn-sm btn-purple mt-3"><i class="fas fa-print"></i>Imprimir</button>
+      </div>
+      `;
+
     return new Promise(resolve => {
       const elementoInsert = document.querySelector(
         '#frmReciboListas > main > div.row > div > div.d-flex.bd-highlight.mb-3 > div:nth-child(1)'
@@ -54,7 +60,7 @@ async function main() {
   function verificarLineasDeImpresion() {
     if (isVerificarLineasDeImpresionExecuted) {
       console.log(
-        'Retur: isVerificarLineasDeImpresionExecuted:',
+        'Return: isVerificarLineasDeImpresionExecuted:',
         isVerificarLineasDeImpresionExecuted
       );
       return;
@@ -110,8 +116,14 @@ async function main() {
     );
 
     if (userResponse) {
-      activarFilas = false;
-      window.print();
+      insertarMessageIncompletePrint()
+        .then(() => {
+          window.print();
+        })
+        .catch(err => {
+          console.error('Error:', err);
+          window.print();
+        });
     } else {
       activarFilas = true;
       console.log('activarFilas = true');
@@ -121,6 +133,8 @@ async function main() {
 
   function activartodasLasLineas() {
     isVerificarLineasDeImpresionExecuted = false;
+
+    eliminarMensajeDeImpresionIncompleto();
 
     if (!isActivarFilasValido()) {
       return;
@@ -172,13 +186,40 @@ async function main() {
       listaDeActivarFilas.classList.add('bounce-active');
     }, 100);
   }
-}
 
-// Boton imprimir
-const buttonPrint = `
-<div class="p-2 bd-highlight">
-    <button id="printButtonInventory" type="button" class="btn btn-sm btn-purple mt-3"><i class="fas fa-print"></i>Imprimir</button>
-</div>
-`;
+  function insertarMessageIncompletePrint() {
+    const htmlTrPrint = `
+      <tr id="incompletePrint">
+         <td colspan="21"><h4 style="text-align: center;">Impresion Incompleta</h4></td>
+      </tr>
+    `;
+
+    return new Promise(resolve => {
+      const tbody = document.querySelector('#gvPedidosTienda_ctl00 > tbody');
+
+      if (!tbody) {
+        console.error('Error: no se encontro el elemento [tbody]');
+        resolve();
+        return;
+      }
+
+      const incompletePrintTr = document.querySelector('#incompletePrint');
+
+      if (!incompletePrintTr) {
+        tbody.insertAdjacentHTML('beforeend', htmlTrPrint);
+      }
+
+      resolve();
+    });
+  }
+
+  function eliminarMensajeDeImpresionIncompleto() {
+    const incompletePrintTr = document.querySelector('#incompletePrint');
+
+    if (incompletePrintTr) {
+      incompletePrintTr.remove();
+    }
+  }
+}
 
 window.addEventListener('load', main, { once: true });

@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Print Orion",
   "version": "3.0",
-  "description": "Agrega distintan funcionalidades a Orion",
+  "description": "Agrega distintas funcionalidades a Orion",
   "permissions": ["scripting", "activeTab", "storage", "tabs"],
   "icons": {
     "16": "images/print16.png",

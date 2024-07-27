@@ -75,7 +75,7 @@ async function main() {
   function verificarLineasDeImpresion() {
     if (isVerificarLineasDeImpresionExecuted) {
       console.log(
-        'Retur: isVerificarLineasDeImpresionExecuted:',
+        'Return: isVerificarLineasDeImpresionExecuted:',
         isVerificarLineasDeImpresionExecuted
       );
       return;
@@ -166,7 +166,7 @@ async function main() {
   function activartodasLasLineas() {
     isVerificarLineasDeImpresionExecuted = false;
 
-    mensajeDeImpresionIncompleto();
+    eliminarMensajeDeImpresionIncompleto();
 
     if (!isActivarFilasValido()) {
       return;
@@ -239,7 +239,7 @@ async function main() {
     });
   }
 
-  function mensajeDeImpresionIncompleto() {
+  function eliminarMensajeDeImpresionIncompleto() {
     const incompletePrintTr = document.querySelector('#incompletePrint');
 
     if (incompletePrintTr) {

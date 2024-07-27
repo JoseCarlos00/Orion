@@ -20,10 +20,10 @@ html {
     width: 1000px !important;
     color: #000 !important;
 
-    thead tr th:first-child,
-    tbody tr td:first-child,
-    thead tr th:last-child,
-    tbody tr td:last-child {
+    thead tr:not(#incompletePrint) th:first-child,
+    tbody tr:not(#incompletePrint) td:first-child,
+    thead tr:not(#incompletePrint) th:last-child,
+    tbody tr:not(#incompletePrint) td:last-child {
       display: none !important;
     }
 
