@@ -109,6 +109,11 @@ html {
   tbody td:nth-child(22) {
     display: table-cell !important;
   }
+
+  thead th:nth-child(20),
+  thead th:nth-child(22) {
+    background-color: #6d6d9a !important;
+  }
 }
 
 .bounce-active {

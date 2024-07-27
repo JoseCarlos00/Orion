@@ -36,7 +36,11 @@
     },
     {
       "matches": ["http://fmorion.dnsalias.com/orion/paginas/Medidas/InventarioBodega.aspx*"],
-      "js": ["inventory/inventarioBodega.js", "inventory/InventarioBodegaFiltros.js"],
+      "js": [
+        "inventory/inventarioBodega.js",
+        "inventory/InventarioBodegaFiltros.js",
+        "inventory/showInventoryTuti.js"
+      ],
       "css": ["inventory/inventory.css", "inventory/InventarioBodegaFiltros.css"]
     },
     {

@@ -9,9 +9,7 @@ async function main() {
     /** Isertar Button Imprimir */
     await insertarButtonPrint();
 
-    const printButtonInventory = document.querySelector('#printButtonInventory');
-    printButtonInventory &&
-      printButtonInventory.addEventListener('click', verificarLineasDeImpresion);
+    setEventsListeners();
 
     /** Inserar Enlace */
     const body = document.querySelector('body');
@@ -22,19 +20,6 @@ async function main() {
 
     const tdFoot = document.querySelector('#gvInventario_ctl00 > tfoot > tr > td');
     tdFoot && tdFoot.setAttribute('colspan', 24);
-
-    /** Insertar Eventos de Impresion */
-    window.addEventListener('beforeprint', verificarLineasDeImpresion);
-    window.addEventListener('afterprint', activartodasLasLineas);
-
-    document.addEventListener('keydown', function (event) {
-      if ((event.ctrlKey || event.metaKey) && event.key === 'p') {
-        console.warn('¡Has presionado Ctrl + P!');
-        event.preventDefault(); // Prevenir la acción predeterminada de imprimir la página
-
-        verificarLineasDeImpresion();
-      }
-    });
   } catch (error) {
     console.error('Error:', error);
   }
@@ -61,6 +46,25 @@ async function main() {
       } else {
         console.log(new Error('No se encontroe el elemento a insertar: Button Print'));
         resolve(false);
+      }
+    });
+  }
+
+  function setEventsListeners() {
+    const printButtonInventory = document.querySelector('#printButtonInventory');
+    printButtonInventory &&
+      printButtonInventory.addEventListener('click', verificarLineasDeImpresion);
+
+    /** Insertar Eventos de Impresion */
+    window.addEventListener('beforeprint', verificarLineasDeImpresion);
+    window.addEventListener('afterprint', activartodasLasLineas);
+
+    document.addEventListener('keydown', function (event) {
+      if ((event.ctrlKey || event.metaKey) && event.key === 'p') {
+        console.warn('¡Has presionado Ctrl + P!');
+        event.preventDefault(); // Prevenir la acción predeterminada de imprimir la página
+
+        verificarLineasDeImpresion();
       }
     });
   }

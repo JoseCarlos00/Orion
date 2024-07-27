@@ -4,8 +4,7 @@ async function alertaPrint() {
   let isVerificarLineasDeImpresionExecuted = false;
 
   try {
-    const printButtonEnvio = document.querySelector('#printButtonEnvio');
-    printButtonEnvio && printButtonEnvio.addEventListener('click', verificarLineasDeImpresion);
+    setEventsListener();
 
     /** Inserar Enlace */
     const body = document.querySelector('body');
@@ -13,6 +12,13 @@ async function alertaPrint() {
       '<a href="#gvEnvio_ctl00_ctl03_ctl01_PageSizeComboBox_Input" id="irALista" hidden="">Ir a Lista</a>';
 
     body && body.insertAdjacentHTML('afterbegin', enlace);
+  } catch (error) {
+    console.error('Error:', error);
+  }
+
+  function setEventsListener() {
+    const printButtonEnvio = document.querySelector('#printButtonEnvio');
+    printButtonEnvio && printButtonEnvio.addEventListener('click', verificarLineasDeImpresion);
 
     /** Insertar Eventos de Impresion */
     window.addEventListener('beforeprint', verificarLineasDeImpresion);
@@ -26,8 +32,6 @@ async function alertaPrint() {
         verificarLineasDeImpresion();
       }
     });
-  } catch (error) {
-    console.error('Error:', error);
   }
 
   function verificarLineasDeImpresion() {
