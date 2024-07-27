@@ -18,8 +18,12 @@
     },
     {
       "matches": ["http://fmorion.dnsalias.com/orion/paginas/Bodega/Productos3Cajas.aspx*"],
-      "js": ["reporte3_cajas/reporte3Cajas.js"],
-      "css": ["reporte3_cajas/reporte3Cajas.css"]
+      "js": ["reporte3_cajas/reporte3Cajas.js", "reporte3_cajas/insertarListaModal.js"],
+      "css": [
+        "reporte3_cajas/reporte3Cajas.css",
+        "reporte3_cajas/insertarListaModal.js.css",
+        "reporte3_cajas/balloon.css"
+      ]
     },
     {
       "matches": ["http://fmorion.dnsalias.com/orion/paginas/Envios/Envio.aspx?EnvioNum=*"],

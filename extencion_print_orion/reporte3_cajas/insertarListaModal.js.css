@@ -1,0 +1,159 @@
+.modal-container-insert {
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1050;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+
+  /* Modal Content/Box */
+  .modal-content {
+    background-color: #fefefe;
+    margin: 100px auto;
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 0.75em;
+    width: 80%;
+    width: fit-content;
+  }
+
+  form.insertar-item {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    gap: 8px;
+
+    & button {
+      align-self: center;
+      height: 36px;
+    }
+
+    & label {
+      margin: 0;
+      padding-top: 4px;
+      font-size: 18px;
+    }
+
+    textarea {
+      height: 120px;
+    }
+  }
+
+  .button {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 15px;
+    gap: 15px;
+    background-color: #007acc;
+    outline: 3px #007acc solid;
+    outline-offset: -3px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: 400ms;
+  }
+
+  .button .text {
+    color: white;
+    font-weight: 700;
+    font-size: 1em;
+    transition: 400ms;
+    margin: 0;
+  }
+
+  .button:hover {
+    background-color: transparent;
+  }
+
+  .button:hover .text {
+    color: #007acc;
+  }
+
+  .button:focus {
+    outline-width: 2px !important;
+    outline-color: #f70431 !important;
+    outline-style: solid !important;
+    outline-offset: -2px !important;
+  }
+}
+
+.modal-container-insert button.close {
+  --white: #fff;
+  --width-button-close: 30px;
+  --with-close-times-color: var(--white);
+  --bg-color: rgb(24, 49, 83);
+
+  --fa-primary-color: var(--with-close-times-color);
+  --fa-secondary-color: rgb(24, 49, 83);
+  --fa-secondary-opacity: 1;
+
+  font-size: 30px;
+  width: var(--width-button-close);
+  height: var(--width-button-close);
+
+  box-sizing: content-box;
+  position: absolute;
+  top: -0.5em;
+  right: -0.5em;
+  line-height: 1;
+  color: inherit;
+  color: var(--with-close-close-color);
+  font-size: calc(1em * 1.5);
+  font-size: var(--with-close-close-font-size);
+
+  opacity: 1;
+
+  sgv {
+    width: var(--width-button-close);
+    height: var(--width-button-close);
+  }
+
+  .fa-primary {
+    fill: var(--fa-primary-color, currentColor);
+    opacity: var(--fa-primary-opacity, 1);
+  }
+
+  .fa-secondary {
+    fill: var(--fa-secondary-color, currentColor);
+    opacity: var(--fa-secondary-opacity, 0.4);
+  }
+
+  &:hover,
+  &:hover .fa-secondary,
+  &:focus {
+    text-decoration: none;
+    cursor: pointer;
+    color: rgb(224, 49, 49);
+    opacity: 1;
+    fill: rgb(224, 49, 49);
+  }
+
+  &:is(:focus, .focus, .focused) {
+    --focus-outline-width: calc(1em * 3 / 16);
+    --focus-outline-color: #74c0fc;
+    --focus-outline: solid var(--focus-outline-width) var(--focus-outline-color);
+    outline: var(--focus-outline);
+    outline-offset: calc(1em * 1 / 16);
+    outline-offset: var(--focus-outline-offset);
+  }
+}
+
+.visually-hidden,
+.visually-hidden-focusable:not(:focus):not(:focus-within) {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}

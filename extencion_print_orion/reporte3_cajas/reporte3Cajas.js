@@ -34,10 +34,10 @@ async function main() {
       if (elementoInsert) {
         elementoInsert.insertAdjacentHTML('afterend', buttonPrint);
 
-        resolve(true);
+        resolve();
       } else {
         console.log(new Error('No se encontroe el elemento a insertar: Button Print'));
-        resolve(false);
+        resolve();
       }
     });
   }
