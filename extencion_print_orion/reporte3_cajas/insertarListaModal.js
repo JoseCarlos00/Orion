@@ -3,7 +3,6 @@ async function insertarLIsta() {
 
   try {
     await insertarBotonLista();
-
     await insertarModal();
 
     modalFunction();
@@ -56,7 +55,7 @@ async function insertarLIsta() {
 
             <form id="FormInsertItem" action="" class="insertar-item">
               <label for="insertItems"> Insertar Items </label>
-              <textarea id="insertItems" name="itemsRegisters" required placeholder="9413-6209-34996\n9238-8384-6456"></textarea>
+              <textarea id="insertItems" name="itemsRegisters" required placeholder="9413-6209-34996\n9238-8384-6456\n1948-6414-13616"></textarea>
 
                 <button class="button" id="registrarItems" type="submit">
                   <span class="text">Registrar</span>
@@ -97,7 +96,7 @@ async function insertarLIsta() {
     btnOpenModal.addEventListener('click', function () {
       modalInsert.style.display = 'block';
 
-      const textarea = document.querySelector('#insertItems');
+      const textarea = document.getElementById('insertItems');
       textarea && textarea.focus();
     });
 
@@ -111,7 +110,7 @@ async function insertarLIsta() {
     const { modalInsert } = elements;
     setEventModal(elements);
 
-    const formInsertItems = document.querySelector('#FormInsertItem');
+    const formInsertItems = document.getElementById('FormInsertItem');
     formInsertItems && formInsertItems.addEventListener('submit', registrarDatos);
 
     // Cuando el usuario hace clic fuera del modal, ciérralo
@@ -134,7 +133,6 @@ async function insertarLIsta() {
   }
 
   function insertarItems() {
-    console.log('[Insertar ITems]', datos);
     let itemsRegistrados = 0;
 
     if (datos.length === 0) {
@@ -154,19 +152,21 @@ async function insertarLIsta() {
 
     rows.forEach(row => {
       const inputCheckbox = row.querySelector('td[valign="middle"] input[type="checkbox"]');
-      const inputItem = row.querySelector('td:nth-child(2)');
-      const inputItemText = inputItem ? inputItem.textContent.trim() : '';
+      const item = row.querySelector('td:nth-child(2)');
+      const itemText = item ? item.textContent.trim() : '';
 
-      if (datos.includes(inputItemText)) {
-        inputCheckbox && inputCheckbox.click();
+      if (datos.includes(itemText) && inputCheckbox) {
+        inputCheckbox.click();
         itemsRegistrados++;
       }
     });
 
     // Filas insertadas
     badgleButtonList({ itemsRegistrados, total: datos.length });
-
     closeModal();
+
+    // Alerta de filas incompletas
+    if (itemsRegistrados > 0) alertaFilasIncompletas();
 
     // Cerrar modal
     function closeModal() {
@@ -186,6 +186,7 @@ async function insertarLIsta() {
     if (!formItem || !textarea)
       return console.error('Error: no se encontro el formulario insertItem');
 
+    // limpiamos los datos almacenados anteriormente
     datos.length = 0;
 
     // Dividir el texto en lineas
@@ -197,14 +198,14 @@ async function insertarLIsta() {
       const match = linea.match(regex);
 
       if (match) {
-        const valorSinComa = match[1];
+        const item = match[1];
 
         /**
-         * Si el item a registrar y existe en el array
-         * O si se inserta mas de una vez el mismo ITEM no lo agraga al array
+         * Si el item a registrar ya existe en el array,o si se intenta registrar mas de una vez el mismo ITEM.
+         * No de agrega al array
          */
-        if (!datos.includes(valorSinComa)) {
-          datos.push(valorSinComa);
+        if (!datos.includes(item)) {
+          datos.push(item);
         }
       }
     });
@@ -218,26 +219,55 @@ async function insertarLIsta() {
 
   function badgleButtonList({ itemsRegistrados, total }) {
     const button = document.getElementById('insertList');
-    const badgleExist = document.getElementById('badgleItem');
+    const badgleOld = document.getElementById('badgleItem');
 
     // Crear el badge
-    const badge = document.createElement('span');
-    badge.className =
+    const badgeNew = document.createElement('span');
+    badgeNew.className =
       'position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger';
-    badge.id = 'badgleItem';
-    badge.innerHTML = `${total}<span class="visually-hidden">unread messages</span>`;
+    badgeNew.id = 'badgleItem';
+    badgeNew.innerHTML = `${total}<span class="msg"> total</span><span class="visually-hidden">item total</span>`;
 
     // Agregar el badge al botón
-    if (badgleExist) {
-      button.replaceChild(badge, badgleExist);
+    if (badgleOld) {
+      button.replaceChild(badgeNew, badgleOld);
     } else {
-      button.insertAdjacentElement('beforeend', badge);
+      button.insertAdjacentElement('beforeend', badgeNew);
     }
 
-    // Actualizar el contenido del badge (ejemplo)
+    // Actualizar el contenido del badge
     setTimeout(() => {
-      badge.innerHTML = `${itemsRegistrados}<span class="visually-hidden">unread messages</span>`;
+      badgeNew.innerHTML = `${itemsRegistrados}<span class="msg"> registrados</span><span class="visually-hidden">item registrados</span>`;
     }, 2000);
+  }
+
+  function alertaFilasIncompletas() {
+    const totalNumber = obtenerTotalNumber();
+    const numFilas = obtenerNumFilas();
+
+    function obtenerTotalNumber() {
+      const numFilasElementSelector =
+        '#gvPedidosTienda_ctl00 > tfoot > tr > td > table > tbody > tr > td > div.rgWrap.rgInfoPart > strong:nth-child(1)';
+      const totalElement = document.querySelector(numFilasElementSelector);
+      return totalElement ? Number(totalElement.textContent.trim()) : null;
+    }
+
+    function obtenerNumFilas() {
+      const totalRows = document.querySelectorAll('#gvPedidosTienda_ctl00 > tbody tr');
+      const firstRow = document.querySelector('#gvPedidosTienda_ctl00 > tbody tr td');
+
+      const firstRowText = firstRow ? firstRow.textContent.trim() : '';
+      const totalNumberRows = totalRows.length;
+
+      // Si el texto en noRegistrosElement contiene "No contiene Registros", entonces retornamos 0
+      if (firstRowText.toLowerCase().includes('no contiene registros')) {
+        return 0;
+      }
+
+      return Number(totalNumberRows);
+    }
+
+    if (numFilas > totalNumber) return;
   }
 }
 

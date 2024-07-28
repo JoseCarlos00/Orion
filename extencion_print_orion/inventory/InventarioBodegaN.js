@@ -129,7 +129,7 @@ async function main() {
   }
 
   function manejarImpresionIncompleta(numFilas, totalNumber) {
-    if (!(numFilas < totalNumber)) return;
+    if (numFilas > totalNumber) return;
 
     const userResponse = confirm(
       '❌Impresión incompleta\n' +
