@@ -77,7 +77,7 @@
   font-size: calc(1em * 1.5);
   font-size: var(--with-close-close-font-size);
 
-  opacity: 1;
+  opacity: 1 !important;
 
   sgv {
     width: var(--width-button-close);
