@@ -2,16 +2,15 @@ async function insertarLIsta() {
   let datos = [];
 
   try {
-    await insertarBotonLista();
+    await insertarButtonLista();
     await insertarModal();
-
-    modalFunction();
+    await modalFunction();
   } catch (error) {
     console.error('Error:', error);
     return;
   }
 
-  function insertarBotonLista() {
+  function insertarButtonLista() {
     const buttonPrint = `
      <div class="p-2 bd-highlight">
         <button id="insertList" type="button" class="btn btn-sm btn-purple mt-3 position-relative">
@@ -54,12 +53,23 @@ async function insertarLIsta() {
             </button>
 
             <form id="FormInsertItem" action="" class="insertar-item">
-              <label for="insertItems"> Insertar Items </label>
-              <textarea id="insertItems" name="itemsRegisters" required placeholder="9413-6209-34996\n9238-8384-6456\n1948-6414-13616"></textarea>
+              <label for="insertItems">Insertar Items
+                  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill badge-success ml-1" id="countInsertItem">
+                  0
+                  <span class="visually-hidden">item total</span>
+                  </span>
+              </label>              
+              <textarea id="insertItems" name="itemsRegisters" required placeholder="9413-6209-34996\n9238-8384-6456"></textarea>
 
-                <button class="button" id="registrarItems" type="submit">
+              <div class="form-buttons">
+                <button class="btn btn-primary" type="submit">
                   <span class="text">Registrar</span>
                 </button>
+
+                <button id="clearInsertitems" class="btn btn-danger btn-sm" type="reset" aria-label="Limpiar" data-balloon-pos="right">
+                  <i class="fas fa-trash-can" aria-hidden="true"></i>
+                </button>                
+              </div>
             </form>
 
           </div>
@@ -82,28 +92,65 @@ async function insertarLIsta() {
   }
 
   function modalFunction() {
-    const modalInsert = document.getElementById('myModalInserToItem');
-    const btnOpenModal = document.getElementById('insertList');
-    const btnCloseModal = document.querySelector('.modal-container-insert .close');
+    return new Promise((resolve, reject) => {
+      const modalInsert = document.getElementById('myModalInserToItem');
+      const btnOpenModal = document.getElementById('insertList');
+      const btnCloseModal = document.querySelector('.modal-container-insert .close');
 
-    setEventListeners({ modalInsert, btnCloseModal, btnOpenModal });
+      if (!modalInsert || !btnOpenModal || !btnCloseModal) {
+        console.error('No exiten los elementos del modal');
+        reject();
+        return;
+      }
+
+      setEventListeners({ modalInsert, btnCloseModal, btnOpenModal });
+      resolve();
+    });
   }
 
   function setEventModal(elements) {
     const { modalInsert, btnCloseModal, btnOpenModal } = elements;
 
-    // Cuando el usuario hace clic en el botón, abre el modal
-    btnOpenModal.addEventListener('click', function () {
-      modalInsert.style.display = 'block';
+    const textarea = document.getElementById('insertItems');
+    const inputReset = document.getElementById('clearInsertitems');
 
-      const textarea = document.getElementById('insertItems');
-      textarea && textarea.focus();
-    });
+    if (textarea && inputReset) {
+      textarea.addEventListener('input', () => updateCountForm(textarea));
+      inputReset.addEventListener('click', () => updateCountForm(textarea));
+    }
+
+    // Cuando el usuario hace clic en el botón, abre el modal
+    btnOpenModal.addEventListener('click', () => openModalAction({ textarea, modalInsert }));
 
     // Cuando el usuario hace clic en <span> (x), cierra el modal
     btnCloseModal.addEventListener('click', function () {
       modalInsert.style.display = 'none';
+
+      setValueSessionStorage(textarea.value.trim());
     });
+  }
+
+  async function openModalAction({ modalInsert, textarea }) {
+    modalInsert.style.display = 'block';
+
+    if (!textarea) return;
+
+    textarea.value = await getValueSessionStorage();
+    textarea.focus();
+    updateCountForm(textarea);
+  }
+
+  function updateCountForm(textarea) {
+    setTimeout(() => {
+      console.log('[updateCountForm]');
+      const badgeCount = document.getElementById('countInsertItem');
+      const textareaValue = textarea.value.trim();
+      const lineas = textareaValue == '' ? 0 : textareaValue.split('\n').length;
+
+      if (badgeCount) {
+        badgeCount.innerHTML = `${lineas}<span class="visually-hidden">item total</span>`;
+      }
+    }, 50);
   }
 
   function setEventListeners(elements) {
@@ -113,12 +160,17 @@ async function insertarLIsta() {
     const formInsertItems = document.getElementById('FormInsertItem');
     formInsertItems && formInsertItems.addEventListener('submit', registrarDatos);
 
+    setEventContadores();
+
+    const textarea = document.getElementById('insertItems');
+
     // Cuando el usuario hace clic fuera del modal, ciérralo
     window.addEventListener('click', function (e) {
       const element = e.target;
 
       if (element == modalInsert) {
         modalInsert.style.display = 'none';
+        textarea && setValueSessionStorage(textarea.value.trim());
       }
     });
 
@@ -127,9 +179,53 @@ async function insertarLIsta() {
       if (e.key === 'Escape') {
         if (modalInsert.style.display === 'block') {
           modalInsert.style.display = 'none';
+          textarea && setValueSessionStorage(textarea.value.trim());
         }
       }
     });
+  }
+
+  function setEventContadores() {
+    const table = document.getElementById('gvPedidosTienda_ctl00');
+
+    if (!table) {
+      console.error('Error: No se encontro el elemento [table]');
+      return;
+    }
+
+    // Contadores
+    table.addEventListener('click', clickEventCheckBox);
+  }
+
+  function clickEventCheckBox(e) {
+    const nodeName = e.target.nodeName;
+    const type = e.target.type;
+
+    if (nodeName === 'INPUT' && type === 'checkbox') {
+      console.log('Actualizar Contadores');
+
+      counterUpdate().then(() => {
+        console.log('Contadores actualizados');
+      });
+    }
+  }
+
+  function counterUpdate() {
+    return new Promise(resolve => {
+      const checkBoxSeleccionadosNum = obtenerCheckboxesSeleccionados();
+      // Aquí puedes realizar la actualización de los contadores basada en `seleccionados`
+      // Ejemplo:
+      console.log(`Total de checkboxes seleccionados: ${checkBoxSeleccionadosNum}`);
+      // Lógica adicional para actualizar contadores...
+      resolve();
+    });
+  }
+
+  function obtenerCheckboxesSeleccionados() {
+    const checkboxesSeleccionados = document.querySelectorAll(
+      '#gvPedidosTienda_ctl00 tr input[type="checkbox"]:not(#gvPedidosTienda_ctl00_ctl02_ctl01_CheckSelectCheckBox):checked'
+    );
+    return checkboxesSeleccionados.length;
   }
 
   function insertarItems() {
@@ -165,26 +261,34 @@ async function insertarLIsta() {
     badgleButtonList({ itemsRegistrados, total: datos.length });
     closeModal();
 
-    // Alerta de filas incompletas
-    if (itemsRegistrados > 0) alertaFilasIncompletas();
-
     // Cerrar modal
-    function closeModal() {
-      setTimeout(() => {
-        const modal = document.getElementById('myModalInserToItem');
-        modal && (modal.style.display = 'none');
-      }, 150);
-    }
+    closeModal();
   }
 
-  function registrarDatos(e) {
+  function closeModal() {
+    setTimeout(() => {
+      const modal = document.getElementById('myModalInserToItem');
+      modal && (modal.style.display = 'none');
+    }, 150);
+  }
+
+  async function registrarDatos(e) {
     e.preventDefault();
 
     const formItem = e.target;
     const textarea = formItem.itemsRegisters;
+    const continuar = await verificarLineas();
 
     if (!formItem || !textarea)
       return console.error('Error: no se encontro el formulario insertItem');
+
+    setValueSessionStorage(textarea.value.trim());
+
+    if (continuar) {
+      deleteBadgle();
+      closeModal();
+      return;
+    }
 
     // limpiamos los datos almacenados anteriormente
     datos.length = 0;
@@ -217,7 +321,7 @@ async function insertarLIsta() {
     insertarItems();
   }
 
-  function badgleButtonList({ itemsRegistrados, total }) {
+  function badgleButtonList({ itemsRegistrados = 0, total = 0 } = {}) {
     const button = document.getElementById('insertList');
     const badgleOld = document.getElementById('badgleItem');
 
@@ -241,34 +345,69 @@ async function insertarLIsta() {
     }, 2000);
   }
 
-  function alertaFilasIncompletas() {
-    const totalNumber = obtenerTotalNumber();
-    const numFilas = obtenerNumFilas();
+  function deleteBadgle() {
+    const badgle = document.getElementById('badgleItem');
 
-    function obtenerTotalNumber() {
-      const numFilasElementSelector =
-        '#gvPedidosTienda_ctl00 > tfoot > tr > td > table > tbody > tr > td > div.rgWrap.rgInfoPart > strong:nth-child(1)';
-      const totalElement = document.querySelector(numFilasElementSelector);
-      return totalElement ? Number(totalElement.textContent.trim()) : null;
+    if (!badgle) {
+      console.error('Error: no se encontro el elemento [badgle]');
+      return;
     }
 
-    function obtenerNumFilas() {
-      const totalRows = document.querySelectorAll('#gvPedidosTienda_ctl00 > tbody tr');
-      const firstRow = document.querySelector('#gvPedidosTienda_ctl00 > tbody tr td');
-
-      const firstRowText = firstRow ? firstRow.textContent.trim() : '';
-      const totalNumberRows = totalRows.length;
-
-      // Si el texto en noRegistrosElement contiene "No contiene Registros", entonces retornamos 0
-      if (firstRowText.toLowerCase().includes('no contiene registros')) {
-        return 0;
-      }
-
-      return Number(totalNumberRows);
-    }
-
-    if (numFilas > totalNumber) return;
+    badgle.remove();
   }
 }
 
-window.addEventListener('load', insertarLIsta, { once: true });
+function verificarLineas() {
+  console.log('[verificarLineas] se ha ejecutado');
+  const continuar = false;
+
+  return new Promise(resolve => {
+    const totalNumber = obtenerTotalNumber();
+    const numFilas = obtenerNumFilas();
+
+    if (numFilas === null || totalNumber === null) {
+      console.warn('Error al obtener el número de filas o el total.');
+      resolve(continuar);
+      return;
+    }
+
+    if (esImpresionCompleta(numFilas, totalNumber)) {
+      resolve(continuar);
+      return;
+    }
+
+    manejarFilasIncompletas(numFilas, totalNumber).then(resolve);
+  });
+
+  function manejarFilasIncompletas(numFilas, totalNumber) {
+    return new Promise(resolve => {
+      if (numFilas <= totalNumber) {
+        const userResponse = confirm(
+          '❌ No están activadas todas las líneas\n' +
+            '¿Desea continuar?\n' +
+            '     ⚠️                                                                      Sí        /        No'
+        );
+
+        if (userResponse) {
+          resolve(false); // El usuario decide continuar
+        } else {
+          activarFilas = true;
+          console.log('activarFilas = true');
+          setTimeout(activartodasLasLineas, 50);
+          resolve(true); // El usuario decide no continuar
+        }
+      } else {
+        resolve(false); // El número de filas es mayor al total
+      }
+    });
+  }
+}
+
+function setValueSessionStorage(value) {
+  // Guardar en sessionStorage
+  sessionStorage.setItem('insertItemValues', value);
+}
+
+function getValueSessionStorage() {
+  return new Promise(resolve => resolve(sessionStorage.getItem('insertItemValues') ?? ''));
+}
