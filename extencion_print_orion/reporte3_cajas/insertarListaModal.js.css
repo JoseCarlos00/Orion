@@ -38,6 +38,7 @@
       margin: 0;
       padding-top: 4px;
       font-size: 18px;
+      font-weight: bold;
     }
 
     textarea {
@@ -45,42 +46,10 @@
     }
   }
 
-  .button {
+  .form-buttons {
     display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 10px 15px;
-    gap: 15px;
-    background-color: #007acc;
-    outline: 3px #007acc solid;
-    outline-offset: -3px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    transition: 400ms;
-  }
-
-  .button .text {
-    color: white;
-    font-weight: 700;
-    font-size: 1em;
-    transition: 400ms;
-    margin: 0;
-  }
-
-  .button:hover {
-    background-color: transparent;
-  }
-
-  .button:hover .text {
-    color: #007acc;
-  }
-
-  .button:focus {
-    outline-width: 2px !important;
-    outline-color: #f70431 !important;
-    outline-style: solid !important;
-    outline-offset: -2px !important;
+    justify-content: center;
+    gap: 8px;
   }
 }
 
