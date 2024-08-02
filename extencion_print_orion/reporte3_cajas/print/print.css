@@ -1,26 +1,6 @@
-* {
-  box-sizing: border-box;
-}
-
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
-    'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-    'Noto Color Emoji';
-}
-
-header {
-  max-width: 950px;
-
-  h1 {
-    color: #212529;
-    margin: 0.67em 0;
-    margin-top: 0;
-    margin-bottom: 0.5rem;
-    line-height: 1.2;
-    font-size: 1.8em;
-    font-weight: 400;
-    text-align: center;
-  }
+.text-center {
+  font-size: 1.8em;
+  font-weight: 400;
 }
 
 table {
@@ -63,10 +43,6 @@ th {
     }
   }
 
-  legend {
-    font-weight: bold;
-  }
-
   fieldset {
     padding: 4px 8px;
     display: flex;
@@ -77,7 +53,8 @@ th {
 }
 
 /* Checkboox */
-#checkboxContainer {
+#checkboxContainer,
+#checkboxContainerGroup {
   align-self: center;
   transition: all 0.5s ease;
   width: 100%;
@@ -164,6 +141,10 @@ th {
     outline: red solid 2px;
     outline-offset: -2px;
   }
+}
+
+#checkboxContainerGroup {
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
 }
 
 .mostrar {
@@ -255,8 +236,67 @@ th {
   }
 }
 
+/* Button Exel */
+.btn-excel {
+  line-height: 1.5;
+  color: #212529;
+  text-align: left;
+  font-size: 16px;
+  box-sizing: border-box;
+  padding: 0.5rem !important;
+
+  button {
+    box-sizing: border-box;
+    margin: 0;
+    font-family: inherit;
+    overflow: visible;
+    text-transform: none;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+      border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    background-color: #7575a3;
+    border-color: #7575a3;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    border-radius: 0.2rem;
+    margin-top: 1rem !important;
+    color: #e3e4e6 !important;
+    cursor: pointer;
+  }
+
+  button:hover {
+    color: #fff;
+    background-color: #616191;
+    border-color: #5c5c89;
+  }
+
+  svg {
+    width: 10.5px;
+    height: 14px;
+
+    path {
+      fill: #fff;
+    }
+  }
+}
+
 @media print {
-  .filters {
+  .filters,
+  .btn-excel {
     display: none;
+  }
+
+  table {
+    margin: 0 auto;
+  }
+
+  .text-center {
+    text-align: center;
   }
 }

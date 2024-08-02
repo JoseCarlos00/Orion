@@ -24,7 +24,7 @@ function insertElementPrint() {
     const buttonPrint = `
       <div class="d-flex bd-highlight">
         <div class="p-2 bd-highlight">
-          <button disabled id="printButtonTrabajoActivo" type="button" class="btn btn-sm text-grey btn-purple mt-3"><i class="fas fa-print" aria-hidden="true"></i>Imprimir</button>
+          <button id="printButtonTrabajoActivo" type="button" class="btn btn-sm text-grey btn-purple mt-3"><i class="fas fa-print" aria-hidden="true"></i>Imprimir</button>
         </div>
       </div>
       `;
@@ -42,20 +42,31 @@ function insertElementPrint() {
   });
 }
 
-function getDataForToPrint() {
-  // Lógica para obtener el contenido a imprimir de la página actual
-  const theadToPrint = document.querySelector('#gvTrabajoActivoV3_ctl00 > thead');
-  const tbodyToPrint = document.querySelector('#gvTrabajoActivoV3_ctl00 > tbody');
+async function getDataForToPrint() {
+  try {
+    const continuar = await verificarLineas();
 
-  if (!tbodyToPrint || !theadToPrint) return;
+    if (continuar) {
+      console.warn('❗ La impresion se ha setenido');
+      return;
+    }
 
-  // Envía un mensaje al script de fondo para solicitar la apertura de una nueva pestaña
-  if (chrome.runtime && tbodyToPrint && theadToPrint) {
-    chrome.runtime.sendMessage({
-      command: 'openNewTab',
-      theadToPrint: theadToPrint.innerHTML,
-      tbodyToPrint: tbodyToPrint.innerHTML,
-    });
+    // Lógica para obtener el contenido a imprimir de la página actual
+    const theadToPrint = document.querySelector('#gvTrabajoActivoV3_ctl00 > thead');
+    const tbodyToPrint = document.querySelector('#gvTrabajoActivoV3_ctl00 > tbody');
+
+    if (!tbodyToPrint || !theadToPrint) return;
+
+    // Envía un mensaje al script de fondo para solicitar la apertura de una nueva pestaña
+    if (chrome.runtime && tbodyToPrint && theadToPrint) {
+      chrome.runtime.sendMessage({
+        command: 'trabajoActivo',
+        theadToPrint: theadToPrint.innerHTML,
+        tbodyToPrint: tbodyToPrint.innerHTML,
+      });
+    }
+  } catch (error) {
+    console.error('Error:', error);
   }
 }
 window.addEventListener('load', main, { once: true });

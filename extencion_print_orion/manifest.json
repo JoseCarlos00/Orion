@@ -18,7 +18,13 @@
     },
     {
       "matches": ["http://fmorion.dnsalias.com/orion/paginas/Bodega/Productos3Cajas.aspx*"],
-      "js": ["reporte3_cajas/reporte3Cajas.js", "reporte3_cajas/insertarListaModal.js"],
+      "js": [
+        "reporte3_cajas/reporte3Cajas.js",
+        "reporte3_cajas/insertarListaModal.js",
+        "reporte3_cajas/getDataForToPint.js",
+        "reporte3_cajas/downloadExcel.js",
+        "xlsx.full.min.js"
+      ],
       "css": [
         "reporte3_cajas/reporte3Cajas.css",
         "reporte3_cajas/insertarListaModal.js.css",
@@ -86,7 +92,7 @@
   },
   "web_accessible_resources": [
     {
-      "resources": ["print/print.html"],
+      "resources": ["reporte3_cajas/print/print.html"],
       "matches": ["<all_urls>"]
     }
   ],

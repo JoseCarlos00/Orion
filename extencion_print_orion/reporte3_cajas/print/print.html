@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Print</title>
+  <link rel="stylesheet" href="./print.css">
+</head>
+
+<body>
+  <h1 class="text-center"><small>Reporte de productos con menos de 3 cajas disponibles en Tultitlan</small></h1>
+
+  <section class="filters">
+    <!-- Mostrar/ocultar columnas -->
+    <button id="toggleButton" class="toggleButton btn-ver-mas" disabled>
+      <span>
+        <svg class="toggleIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+          stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+          <path d="M12 19v-7m0 0V5m0 7H5m7 0h7"></path>
+        </svg>
+        Mostrar/Ocultar Columnas
+      </span>
+    </button>
+    <div id="checkboxContainer"></div>
+
+    <!-- Mostar/ocultar fila -->
+    <button id="toggleButtonRow" class="toggleButton btn-ver-mas" disabled>
+      <span>
+        <svg class="toggleIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+          stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+          <path d="M12 19v-7m0 0V5m0 7H5m7 0h7"></path>
+        </svg>
+        Mostrar/Ocultar Grupos
+      </span>
+    </button>
+
+    <div id="checkboxContainerGroup"></div>
+  </section>
+
+  <div class="p-2 bd-highlight btn-excel">
+    <button id="btnExcel" class="btn btn-sm text-grey btn-purple mt-3" type=" button">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+        <path
+          d="M64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-288-128 0c-17.7 0-32-14.3-32-32L224 0 64 0zM256 0l0 128 128 0L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z" />
+      </svg>
+      Bajar Excel</button>
+  </div>
+
+  <table id="content"></table>
+  <script type="module" src="./print.js"></script>
+  <script type="module" src="../../xlsx.full.min.js"></script>
+</body>
+
+</html>

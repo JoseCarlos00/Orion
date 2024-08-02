@@ -47,8 +47,7 @@ function insertarButtonPrint() {
 
 function setEventsListeners() {
   const printButtonInventory = document.querySelector('#printButtonInventory');
-  printButtonInventory &&
-    printButtonInventory.addEventListener('click', verificarLineasDeImpresion);
+  printButtonInventory && printButtonInventory.addEventListener('click', getDataForToPrint);
 
   /** Insertar Eventos de Impresion */
   window.addEventListener('beforeprint', verificarLineasDeImpresion);

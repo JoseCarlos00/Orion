@@ -2,7 +2,8 @@ async function insertarLIsta() {
   let datos = [];
 
   try {
-    await insertarButtonLista();
+    await insertarButtonListaAndExcel();
+    setEventDownload();
     await insertarModal();
     await modalFunction();
   } catch (error) {
@@ -10,13 +11,19 @@ async function insertarLIsta() {
     return;
   }
 
-  function insertarButtonLista() {
-    const buttonPrint = `
+  function insertarButtonListaAndExcel() {
+    const buttons = `
      <div class="p-2 bd-highlight">
         <button id="insertList" type="button" class="btn btn-sm btn-purple mt-3 position-relative">
           <i class="fas fa-plus" aria-hidden="true"></i> Insertar Lista
         </button>
     </div>
+
+    <div class="p-2 bd-highlight btn-excel">
+      <button id="btnExcel2" class="btn btn-sm text-grey btn-purple mt-3" type=" button">
+        <i class="fa-solid fa-file-excel" aria-hidden="true"></i>
+        Bajar Excel</button>
+    </div>  
       `;
 
     return new Promise((resolve, reject) => {
@@ -25,7 +32,7 @@ async function insertarLIsta() {
       );
 
       if (elementToInsert) {
-        elementToInsert.insertAdjacentHTML('beforebegin', buttonPrint);
+        elementToInsert.insertAdjacentHTML('beforebegin', buttons);
 
         setTimeout(resolve, 50);
       } else {
@@ -285,6 +292,8 @@ async function insertarLIsta() {
     setValueSessionStorage(textarea.value.trim());
 
     if (continuar) {
+      console.warn('Se ha detenido la ejecucion');
+
       deleteBadgle();
       closeModal();
       return;
@@ -359,7 +368,6 @@ async function insertarLIsta() {
 
 function verificarLineas() {
   console.log('[verificarLineas] se ha ejecutado');
-  const continuar = false;
 
   return new Promise(resolve => {
     const totalNumber = obtenerTotalNumber();
@@ -367,12 +375,14 @@ function verificarLineas() {
 
     if (numFilas === null || totalNumber === null) {
       console.warn('Error al obtener el número de filas o el total.');
-      resolve(continuar);
+      alert('Ha ocurrido un error inesperado');
+      resolve(false);
       return;
     }
 
     if (esImpresionCompleta(numFilas, totalNumber)) {
-      resolve(continuar);
+      alert('Ha ocurrido un error inesperado');
+      resolve(false);
       return;
     }
 

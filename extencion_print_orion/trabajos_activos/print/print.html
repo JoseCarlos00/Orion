@@ -9,6 +9,11 @@
 </head>
 
 <body>
+
+  <header>
+    <h1 class="text-center"><small>Trabajo Activo V3</small></h1>
+  </header>
+
   <section class="filters">
     <button id="toggleButton" class="btn-ver-mas" disabled>
       <span>
@@ -19,11 +24,30 @@
         Mostrar Columnas
       </span>
     </button>
-    <div id="checkboxContainer"></div>
+    <div id="checkboxContainer" class="mostrar"></div>
+
+    <form>
+      <fieldset>
+        <legend>Ordenar por</legend>
+
+        <label>
+          <input type="radio" name="ordernar" value="No Ordenar" checked>No Ordenar
+        </label>
+
+        <label>
+          <input type="radio" name="ordernar" value="ID DEL PEDIDO">ID DEL PEDIDO <span style="font-size: 10px;">(POR
+            TIENDA)</span>
+        </label>
+
+        <label>
+          <input type="radio" name="ordernar" value="SHIP_TO">SHIP TO
+        </label>
+      </fieldset>
+    </form>
   </section>
 
   <table id="content"></table>
-  <script src="./print.js"></script>
+  <script type="module" src="./print.js"></script>
 </body>
 
 </html>
