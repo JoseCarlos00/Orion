@@ -293,7 +293,6 @@ async function insertarLIsta() {
 
     if (continuar) {
       console.warn('Se ha detenido la ejecucion');
-
       deleteBadgle();
       closeModal();
       return;

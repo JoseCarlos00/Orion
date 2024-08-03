@@ -16,7 +16,7 @@ function setEventForPint() {
   // Escucha el evento clic en el botón print
   const printButton = document.getElementById('printButtonTrabajoActivo');
   if (!printButton) return;
-  printButton.addEventListener('click', getDataForToPrint);
+  printButton.addEventListener('click', getDataForToPrintVisualizador);
 }
 
 function insertElementPrint() {
@@ -42,7 +42,7 @@ function insertElementPrint() {
   });
 }
 
-async function getDataForToPrint() {
+async function getDataForToPrintVisualizador() {
   try {
     const continuar = await verificarLineas();
 

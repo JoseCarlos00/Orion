@@ -219,3 +219,51 @@ function eliminarMensajeDeImpresionIncompleto() {
     incompletePrintTr.remove();
   }
 }
+
+function verificarLineas() {
+  console.log('[verificarLineas] se ha ejecutado');
+
+  return new Promise(resolve => {
+    const totalNumber = obtenerTotalNumber();
+    const numFilas = obtenerNumFilas();
+
+    if (numFilas === null || totalNumber === null) {
+      console.warn('Error al obtener el número de filas o el total.');
+      alert('Ha ocurrido un error inesperado');
+      resolve(false);
+      return;
+    }
+
+    if (esImpresionCompleta(numFilas, totalNumber)) {
+      alert('Ha ocurrido un error inesperado');
+      resolve(false);
+      return;
+    }
+
+    manejarFilasIncompletas(numFilas, totalNumber).then(resolve);
+  });
+
+  function manejarFilasIncompletas(numFilas, totalNumber) {
+    return new Promise(resolve => {
+      if (numFilas <= totalNumber) {
+        const userResponse = confirm(
+          '❌ No están activadas todas las líneas\n' +
+            '¿Desea continuar?\n' +
+            '     ⚠️                                                                      Sí        /        No'
+        );
+
+        if (userResponse) {
+          resolve(false); // El usuario decide continuar
+          insertarMessageIncompletePrint();
+        } else {
+          activarFilas = true;
+          console.log('activarFilas = true');
+          setTimeout(activartodasLasLineas, 50);
+          resolve(true); // El usuario decide no continuar
+        }
+      } else {
+        resolve(false); // El número de filas es mayor al total
+      }
+    });
+  }
+}
