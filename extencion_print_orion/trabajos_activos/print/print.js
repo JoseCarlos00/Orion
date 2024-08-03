@@ -34,17 +34,17 @@ async function main() {
     await cleanThead();
     setEventOrdenar();
 
-    eventoClickCheckBox()
-      .then(msg => {
-        console.log(msg);
+    // eventoClickCheckBox()
+    //   .then(msg => {
+    //     console.log(msg);
 
-        const hiddenColumns = [7, 10, 11, 12].map(index => index - 1);
+    //     const hiddenColumns = [7, 10, 11, 12].map(index => index - 1);
 
-        createFiltersCheckbox(hiddenColumns, false);
-      })
-      .catch(err => console.error('Error al crear el evento click mostrar:', err));
+    //     createFiltersCheckbox(hiddenColumns, false);
+    //   })
+    //   .catch(err => console.error('Error al crear el evento click mostrar:', err));
 
-    setTimeout(() => window.print(), 500);
+    // setTimeout(() => window.print(), 500);
   } catch (error) {
     console.error('Error:', error);
   }
@@ -114,6 +114,7 @@ function getColumnIndexByHeaderText(table, headerText) {
 async function handleRadioChange(event) {
   try {
     const selectedValue = event.target.value;
+    console.log('selectedValue:', selectedValue);
 
     if (selectedValue === 'No Ordenar') {
       return;
@@ -130,8 +131,7 @@ async function handleRadioChange(event) {
     const rows = Array.from(table.querySelectorAll('tbody tr'));
 
     // Ordena la tabla usando el índice de columna
-    const value = await sortValueString(rows, table, columnIndex);
-    console.log(value);
+    await sortValueString(rows, table, columnIndex);
   } catch (error) {
     console.error('Error:', error);
   }

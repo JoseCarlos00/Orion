@@ -24,6 +24,8 @@ async function getDataForToPrint() {
         tbodyToPrint: tbodyToPrint.innerHTML,
       });
     }
+
+    eliminarMensajeDeImpresionIncompleto();
   } catch (error) {
     console.error('Error:', error);
   }

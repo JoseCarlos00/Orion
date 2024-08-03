@@ -107,18 +107,35 @@ function sortValueNumeric() {
   return new Promise(resolve => {
     try {
       const table = document.getElementById('content');
-      const rows = Array.from(table.querySelectorAll('tbody tr'));
-      const headerPositionElement = 9;
-
-      if (!rows || !table) {
-        resolve('Error al ordenar tabla');
+      if (!table) {
+        resolve('Error: Tabla no encontrada');
         return;
       }
 
-      rows.sort((a, b) => {
-        // Utilizar el valor de la URL en el selector
-        let aValue = a.querySelector(`td:nth-child(${headerPositionElement})`).innerText;
-        let bValue = b.querySelector(`td:nth-child(${headerPositionElement})`).innerText;
+      const rows = Array.from(table.querySelectorAll('tbody tr'));
+      const headerPositionElement = 9;
+
+      if (!rows.length) {
+        resolve('No hay filas para ordenar');
+        return;
+      }
+
+      // Separa las filas con la clase 'mensaje-incompleto'
+      const incompleteRows = rows.filter(row => row.classList.contains('mensaje-incompleto'));
+      const sortableRows = rows.filter(row => !row.classList.contains('mensaje-incompleto'));
+
+      sortableRows.sort((a, b) => {
+        // Verificar la existencia de las celdas antes de acceder a sus valores
+        const aCell = a.querySelector(`td:nth-child(${headerPositionElement})`);
+        const bCell = b.querySelector(`td:nth-child(${headerPositionElement})`);
+
+        if (!aCell || !bCell) {
+          console.error('Una o ambas celdas no existen en las filas');
+          return 0; // Si alguna celda no existe, no cambiar el orden
+        }
+
+        let aValue = aCell.innerText.trim();
+        let bValue = bCell.innerText.trim();
 
         // Verificar si los valores son numéricos
         const aValueNumeric = !isNaN(parseFloat(aValue)) && isFinite(aValue);
@@ -133,14 +150,16 @@ function sortValueNumeric() {
         }
       });
 
-      // Reinsertar las filas ordenadas en la tabla
-      rows.forEach(row => {
-        table.querySelector('tbody').appendChild(row);
-      });
-      resolve('Ordenar tabla por valor numerico correcto');
+      // Reinsertar las filas ordenadas y luego las filas incompletas al final del tbody
+      const tbody = table.querySelector('tbody');
+      tbody.innerHTML = ''; // Limpia el tbody
+      sortableRows.forEach(row => tbody.appendChild(row));
+      incompleteRows.forEach(row => tbody.appendChild(row));
+
+      resolve('Tabla ordenada correctamente por valor numérico');
     } catch (error) {
       console.error(`Error al ordenar la tabla: ${error}`);
-      resolve();
+      resolve('Error al ordenar la tabla');
     }
   });
 }

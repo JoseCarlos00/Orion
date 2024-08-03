@@ -205,7 +205,7 @@ function activarFilasLista() {
 
 function insertarMessageIncompletePrint() {
   const htmlTrPrint = `
-      <tr id="incompletePrint">
+      <tr id="incompletePrint" class="mensaje-incompleto">
          <td colspan="21"><h4 style="text-align: center;">Impresion Incompleta</h4></td>
       </tr>
     `;
