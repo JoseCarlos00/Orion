@@ -2,9 +2,26 @@ console.log('[Trbajos Activos Print Visualizador]');
 
 async function main() {
   try {
-    await insertElementPrint();
+    const linkSelected = document.querySelector(
+      '#RMReportes > ul > li:nth-child(2) > div > ul > li.rmItem.rmLast > a'
+    );
 
-    setEventForPint();
+    if (linkSelected) {
+      // Verifica si el elemento tiene la clase 'rmSelected'
+      const selected = linkSelected.classList.contains('rmSelected');
+
+      // Lanza un error si no se encuentra la clase
+      if (!selected) {
+        throw new Error('No se encontró el reporte seleccionado');
+      }
+    } else {
+      // Lanza un error si el elemento no existe
+      throw new Error('No se encontró el elemento especificado');
+    }
+
+    await insertElementPrintVisualizador();
+
+    setEventForPintVisualizador();
   } catch (error) {
     console.error(error);
   } finally {
@@ -12,14 +29,14 @@ async function main() {
   }
 }
 
-function setEventForPint() {
+function setEventForPintVisualizador() {
   // Escucha el evento clic en el botón print
   const printButton = document.getElementById('printButtonTrabajoActivo');
   if (!printButton) return;
-  printButton.addEventListener('click', getDataForToPrintVisualizador);
+  printButton.addEventListener('click', getDataForToPrint);
 }
 
-function insertElementPrint() {
+function insertElementPrintVisualizador() {
   return new Promise((resolve, reject) => {
     const buttonPrint = `
       <div class="d-flex bd-highlight">
@@ -42,31 +59,4 @@ function insertElementPrint() {
   });
 }
 
-async function getDataForToPrintVisualizador() {
-  try {
-    const continuar = await verificarLineas();
-
-    if (continuar) {
-      console.warn('❗ La impresion se ha setenido');
-      return;
-    }
-
-    // Lógica para obtener el contenido a imprimir de la página actual
-    const theadToPrint = document.querySelector('#gvTrabajoActivoV3_ctl00 > thead');
-    const tbodyToPrint = document.querySelector('#gvTrabajoActivoV3_ctl00 > tbody');
-
-    if (!tbodyToPrint || !theadToPrint) return;
-
-    // Envía un mensaje al script de fondo para solicitar la apertura de una nueva pestaña
-    if (chrome.runtime && tbodyToPrint && theadToPrint) {
-      chrome.runtime.sendMessage({
-        command: 'trabajoActivo',
-        theadToPrint: theadToPrint.innerHTML,
-        tbodyToPrint: tbodyToPrint.innerHTML,
-      });
-    }
-  } catch (error) {
-    console.error('Error:', error);
-  }
-}
 window.addEventListener('load', main, { once: true });
