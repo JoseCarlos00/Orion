@@ -19,6 +19,7 @@ async function main() {
       throw new Error('No se encontró el elemento especificado');
     }
 
+    addClassToElement('html', 'impresion-active');
     await insertElementPrintVisualizador();
 
     setEventForPintVisualizador();

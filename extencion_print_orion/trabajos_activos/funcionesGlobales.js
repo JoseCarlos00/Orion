@@ -27,3 +27,21 @@ async function getDataForToPrint() {
     console.error('Error:', error);
   }
 }
+
+/**
+ * Agrega una clase a un elemento HTML.
+ * @param {string} selector - El selector del elemento al que se le agregará la clase.
+ * @param {string} className - El nombre de la clase que se agregará.
+ */
+function addClassToElement(selector, className) {
+  // Selecciona el elemento usando el selector proporcionado
+  const element = document.querySelector(selector);
+
+  // Verifica si el elemento existe
+  if (element) {
+    // Agrega la clase al elemento
+    element.classList.add(className);
+  } else {
+    console.error(`El elemento con el selector "${selector}" no se encontró.`);
+  }
+}
