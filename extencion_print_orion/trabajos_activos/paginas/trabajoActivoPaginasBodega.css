@@ -2,8 +2,6 @@
   .impresion-active {
     .header,
     #RMReportes,
-    #Panel15 > main > div.main-filtros,
-    #Panel15 > main > div.d-flex.justify-content-center,
     #Panel15 > main > div.row > div > div.d-flex.bd-highlight.mb-3,
     #gvTrabajoActivoV3_ctl00 > thead > tr > th > input,
     #gvTrabajoActivoV3_ctl00 tr > th:nth-child(7),
@@ -19,9 +17,30 @@
       display: none !important;
     }
 
-    #gvTrabajoActivoV3_ctl00 > thead > tr > th > a,
-    #gvTrabajoActivoV3_ctl00 > tbody > tr > td {
-      font-size: 16px;
+    #Panel15 > main > div.main-filtros > div.page-header.bg-grey > div > div textarea {
+      overflow: hidden !important;
+      resize: none !important;
+    }
+
+    #Panel15 > main > div.main-filtros > div.page-header.bg-grey > div > div label {
+      text-wrap: nowrap !important;
+    }
+
+    #Panel15 > main > div.main-filtros div.page-header.bg-grey {
+      margin-bottom: 0 !important;
+      padding: 8px 0 !important;
+    }
+    #Panel15 > main > div.main-filtros div.page-header .page-header.row {
+      margin-bottom: 12px !important;
+    }
+
+    #Panel15 > main > div.d-flex.justify-content-center {
+      margin-bottom: 30px !important;
+    }
+
+    #gvTrabajoActivoV3 table tbody {
+      color: #000 !important;
+      font-weight: 500 !important;
     }
 
     #gvTrabajoActivoV3_ctl00 > thead > tr > th > a {
@@ -37,13 +56,16 @@
     #gvTrabajoActivoV3_ctl00 > tbody > tr > td,
     #gvTrabajoActivoV3_ctl00 {
       border-color: #000 !important;
+      color: #000;
     }
 
-    #gvTrabajoActivoV3_ctl00 tr > th:nth-child(3),
-    #gvTrabajoActivoV3_ctl00 tr > td:nth-child(3) {
-      overflow: hidden;
-      text-wrap: nowrap;
-      text-overflow: ellipsis;
+    .RadGrid_Bootstrap .rgSelectedRow > td {
+      background-color: #fff !important;
+      color: #000 !important;
+    }
+
+    #Panel15 > main > div.d-flex.justify-content-center {
+      margin-bottom: 32px;
     }
   }
 }

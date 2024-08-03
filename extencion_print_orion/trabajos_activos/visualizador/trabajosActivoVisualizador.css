@@ -34,12 +34,6 @@
       font-weight: 500 !important;
     }
 
-    #gvTrabajoActivoV3_ctl00 > thead > tr > th,
-    #gvTrabajoActivoV3_ctl00 > tbody > tr > td,
-    #gvTrabajoActivoV3_ctl00 {
-      border-color: #000 !important;
-    }
-
     #gvTrabajoActivoV3_ctl00 > thead > tr > th a {
       color: #000 !important;
       font-weight: bold !important;
@@ -47,6 +41,13 @@
 
     #gvTrabajoActivoV3 {
       border: none !important;
+    }
+
+    #gvTrabajoActivoV3_ctl00 > thead > tr > th,
+    #gvTrabajoActivoV3_ctl00 > tbody > tr > td,
+    #gvTrabajoActivoV3_ctl00 {
+      border-color: #000 !important;
+      color: #000;
     }
 
     .RadGrid_Bootstrap .rgSelectedRow > td {
