@@ -267,3 +267,101 @@ th {
     display: none;
   }
 }
+
+@media print {
+  /* line 13, ../../../../../Users/Cyn/Documents/FMGitCSS/FM-MGEnt/sass/bootstrap/_print.scss */
+  *,
+  *::before,
+  *::after {
+    text-shadow: none !important;
+    box-shadow: none !important;
+  }
+  /* line 24, ../../../../../Users/Cyn/Documents/FMGitCSS/FM-MGEnt/sass/bootstrap/_print.scss */
+  a:not(.btn) {
+    text-decoration: underline;
+  }
+  /* line 34, ../../../../../Users/Cyn/Documents/FMGitCSS/FM-MGEnt/sass/bootstrap/_print.scss */
+  abbr[title]::after {
+    content: ' (' attr(title) ')';
+  }
+  /* line 49, ../../../../../Users/Cyn/Documents/FMGitCSS/FM-MGEnt/sass/bootstrap/_print.scss */
+  pre {
+    white-space: pre-wrap !important;
+  }
+  /* line 52, ../../../../../Users/Cyn/Documents/FMGitCSS/FM-MGEnt/sass/bootstrap/_print.scss */
+  pre,
+  blockquote {
+    border: 1px solid #adb5bd;
+    page-break-inside: avoid;
+  }
+  /* line 63, ../../../../../Users/Cyn/Documents/FMGitCSS/FM-MGEnt/sass/bootstrap/_print.scss */
+  thead {
+    display: table-header-group;
+  }
+  /* line 67, ../../../../../Users/Cyn/Documents/FMGitCSS/FM-MGEnt/sass/bootstrap/_print.scss */
+  tr,
+  img {
+    page-break-inside: avoid;
+  }
+  /* line 72, ../../../../../Users/Cyn/Documents/FMGitCSS/FM-MGEnt/sass/bootstrap/_print.scss */
+  p,
+  h2,
+  h3 {
+    orphans: 3;
+    widows: 3;
+  }
+  /* line 79, ../../../../../Users/Cyn/Documents/FMGitCSS/FM-MGEnt/sass/bootstrap/_print.scss */
+  h2,
+  h3 {
+    page-break-after: avoid;
+  }
+  @page {
+    size: a3;
+  }
+  /* line 92, ../../../../../Users/Cyn/Documents/FMGitCSS/FM-MGEnt/sass/bootstrap/_print.scss */
+  body {
+    min-width: 992px !important;
+  }
+  /* line 95, ../../../../../Users/Cyn/Documents/FMGitCSS/FM-MGEnt/sass/bootstrap/_print.scss */
+  .container {
+    min-width: 992px !important;
+  }
+  /* line 100, ../../../../../Users/Cyn/Documents/FMGitCSS/FM-MGEnt/sass/bootstrap/_print.scss */
+  .navbar {
+    display: none;
+  }
+  /* line 103, ../../../../../Users/Cyn/Documents/FMGitCSS/FM-MGEnt/sass/bootstrap/_print.scss */
+  .badge {
+    border: 1px solid #000;
+  }
+  /* line 107, ../../../../../Users/Cyn/Documents/FMGitCSS/FM-MGEnt/sass/bootstrap/_print.scss */
+  .table {
+    border-collapse: collapse !important;
+  }
+  /* line 110, ../../../../../Users/Cyn/Documents/FMGitCSS/FM-MGEnt/sass/bootstrap/_print.scss */
+  .table td,
+  .table th {
+    background-color: #fff !important;
+  }
+  /* line 117, ../../../../../Users/Cyn/Documents/FMGitCSS/FM-MGEnt/sass/bootstrap/_print.scss */
+  .table-bordered th,
+  .table-bordered td {
+    border: 1px solid #dee2e6 !important;
+  }
+  /* line 123, ../../../../../Users/Cyn/Documents/FMGitCSS/FM-MGEnt/sass/bootstrap/_print.scss */
+  .table-dark {
+    color: inherit;
+  }
+  /* line 126, ../../../../../Users/Cyn/Documents/FMGitCSS/FM-MGEnt/sass/bootstrap/_print.scss */
+  .table-dark th,
+  .table-dark td,
+  .table-dark thead th,
+  .table-dark tbody + tbody {
+    border-color: #dee2e6;
+  }
+  /* line 134, ../../../../../Users/Cyn/Documents/FMGitCSS/FM-MGEnt/sass/bootstrap/_print.scss */
+  .table .thead-dark th {
+    color: inherit;
+    border-color: #dee2e6;
+  }
+}
