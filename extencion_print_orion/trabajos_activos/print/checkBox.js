@@ -1,32 +1,33 @@
 /** CheckBook */
 // Función para mostrar u ocultar una columna específica por su índice
 function toggleColumn() {
-  const columnIndex = parseInt(this.value);
+  const columnIndex = parseInt(this.value) + 1;
   const table = document.querySelector('#content');
-  const rows = table.rows;
 
-  if (this.checked) {
-    // Mostrar columna
-    for (let i = 0; i < rows.length; i++) {
-      rows[i].cells[columnIndex].style.display = 'table-cell';
-      rows[i].cells[columnIndex].classList.remove('hidden');
+  const checkboxContainer = this.closest('.checkbox-container');
 
-      if (i === 0) {
-        const checkboxContainer = this.closest('.checkbox-container');
-        checkboxContainer && checkboxContainer.classList.toggle('checkbox-checked');
-      }
-    }
-  } else {
-    // Ocultar columna
-    for (let i = 0; i < rows.length; i++) {
-      rows[i].cells[columnIndex].classList.add('hidden');
-
-      if (i === 0) {
-        const checkboxContainer = this.closest('.checkbox-container');
-        checkboxContainer && checkboxContainer.classList.toggle('checkbox-checked');
-      }
-    }
+  if (!table) {
+    console.error('No existe el elemento <table>');
+    return;
   }
+
+  const rows = Array.from(
+    table.querySelectorAll(`tr :is(th:nth-child(${columnIndex}), td:nth-child(${columnIndex}))`)
+  );
+
+  if (rows.length === 0) {
+    console.warn('No hay filas <tr>');
+    return;
+  }
+
+  rows.forEach(td => {
+    if (this.checked) {
+      td.style.display = 'table-cell';
+    }
+
+    td.classList.toggle('hidden', !this.checked);
+    checkboxContainer.classList.toggle('checkbox-checked', !this.checked);
+  });
 }
 
 // Función para ocultar una columna específica por su índice
@@ -34,8 +35,20 @@ function hideColumn(columnIndex) {
   const table = document.querySelector('#content');
   const rows = table.rows;
 
+  if (!table) {
+    console.error('No existe el elemento <table>');
+    return;
+  }
+
+  if (!columnIndex) {
+    console.error('No se ecnotro el idice');
+    return;
+  }
+
   for (let i = 0; i < rows.length; i++) {
-    rows[i].cells[columnIndex].style.display = 'none';
+    if (rows[i].cells[columnIndex]) {
+      rows[i].cells[columnIndex].classList.add('hidden');
+    }
   }
 }
 
@@ -154,14 +167,14 @@ export function eventoClickCheckBox() {
       }
 
       // Verificar si la clase 'mostrar' está presente en el checkboxContainer
-      if (!checkboxContainer.classList.contains('mostrar')) {
+      if (!checkboxContainer.classList.contains('show')) {
         // Si no está presente, la agregamos
-        checkboxContainer.classList.add('mostrar');
+        checkboxContainer.classList.add('show');
         // Cambiar el atributo "d" del path SVG para representar un símbolo de menos(-)
         togglePath.setAttribute('d', 'M5 12h14');
       } else {
         // Si está presente, la eliminamos
-        checkboxContainer.classList.remove('mostrar');
+        checkboxContainer.classList.remove('show');
         // Cambiar el atributo "d" del path SVG para representar un símbolo de más(+)
         togglePath.setAttribute('d', 'M12 19v-7m0 0V5m0 7H5m7 0h7');
       }

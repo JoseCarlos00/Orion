@@ -34,17 +34,17 @@ async function main() {
     await cleanThead();
     setEventOrdenar();
 
-    // eventoClickCheckBox()
-    //   .then(msg => {
-    //     console.log(msg);
+    eventoClickCheckBox()
+      .then(msg => {
+        console.log(msg);
 
-    //     const hiddenColumns = [7, 10, 11, 12].map(index => index - 1);
+        const hiddenColumns = [7, 10, 11, 12].map(index => index - 1);
 
-    //     createFiltersCheckbox(hiddenColumns, false);
-    //   })
-    //   .catch(err => console.error('Error al crear el evento click mostrar:', err));
+        createFiltersCheckbox(hiddenColumns, false);
+      })
+      .catch(err => console.error('Error al crear el evento click mostrar:', err));
 
-    // setTimeout(() => window.print(), 500);
+    setTimeout(() => window.print(), 500);
   } catch (error) {
     console.error('Error:', error);
   }
