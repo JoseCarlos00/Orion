@@ -1,0 +1,11 @@
+/* styleProducto3Cajas */
+[data-bs-theme='dark'] {
+  .RadGrid_Bootstrap .rgSelectedRow > td,
+  .RadGrid_Bootstrap .rgSelectedRow td.rgSorted {
+    background: #181344 !important;
+  }
+
+  .RadGrid_Bootstrap .rgAltRow .rgSorted {
+    background-color: #0d1117;
+  }
+}

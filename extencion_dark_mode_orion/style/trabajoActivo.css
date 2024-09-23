@@ -1,0 +1,31 @@
+/* styleTrabajosActivoCSS */
+[data-bs-theme='dark'] {
+  .RadMenu_Bootstrap .rmGroup .rmLink:hover {
+    color: rgb(230, 237, 243);
+    background-color: rgba(177, 186, 196, 0.12);
+  }
+  .RadMenu_Bootstrap .rmGroup .rmSelected,
+  .RadMenu_Bootstrap .rmGroup .rmSelected:hover,
+  .RadMenu_Bootstrap .rmGroup .rmExpanded,
+  .RadMenu_Bootstrap .rmGroup .rmExpanded:hover {
+    color: rgb(230, 237, 243);
+    background-color: rgb(22, 27, 33);
+  }
+
+  #Panel3 {
+    scrollbar-width: thin;
+    scrollbar-color: #585858 #444;
+
+    .table-responsive {
+      display: flex;
+      justify-content: center;
+    }
+
+    .ReporteTableau {
+      width: 80%;
+      height: 1000px;
+      filter: grayscale(0.5) brightness(0.9);
+      margin-bottom: 20px;
+    }
+  }
+}

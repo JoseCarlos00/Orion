@@ -1,0 +1,21 @@
+/* styleReporteTableau */
+[data-bs-theme='dark'] {
+  #divreportesh {
+    margin-top: 24px;
+  }
+
+  .thumbnail {
+    color: rgb(230, 237, 243);
+    background-color: rgba(177, 186, 196, 0.12);
+    border: none;
+    box-shadow: rgb(67 67 67 / 25%) 0px 13px 27px -5px, rgb(167 18 18 / 30%) 0px 8px 16px -8px;
+
+    input[type='image'] {
+      filter: grayscale(1);
+    }
+  }
+
+  .caption h4 {
+    color: rgb(230, 237, 243) !important;
+  }
+}

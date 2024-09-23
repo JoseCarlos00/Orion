@@ -1,0 +1,9 @@
+/* styleEnvioItemCSS */
+[data-bs-theme='dark'] {
+  .container-work-unit {
+    textarea {
+      background-color: transparent;
+      color: #e6edf3;
+    }
+  }
+}
