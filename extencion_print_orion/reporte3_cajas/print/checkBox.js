@@ -64,10 +64,29 @@ function toggleRow() {
 // Función para ocultar una columna específica por su índice
 function hideColumn(columnIndex) {
   const table = document.querySelector('#content');
+  if (!table) {
+    console.error('No existe el elemento <table>');
+    return;
+  }
+
   const rows = table.rows;
 
+  // Verifica si columnIndex es un número válido y está dentro del rango
+  if (
+    typeof columnIndex !== 'number' ||
+    !Number.isInteger(columnIndex) ||
+    columnIndex < 0 ||
+    (rows.length > 0 && columnIndex >= rows[0].cells.length)
+  ) {
+    console.error(`Índice de columna inválido [${columnIndex}]`);
+    return;
+  }
+
   for (let i = 0; i < rows.length; i++) {
-    rows[i].cells[columnIndex].classList.add('hidden');
+    const cell = rows[i].cells[columnIndex];
+    if (cell) {
+      cell.classList.add('hidden');
+    }
   }
 }
 

@@ -52,7 +52,7 @@ async function main() {
       .then(msg => {
         console.log(msg);
 
-        const hiddenGroup = ['YY PROMO/BZ1', 'ZMUEBLE TDAS'];
+        const hiddenGroup = ['YY PROMO/BZ1', 'ZMUEBLE TDAS', 'YY TIAN5'];
         createFiltersCheckboxRow(hiddenGroup, false);
       })
       .catch(err => console.error('Error al crear el evento click mostrar:', err));
@@ -168,7 +168,7 @@ function hiddenRows() {
   const table = document.getElementById('content');
   const rows = Array.from(table.querySelectorAll('tbody tr'));
   const position = 8;
-  const hiddenGroup = ['YY PROMO/BZ1', 'ZMUEBLE TDAS'];
+  const hiddenGroup = ['YY PROMO/BZ1', 'ZMUEBLE TDAS', 'YY TIAN5'];
 
   if (!rows || !table) {
     console.error('No se encontraron los elementos <table> and <tbody>');

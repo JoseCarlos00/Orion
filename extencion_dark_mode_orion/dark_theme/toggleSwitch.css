@@ -57,16 +57,8 @@
   }
 }
 
-.toggle-switch.sin-header {
-  float: right;
-
-  .slider {
-    outline: 1px solid #c2bbbb;
-  }
-
-  .switch input:checked + .slider {
-    background-color: #000;
-  }
+.sin-header {
+  float: right !important;
 }
 
 @keyframes anima1 {

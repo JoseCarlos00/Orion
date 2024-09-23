@@ -14,12 +14,12 @@
   "content_scripts": [
     {
       "matches": ["http://fmorion.dnsalias.com/*"],
-      "js": ["dark_theme/toggleSwitch.js"],
-      "css": ["dark_theme/toggleSwitch.css"]
+      "js": ["dark_theme/toggleSwitch.js", "color-modes.js", "pritEvent.js"],
+      "css": ["dark_theme/toggleSwitch.css", "darkTheme.css"]
     },
     {
       "matches": ["http://fmorion.dnsalias.com/orion/paginas/Reportes/ReporteTableau2.aspx*"],
-      "js": ["dark_theme/reporteTableu.js"]
+      "css": ["style/reporteTableu.css"]
     },
     {
       "matches": [
@@ -27,15 +27,15 @@
         "http://fmorion.dnsalias.com/Bodega/Default.aspx*",
         "http://fmorion.dnsalias.com/orion/paginas/Dashboard/Dashboard.aspx*"
       ],
-      "js": ["dark_theme/defaulDashBoard.js"]
+      "css": ["style/defaulDashBoard.css"]
     },
     {
       "matches": ["http://fmorion.dnsalias.com/orion/paginas/Bodega/Productos3Cajas.aspx*"],
-      "js": ["dark_theme/producto3Cajas.js"]
+      "css": ["style/producto3Cajas.css"]
     },
     {
       "matches": ["http://fmorion.dnsalias.com/orion/paginas/Envios/Envio.aspx?EnvioNum=*"],
-      "js": ["dark_theme/envioItem.js"]
+      "css": ["style/envioItem.css"]
     },
     {
       "matches": [
@@ -43,7 +43,7 @@
         "http://fmorion.dnsalias.com/Bodega/Bodega*",
         "https://tableau.fantasiasmiguel.com.mx/trusted/ijShoAskRoeVKTlcCIxTGA==:Umbs4BtTpnexPcQY4OKAytXz/views/TareasAbiertasTiendasMariano/TareasAbiertasTiendas*"
       ],
-      "js": ["dark_theme/trabajoActivo.js"]
+      "css": ["style/trabajoActivo.css"]
     }
   ],
   "action": {

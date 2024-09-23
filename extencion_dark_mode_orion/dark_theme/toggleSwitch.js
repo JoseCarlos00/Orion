@@ -2,11 +2,77 @@
 const toggleState = localStorage.getItem('toggleState');
 
 const toggleSwitchElement = `
-<div class="toggle-switch">
-  <label class="switch">
-    <input type="checkbox">
-    <span class="slider"></span>
-  </label>
+<svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+  <symbol id="check2" viewBox="0 0 16 16">
+    <path
+      d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z">
+    </path>
+  </symbol>
+  <symbol id="circle-half" viewBox="0 0 16 16">
+    <!-- <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"></path> -->
+    <path
+      d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16ZM1 8a7 7 0 0 0 7 7 3.5 3.5 0 1 0 0-7 3.5 3.5 0 1 1 0-7 7 7 0 0 0-7 7Z" />
+  </symbol>
+  <symbol id="moon-stars-fill" viewBox="0 0 16 16">
+    <path
+      d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z">
+    </path>
+    <path
+      d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z">
+    </path>
+  </symbol>
+  <symbol id="sun-fill" viewBox="0 0 16 16">
+    <path
+      d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z">
+    </path>
+  </symbol>
+</svg>
+<div class="dropdown  bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
+  <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button"
+    aria-expanded="false" data-bs-toggle="dropdown" aria-label="Toggle theme (dark)">
+    <svg class="bi my-1 theme-icon-active" width="1em" height="1em">
+      <use href="#moon-stars-fill"></use>
+    </svg>
+    <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="bd-theme-text">
+    <li>
+      <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light"
+        aria-pressed="false">
+        <svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em">
+          <use href="#sun-fill"></use>
+        </svg>
+        Light
+        <svg class="bi ms-auto d-none" width="1em" height="1em">
+          <use href="#check2"></use>
+        </svg>
+      </button>
+    </li>
+    <li>
+      <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="dark"
+        aria-pressed="true">
+        <svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em">
+          <use href="#moon-stars-fill"></use>
+        </svg>
+        Dark
+        <svg class="bi ms-auto d-none" width="1em" height="1em">
+          <use href="#check2"></use>
+        </svg>
+      </button>
+    </li>
+    <li>
+      <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto"
+        aria-pressed="false">
+        <svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em">
+          <use href="#circle-half"></use>
+        </svg>
+        Auto
+        <svg class="bi ms-auto d-none" width="1em" height="1em">
+          <use href="#check2"></use>
+        </svg>
+      </button>
+    </li>
+  </ul>
 </div>
 `;
 
@@ -18,524 +84,41 @@ const preLoaderWhiteElement = `
   </div>
 </div>
 `;
-const preLoaderBlackElement = `
-<div id="preloader" style="background-color: #000; color: #fff;">
-  <div class="container">
-    <label>Cargando...</label>
-    <div class="loading"></div>
-  </div>
-</div>
-`;
-
-/* http://fmorion.dnsalias.com/ */
-const styleGobalCSS = `
-body {
-  background-color: #0d1117 !important;
-  color: #e6edf3 !important;
-}
-
-.header ::placeholder {
-  color: #848d97 !important;
-}
-
-/* Tablas */
-.table {
-  color: #e6edf3 !important;
-  background-color: transparent !important;
-}
-
-.table-hover tbody tr:hover {
-  color: #e6edf3 !important;
-  opacity: 0.5 !important;
-}
-
-.table-theme-purple th {
-  background-color: #000 !important;
-  color: #e6edf3 !important;
-}
-
-.table-theme-purple th,
-.table-theme-purple td {
-  border-color: #7575a3 !important;
-}
-
-.table-theme-purple thead th {
-  border-color: #7575a3 !important;
-}
-
-.table-theme-purple tbody tr:nth-of-type(odd) {
-  background-color: #000 !important;
-  color: #e6edf3 !important;
-}
-
-.table-theme-blue th {
-  background-color: #000 !important;
-  color: #e6edf3 !important;
-}
-
-.table-theme-blue th,
-.table-theme-blue td {
-  border-color: #7575a3 !important;
-}
-
-.table-theme-blue thead th {
-  border-color: #7575a3 !important;
-}
-
-.table-theme-blue tbody tr:nth-of-type(odd) {
-  background-color: #000 !important;
-  color: #e6edf3 !important;
-}
-
-/* Header */
-.bg-grey,
-.bg-purple {
-  background-color: #6f6f6f00 !important;
-  color: #e6edf3 !important;
-}
-
-.custom-select,
-.form-control {
-  color: #ffffffa3 !important;
-  background-color: #000 !important;
-}
-
-input::placeholder {
-  color: #ffffffa3 !important;
-}
-
-.form-control:hover::placeholder,
-.custom-select:hover {
-  color: #2f81f7 !important;
-}
-
-.fas {
-  color: #848d97 !important;
-}
-
-.btn:hover .fas,
-.btn:hover {
-  color: #2f81f7 !important;
-}
-
-.btn-link:hover,
-.btn-link:hover .fas {
-  color: #2f81f7 !important;
-}
-
-.overview-card {
-  border-left: none !important;
-  background-color: transparent !important;
-}
-
-.table-toolbar {
-  background-color: transparent !important;
-}
-
-.overview-card-toggle {
-  color: #999 !important;
-}
-
-.btn,
-.header,
-.footer {
-  background-color: #000 !important;
-  color: #848d97 !important;
-}
-
-.RadGrid_Bootstrap .rgAltRow > td {
-  background-color: #0d1117 !important;;
-}
-
-.RadGrid_Bootstrap .rgMasterTable .rgSelectedCell,
-.RadGrid_Bootstrap .rgSelectedRow > td,
-.RadGrid_Bootstrap td.rgEditRow .rgSelectedRow,
-.RadGrid_Bootstrap .rgSelectedRow td.rgSorted {
-  background-color: #337ab7 !important;
-}
-
-.RadGrid_Bootstrap {
-  border: none !important;
-  background-color: #ffffff6e !important;
-}
-
-.RadGrid_Bootstrap .rgHoveredRow > td {
-  background-color: #0d1117 !important;
-}
-
-.RadGrid_Bootstrap .rgPagerCell {
-  border-top: 1px solid #ccc;
-  background-color: transparent !important;
-  color: #e6edf3 !important;
-}
-
-.RadGrid_Bootstrap .rgPagerCell .rgArrPart1,
-.RadGrid_Bootstrap .rgPagerCell .rgArrPart2 {
-  filter: invert(1) !important;
-}
-
-.RadComboBoxDropDown_Bootstrap .rcbHovered {
-  color: #e6edf3 !important;
-  background-color: #000 !important;
-  opacity: 0.8 !important;
-}
-
-.RadGrid_Bootstrap .rgHeader,
-.RadGrid_Bootstrap .rgHeader a {
-  color: #e6edf3 !important;
-}
-.RadComboBoxDropDown .rcbList > li {
-  background-color: #000 !important;
-  color: #e6edf3 !important;
-  opacity: 0.5 !important;
-}
-
-.RadComboBoxDropDown_Bootstrap .rcbScroll {
-  padding: 5px 0 !important;
-  background-color: #000 !important;
-}
-
-.RadComboBox_Bootstrap .rcbReadOnly .rcbInputCell {
-  background-color: transparent !important;
-}
-
-#gvInventario_ctl00_ctl03_ctl01_PageSizeComboBox_Input {
-  background-color: transparent;
-  color: #e6edf3 !important;
-}
-
-.RadComboBox_Bootstrap .rcbReadOnly .rcbArrowCell.rcbArrowCellRight {
-  background-color: #000 !important;
-}
-
-.RadComboBox_Bootstrap .rcbArrowCell a,
-.rcCalPopup {
-  filter: invert(1) !important;
-}
-
-.RadComboBox_Bootstrap .rcbHovered .rcbReadOnly .rcbInputCell {
-  background-color: #383838 !important;
-}
-
-.main :where(.form-control, .custom-select) {
-  border-color: #7575a3 !important;
-}
-
-.RadComboBox_Bootstrap .rcbFocused .rcbReadOnly .rcbInputCell {
-  background-color: transparent !important;
-  border-right: 1px solid !important;
-}
-
-.RadGrid_Bootstrap .rgAltRow .rgSorted {
-  background-color: #222 !important;
-}
-
-.RadGrid_Bootstrap .rgSorted {
-  background-color: #000000 !important;
-}
-
-.RadMenu_Bootstrap .rmGroup,
-.RadMenu_Bootstrap.rmRoundedCorners .rmGroup,
-.RadMenu_Bootstrap .rmMultiColumn {
-  background-color: #000 !important;
-  color: #e6edf3 !important;
-}
-
-.RadMenu_Bootstrap .rmGroup .rmLink {
-  color: #e6edf3 !important;
-}
-
-html body .RadInput_Bootstrap .riHover,
-html body .RadInput_Hover_Bootstrap {
-  background-color: #000 !important;
-  color: #e6edf3 !important;
-  opacity: 0.5 !important;
-}
-
-html body .RadInput_Bootstrap .riTextBox,
-html body .RadInputMgr_Bootstrap {
-  background-color: #000 !important;
-  color: #e6edf3 !important;
-}
-
-html body .RadInput_Bootstrap .riFocused,
-html body .RadInput_Focused_Bootstrap {
-  color: #e6edf3;
-  background-color: #000000 !important;
-}
-
-.RadComboBox_Bootstrap .rcbInput {
-  color: #b8b8b8 !important;
-}
-
-.GridContextMenu_Bootstrap .rgHCMClear,
-.GridContextMenu_Bootstrap .rgHCMFilter {
-  color: #e6edf3 !important;
-  background-color: #000 !important;
-  border-color: #7575a3 !important;
-}
-
-.rgPager .rgPagerCell .rgNumPart a {
-  filter: invert(1) !important;
-}
-
-.RadGrid_Bootstrap .rgPagerCell .rgNumPart a.rgCurrentPage {
-  background-color: #dcb133 !important;
-  border: none !important;
-}
-
-#UpdatePanel > main > div.main-overview.row #inventario.bg-green {
-  background-color: transparent !important;
-}
-
-#btnGuardarEnvio,
-#btnEnviarEnvio,
-#btnEnviarVScale {
-  border-color: #7575a3 !important;
-}
-
-.sidenav,
-.dropdown-menu {
-  background-color: #000 !important;
-  color: #e6edf3 !important;
-
-  .dropdown-menu {
-    background-color: #000 !important;
-    border-color: #ccc !important;
-  }
-
-  .dropdown-item {
-    color: #fff !important;
-    opacity: 0.9 !important;
-  }
-
-  .dropdown-item:hover {
-    opacity: 1 !important;
-    color: rgb(230, 237, 243) !important;
-    background-color: rgba(177, 186, 196, 0.12) !important;
-  }
-
-  .nav-link:hover {
-    background-color: rgb(22, 27, 34) !important;
-  }
-}
-
-.RadMenu_Bootstrap .rmRootGroup.rmHorizontal,
-.RadMenu_Bootstrap .rmRootGroup.rmVertical,
-.RadMenu_Bootstrap ul.rmRootScrollGroup {
-  background-color: rgb(22, 27, 34) !important;
-  border-color: transparent !important;
-  border-bottom-color: #ccc !important;
-
-  .rmRootLink {
-    color: #e6edf3 !important;
-  }
-
-  .rmRootLink.rmExpanded {
-    background-color: #000 !important;
-  }
-
-  .rmRootLink.rmSelected {
-    opacity: 0.9 !important;
-    background-color: #000 !important;
-  }
-
-  .rmRootLink:hover {
-    color: #e6edf3 !important;
-    background-color: #0a304e !important;
-  }
-}
-
-#btnEliminar,
-#btnEliminarPartidas {
-  color: #dc3545 !important;
-}
-
-#btnEliminar:hover,
-#btnEliminarPartidas:hover {
-  opacity: 0.9 !important;
-}
-
-#divImpresionRepCotizacion > table {
-  color: #fff !important;
-  img {
-    filter: invert(1);
-  }
-}
-
-@media print {
-  .rgPager .rgPagerCell .rgNumPart a,
-  .RadComboBox_Bootstrap .rcbArrowCell a,
-  .RadGrid_Bootstrap .rgPagerCell .rgArrPart1,
-  .RadGrid_Bootstrap .rgPagerCell .rgArrPart2 {
-    filter: invert(0) !important;
-  }
-
-  body {
-    color: #000 !important;
-  }
-
-  .table-theme-blue tbody tr:nth-of-type(odd),
-  .table-theme-purple tbody tr:nth-of-type(odd),
-  tbody {
-    color: #000 !important;
-  }
-
-  .table-hover tbody tr:hover {
-    color: #000 !important;
-    opacity: 1 !important;
-  }
-}
-
-.nav-pills .nav-link.active,
-.nav-pills .show > .nav-link {
-  color: rgb(230, 237, 243) !important;
-  background-color: rgb(22, 27, 34) !important;
-}
-
-.RadLabel_Default {
-  color: #e6edf3 !important;
-}
-
-.main-filtros {
-  .RadComboBox_Bootstrap .rcbInputCell {
-    color: #e6edf3 !important;
-    background-color: #000 !important;
-  }
-
-  .RadComboBox_Bootstrap .rcbArrowCell a {
-    background-color: #fff !important;
-  }
-}
-.RadComboBoxDropDown label {
-  color: #e6edf3 !important;
-}
-
-#cmbPrioridadB_DropDown > div > ul > li.rcbItem,
-#cmbEstatus_DropDown > div > ul > li.rcbItem {
-  opacity: 1 !important;
-}
-
-#gvPedidosAmazon {
-  .rgHeader.rgCheck input,
-  .check input,
-  td input[type='checkbox'] {
-    opacity: 0.5 !important;
-  }
-  .rgHeader.rgCheck input:hover,
-  .check input:hove,
-  td input[type='checkbox']:hover {
-    opacity: 1 !important;
-  }
-
-  .rgAltRow,
-  .rgAltRow {
-    color: #e6edf3 !important;
-  }
-
-  .RadButton.rbDisabled {
-    opacity: 1 !important;
-  }
-
-  .rgOptions {
-    filter: invert(1) !important;
-  }
-
-  .rbLinkButton {
-    background-color: transparent !important;
-  }
-
-  .rgExpandCol {
-    background-color: #000 !important;
-    input {
-      filter: invert(1) !important;
-    }
-  }
-}
-
-#lblFecha::before {
-  opacity: 0.8 !important;
-}
-#headerDropdown {
-  border: none !important;
-}
-
-#gvPedidoListas,
-#gvPedidosTienda {
-  .rgCheck input,
-  td input[type='checkbox'] {
-    opacity: 0.5 !important;
-  }
-  .rgCheck input:hover,
-  td input[type='checkbox']:hover,
-  .rbDisabled {
-    opacity: 1 !important;
-  }
-
-  tr td:nth-child(4) a:hover {
-    font-weight: bold !important;
-  }
-  tr td:nth-child(4) a {
-    color: #2f81f7 !important;
-  }
-  .riTextBox {
-    background-color: transparent !important;
-    color: #e6edf3 !important;
-  }
-  .RadButton_Bootstrap.rbSkinnedButton {
-    background-color: transparent !important;
-  }
-  .rbDownload,
-  input.rgOptions {
-    filter: invert(1) !important;
-  }
-}
-
-.RadUpload_Bootstrap .ruButton,
-.RadUpload_Bootstrap .ruFakeInput {
-  background: #000 !important;
-  color: #848d97 !important;
-  border-color: #7575a3 !important;
-}
-
-tr.rgSelectedRow input[type='checkbox'] {
-  opacity: 1 !important;
-}
-`;
 
 const styleGlobalElement = `<style id="styleGlobal"></style>`;
 
-if (toggleState === 'true') {
-  document.querySelector('body').insertAdjacentHTML('afterbegin', preLoaderBlackElement);
-} else {
-  document.querySelector('body').insertAdjacentHTML('afterbegin', preLoaderWhiteElement);
-}
+document.querySelector('body').insertAdjacentHTML('afterbegin', preLoaderWhiteElement);
 
-(() => {
-  // Insertar estilos
-  document.querySelector('body').insertAdjacentHTML('beforeend', styleGlobalElement);
-  const styleElement = document.querySelector('#styleGlobal');
+async function incicio() {
+  try {
+    console.log('toggleSwitch.js');
+    document.getElementById('preloader').style.display = 'none';
 
-  // Verificar el valor en localStorage después de toggle
-  if (toggleState === 'true') {
-    styleElement.innerHTML = styleGobalCSS;
+    await insertToggleButton();
+    setEventToggle();
+  } catch (error) {
+    console.error('Error:', error);
+    return;
   }
-})();
 
-function incicio() {
-  console.log('toggleSwitch.js');
-  document.getElementById('preloader').style.display = 'none';
-  const elementInsertDropdown = document.querySelector('.header .dropdown');
-  const elementUl = document.querySelector('#RMReportes > ul');
+  function insertToggleButton() {
+    const elementInsertDropdown = document.querySelector('.header .dropdown');
+    const elementUl = document.querySelector('#RMReportes > ul');
 
-  if (elementInsertDropdown) {
-    elementInsertDropdown.insertAdjacentHTML('beforebegin', toggleSwitchElement);
-  } else if (elementUl) {
-    elementUl.insertAdjacentHTML('beforeend', toggleSwitchElement);
-    setTimeout(() => {
-      const toggleButtonContainer = document.querySelector('.toggle-switch');
-      toggleButtonContainer && toggleButtonContainer.classList.add('sin-header');
-    }, 50);
+    return new Promise((resolve, reject) => {
+      if (elementInsertDropdown) {
+        elementInsertDropdown.insertAdjacentHTML('beforebegin', toggleSwitchElement);
+        resolve();
+      } else if (elementUl) {
+        elementUl.insertAdjacentHTML('beforeend', toggleSwitchElement);
+
+        setTimeout(() => {
+          const toggleButtonContainer = document.querySelector('#RMReportes > ul > .dropdown');
+          toggleButtonContainer && toggleButtonContainer.classList.add('sin-header');
+          resolve();
+        }, 50);
+      }
+    });
   }
 
   const toggleButton = document.querySelector('.toggle-switch input');
@@ -569,6 +152,34 @@ function incicio() {
       styleElement.innerHTML = '';
     }
   }
+}
+
+function setEventToggle() {
+  const toggle = document.querySelector('#bd-theme');
+
+  if (!toggle) {
+    console.error('No se encontró el botón toggle');
+    return;
+  }
+
+  toggle.addEventListener('click', function () {
+    const parent = toggle.parentNode;
+    if (!parent) {
+      console.error('No se encontró el elemento padre del toggle');
+      return;
+    }
+
+    // Validar si el elemento .dropdown-menu existe antes de manipularlo
+    const dropdownMenu = parent.querySelector('.dropdown-menu');
+    if (!dropdownMenu) {
+      console.error('No se encontró el elemento .dropdown-menu');
+      return;
+    }
+
+    toggle.setAttribute('aria-expanded', true);
+    parent.classList.toggle('show');
+    dropdownMenu.classList.toggle('show');
+  });
 }
 
 window.addEventListener('load', incicio, { once: true });

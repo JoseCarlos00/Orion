@@ -102,7 +102,7 @@ html {
     margin-bottom: 0 !important;
   }
 
-  .work-unit {
+  .work-unit-container {
     #resetWorkUnit {
       display: none !important;
       border: none !important;
@@ -111,6 +111,9 @@ html {
     textarea {
       resize: none;
       border: none !important;
+      overflow: hidden;
+      line-height: 0.9;
+      margin-top: -22px;
     }
   }
 } /* Fin del print */
@@ -148,7 +151,7 @@ div.p-2.bd-highlight button i {
   padding-right: 4px;
 }
 
-.work-unit {
+.work-unit-container {
   animation: entradaElemento 0.5s ease-in-out;
   display: flex;
   font-size: 34px;

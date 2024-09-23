@@ -65,7 +65,7 @@ async function main() {
 
         <div class="overview-card-content filtros collapse show" id="workUnit" style="">
           <div class="form-row">
-            <div class="col-sm work-unit">
+            <div class="col-sm work-unit-container">
                 <div class="form-group">
                   <label for="workUnit"> Work Unit: <button id="resetWorkUnit" class="btn btn-danger btn-sm " type="reset"><i class="fas fa-trash-can" aria-hidden="true"></i></button></label>
                   <textarea id="workUnitTextarea" class="animarTexto form-control collapse show" rows="1" placeholder="..." style=""></textarea>
