@@ -7,6 +7,7 @@ class EnvioItemManager {
     this.userEnvio = null;
     this.numberEnvio = null;
     this.fechaEnvio = null;
+    this.workUnit = null;
   }
 
   async init() {
@@ -28,7 +29,7 @@ class EnvioItemManager {
         return;
       }
 
-      this.insertWorkUnitOfSessionStorage();
+      this.insertWorkUnitOfUrlParams();
     } catch (error) {
       console.error('Error:', error);
     } finally {
@@ -73,21 +74,14 @@ class EnvioItemManager {
     });
   }
 
-  insertWorkUnitOfSessionStorage() {
-    const { textarea, numberEnvio } = this;
+  insertWorkUnitOfUrlParams() {
+    const { textarea, workUnit } = this;
 
-    const valueSaveInStorage = JSON.parse(sessionStorage.getItem('workUnit')) ?? null;
-
-    if (!valueSaveInStorage) {
-      console.warn('No se encontraron datos de workUnit guardados');
-      return;
+    if (!textarea) {
+      console.error('Error: el textarea no existe');
     }
 
-    const { id, workUnit } = valueSaveInStorage;
-
-    if (valueSaveInStorage && textarea && id === numberEnvio) {
-      textarea.value = workUnit;
-    }
+    textarea.value = workUnit;
   }
 
   async insertWorkUnitContainer() {
@@ -129,19 +123,21 @@ class EnvioItemManager {
     window.addEventListener('beforeprint', this.reviseTextarea.bind(this));
     window.addEventListener('afterprint', this.afterPrint.bind(this));
 
-    const { textarea, numberEnvio } = this;
+    const { textarea } = this;
 
     const btnReset = document.querySelector('#resetWorkUnit');
-    btnReset.addEventListener('click', () => textarea && (textarea.value = ''));
-
-    // Save to sessionStorage when the page is about to be refreshed or navigated away from
-    window.addEventListener('beforeunload', () => {
-      if (textarea && numberEnvio) {
-        sessionStorage.setItem(
-          'workUnit',
-          JSON.stringify({ id: numberEnvio, workUnit: textarea.value })
-        );
+    btnReset.addEventListener('click', () => {
+      if (!textarea) {
+        return;
       }
+
+      textarea.value = '';
+      this.updateURLParameter('WorkUnit', '');
+    });
+
+    textarea.addEventListener('input', () => {
+      const { value } = textarea;
+      this.updateURLParameter('WorkUnit', value.trim());
     });
   }
 
@@ -193,6 +189,9 @@ class EnvioItemManager {
 
     if (workUnitText) {
       textarea.value = workUnitText.trim();
+
+      // Actualizar la URL con el parámetro `WorkUnit`
+      this.updateURLParameter('WorkUnit', workUnitText.trim());
     }
   }
 
@@ -230,26 +229,52 @@ class EnvioItemManager {
     textareaContainer.classList.remove('hidden');
   }
 
+  // Método para actualizar la URL
+  updateURLParameter(key, value) {
+    const url = new URL(window.location.href); // Obtener la URL actual
+
+    url.searchParams.set(key, value); // Actualizar el parámetro en la URL
+
+    window.history.pushState({}, '', url); // Actualizar la URL sin recargar la página
+  }
+
   getParamsURL() {
-    return new Promise(resolve => {
-      const urlString = window.location.href; // Obtener la URL actual
-      const url = new URL(urlString); // Crear un objeto URL
-      const parametros = url.searchParams; // Obtener los parámetros de la URL
+    return new Promise((resolve, reject) => {
+      try {
+        const urlString = window.location.href; // Obtener la URL actual
+        const url = new URL(urlString); // Crear un objeto URL
+        const parametros = url.searchParams; // Obtener los parámetros de la URL
 
-      this.userEnvio = parametros.get('UserEnvio') ?? '';
-      this.fechaEnvio = parametros.get('FechaEnvio') ?? '';
-      this.numberEnvio = parametros.get('EnvioNum') ?? '';
+        // Recuperar y asignar los parámetros con valores por defecto si están vacíos
+        const {
+          UserEnvio = '',
+          FechaEnvio = '',
+          EnvioNum = '',
+          WorkUnit = '',
+        } = Object.fromEntries(parametros.entries());
 
-      console.log(
-        'numberEnvio:',
-        this.numberEnvio,
-        'userEnvio:',
-        this.userEnvio,
-        'fechaEnvio:',
-        this.fechaEnvio
-      );
+        // Asignar a las propiedades del objeto
+        this.userEnvio = UserEnvio;
+        this.fechaEnvio = FechaEnvio;
+        this.numberEnvio = EnvioNum;
+        this.workUnit = WorkUnit;
 
-      resolve();
+        console.log(
+          'numberEnvio:',
+          this.numberEnvio,
+          ' | userEnvio:',
+          this.userEnvio,
+          ' | fechaEnvio:',
+          this.fechaEnvio,
+          ' | workUnit:',
+          this.workUnit
+        );
+
+        resolve(); // Resolver la promesa
+      } catch (error) {
+        console.error('Error al obtener los parámetros de la URL:', error);
+        reject(error); // Rechazar la promesa si ocurre algún error
+      }
     });
   }
 }

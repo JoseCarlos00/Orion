@@ -44,6 +44,7 @@ function main() {
       const url = new URL(anchor.href);
       url.searchParams.set('UserEnvio', GENERADO_POR);
       url.searchParams.set('FechaEnvio', FECHA_ENVIO);
+      url.searchParams.set('WorkUnit', '');
       anchor.href = url.toString();
 
       resolve();
