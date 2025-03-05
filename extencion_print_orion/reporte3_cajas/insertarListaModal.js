@@ -1,18 +1,18 @@
 async function insertarLIsta() {
-  let datos = [];
+	let datos = [];
 
-  try {
-    await insertarButtonListaAndExcel();
-    setEventDownload();
-    await insertarModal();
-    await modalFunction();
-  } catch (error) {
-    console.error('Error:', error);
-    return;
-  }
+	try {
+		await insertarButtonListaAndExcel();
+		setEventDownload();
+		await insertarModal();
+		await modalFunction();
+	} catch (error) {
+		console.error("Error:", error);
+		return;
+	}
 
-  function insertarButtonListaAndExcel() {
-    const buttons = `
+	function insertarButtonListaAndExcel() {
+		const buttons = `
      <div class="p-2 bd-highlight">
         <button id="insertList" type="button" class="btn btn-sm btn-purple mt-3 position-relative">
           <i class="fas fa-plus" aria-hidden="true"></i> Insertar Lista
@@ -26,24 +26,24 @@ async function insertarLIsta() {
     </div>  
       `;
 
-    return new Promise((resolve, reject) => {
-      const elementToInsert = document.querySelector(
-        '#frmReciboListas > main > div.row > div > div.d-flex.bd-highlight.mb-3 > div.mr-auto.p-2.bd-highlight'
-      );
+		return new Promise((resolve, reject) => {
+			const elementToInsert = document.querySelector(
+				"#frmReciboListas > main > div.row > div > div.d-flex.bd-highlight.mb-3 > div.mr-auto.p-2.bd-highlight"
+			);
 
-      if (elementToInsert) {
-        elementToInsert.insertAdjacentHTML('beforebegin', buttons);
+			if (elementToInsert) {
+				elementToInsert.insertAdjacentHTML("beforebegin", buttons);
 
-        setTimeout(resolve, 50);
-      } else {
-        console.log(new Error('No se encontroe el elemento a insertar: Button Insert List'));
-        reject();
-      }
-    });
-  }
+				setTimeout(resolve, 50);
+			} else {
+				console.log(new Error("No se encontroe el elemento a insertar: Button Insert List"));
+				reject();
+			}
+		});
+	}
 
-  function insertarModal() {
-    const htmlModal = `
+	function insertarModal() {
+		const htmlModal = `
       <section class="modal-container-insert">
         <div id="myModalInserToItem" class="modal">
           <div class="modal-content">
@@ -84,338 +84,329 @@ async function insertarLIsta() {
       </section>
     `;
 
-    return new Promise((resolve, reject) => {
-      const body = document.querySelector('body');
+		return new Promise((resolve, reject) => {
+			const body = document.querySelector("body");
 
-      if (!body) {
-        console.error('Error: no se encontro el Body');
-        reject();
-        return;
-      }
+			if (!body) {
+				console.error("Error: no se encontro el Body");
+				reject();
+				return;
+			}
 
-      body.insertAdjacentHTML('beforeend', htmlModal);
-      setTimeout(resolve, 50);
-    });
-  }
+			body.insertAdjacentHTML("beforeend", htmlModal);
+			setTimeout(resolve, 50);
+		});
+	}
 
-  function modalFunction() {
-    return new Promise((resolve, reject) => {
-      const modalInsert = document.getElementById('myModalInserToItem');
-      const btnOpenModal = document.getElementById('insertList');
-      const btnCloseModal = document.querySelector('.modal-container-insert .close');
+	function modalFunction() {
+		return new Promise((resolve, reject) => {
+			const modalInsert = document.getElementById("myModalInserToItem");
+			const btnOpenModal = document.getElementById("insertList");
+			const btnCloseModal = document.querySelector(".modal-container-insert .close");
 
-      if (!modalInsert || !btnOpenModal || !btnCloseModal) {
-        console.error('No exiten los elementos del modal');
-        reject();
-        return;
-      }
+			if (!modalInsert || !btnOpenModal || !btnCloseModal) {
+				console.error("No exiten los elementos del modal");
+				reject();
+				return;
+			}
 
-      setEventListeners({ modalInsert, btnCloseModal, btnOpenModal });
-      resolve();
-    });
-  }
+			setEventListeners({ modalInsert, btnCloseModal, btnOpenModal });
+			resolve();
+		});
+	}
 
-  function setEventModal(elements) {
-    const { modalInsert, btnCloseModal, btnOpenModal } = elements;
+	function setEventModal(elements) {
+		const { modalInsert, btnCloseModal, btnOpenModal } = elements;
 
-    const textarea = document.getElementById('insertItems');
-    const inputReset = document.getElementById('clearInsertitems');
+		const textarea = document.getElementById("insertItems");
+		const inputReset = document.getElementById("clearInsertitems");
 
-    if (textarea && inputReset) {
-      textarea.addEventListener('input', () => updateCountForm(textarea));
-      inputReset.addEventListener('click', () => updateCountForm(textarea));
-    }
+		if (textarea && inputReset) {
+			textarea.addEventListener("input", () => updateCountForm(textarea));
+			inputReset.addEventListener("click", () => updateCountForm(textarea));
+		}
 
-    // Cuando el usuario hace clic en el botón, abre el modal
-    btnOpenModal.addEventListener('click', () => openModalAction({ textarea, modalInsert }));
+		// Cuando el usuario hace clic en el botón, abre el modal
+		btnOpenModal.addEventListener("click", () => openModalAction({ textarea, modalInsert }));
 
-    // Cuando el usuario hace clic en <span> (x), cierra el modal
-    btnCloseModal.addEventListener('click', function () {
-      modalInsert.style.display = 'none';
+		// Cuando el usuario hace clic en <span> (x), cierra el modal
+		btnCloseModal.addEventListener("click", function () {
+			modalInsert.style.display = "none";
+		});
+	}
 
-      setValueSessionStorage(textarea.value.trim());
-    });
-  }
+	async function openModalAction({ modalInsert, textarea }) {
+		modalInsert.style.display = "block";
 
-  async function openModalAction({ modalInsert, textarea }) {
-    modalInsert.style.display = 'block';
+		if (!textarea) return;
 
-    if (!textarea) return;
+		textarea.focus();
+		updateCountForm(textarea);
+	}
 
-    textarea.value = await getValueSessionStorage();
-    textarea.focus();
-    updateCountForm(textarea);
-  }
+	function updateCountForm(textarea) {
+		setTimeout(() => {
+			console.log("[updateCountForm]");
+			const badgeCount = document.getElementById("countInsertItem");
+			const textareaValue = textarea.value.trim();
+			const lineas = textareaValue == "" ? 0 : textareaValue.split("\n").length;
 
-  function updateCountForm(textarea) {
-    setTimeout(() => {
-      console.log('[updateCountForm]');
-      const badgeCount = document.getElementById('countInsertItem');
-      const textareaValue = textarea.value.trim();
-      const lineas = textareaValue == '' ? 0 : textareaValue.split('\n').length;
+			if (badgeCount) {
+				badgeCount.innerHTML = `${lineas}<span class="visually-hidden">item total</span>`;
+			}
+		}, 50);
+	}
 
-      if (badgeCount) {
-        badgeCount.innerHTML = `${lineas}<span class="visually-hidden">item total</span>`;
-      }
-    }, 50);
-  }
+	function setEventListeners(elements) {
+		const { modalInsert } = elements;
+		setEventModal(elements);
 
-  function setEventListeners(elements) {
-    const { modalInsert } = elements;
-    setEventModal(elements);
+		const formInsertItems = document.getElementById("FormInsertItem");
+		formInsertItems && formInsertItems.addEventListener("submit", registrarDatos);
 
-    const formInsertItems = document.getElementById('FormInsertItem');
-    formInsertItems && formInsertItems.addEventListener('submit', registrarDatos);
+		setEventContadores();
 
-    setEventContadores();
+		const textarea = document.getElementById("insertItems");
 
-    const textarea = document.getElementById('insertItems');
+		// Cuando el usuario hace clic fuera del modal, ciérralo
+		window.addEventListener("click", function (e) {
+			const element = e.target;
 
-    // Cuando el usuario hace clic fuera del modal, ciérralo
-    window.addEventListener('click', function (e) {
-      const element = e.target;
+			if (element == modalInsert) {
+				modalInsert.style.display = "none";
+			}
+		});
 
-      if (element == modalInsert) {
-        modalInsert.style.display = 'none';
-        textarea && setValueSessionStorage(textarea.value.trim());
-      }
-    });
+		// Cuando el usuario apreta la tecla Esc, ciérralo
+		window.addEventListener("keydown", function (e) {
+			if (e.key === "Escape") {
+				if (modalInsert.style.display === "block") {
+					modalInsert.style.display = "none";
+				}
+			}
+		});
+	}
 
-    // Cuando el usuario apreta la tecla Esc, ciérralo
-    window.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') {
-        if (modalInsert.style.display === 'block') {
-          modalInsert.style.display = 'none';
-          textarea && setValueSessionStorage(textarea.value.trim());
-        }
-      }
-    });
-  }
+	function setEventContadores() {
+		const table = document.getElementById("gvPedidosTienda_ctl00");
 
-  function setEventContadores() {
-    const table = document.getElementById('gvPedidosTienda_ctl00');
+		if (!table) {
+			console.error("Error: No se encontro el elemento [table]");
+			return;
+		}
 
-    if (!table) {
-      console.error('Error: No se encontro el elemento [table]');
-      return;
-    }
+		// Contadores
+		table.addEventListener("click", clickEventCheckBox);
+	}
 
-    // Contadores
-    table.addEventListener('click', clickEventCheckBox);
-  }
+	function clickEventCheckBox(e) {
+		const nodeName = e.target.nodeName;
+		const type = e.target.type;
 
-  function clickEventCheckBox(e) {
-    const nodeName = e.target.nodeName;
-    const type = e.target.type;
+		if (nodeName === "INPUT" && type === "checkbox") {
+			console.log("Actualizar Contadores");
 
-    if (nodeName === 'INPUT' && type === 'checkbox') {
-      console.log('Actualizar Contadores');
+			counterUpdate().then(() => {
+				console.log("Contadores actualizados");
+			});
+		}
+	}
 
-      counterUpdate().then(() => {
-        console.log('Contadores actualizados');
-      });
-    }
-  }
+	function counterUpdate() {
+		return new Promise((resolve) => {
+			const checkBoxSeleccionadosNum = obtenerCheckboxesSeleccionados();
+			// Aquí puedes realizar la actualización de los contadores basada en `seleccionados`
+			// Ejemplo:
+			console.log(`Total de checkboxes seleccionados: ${checkBoxSeleccionadosNum}`);
+			// Lógica adicional para actualizar contadores...
+			resolve();
+		});
+	}
 
-  function counterUpdate() {
-    return new Promise(resolve => {
-      const checkBoxSeleccionadosNum = obtenerCheckboxesSeleccionados();
-      // Aquí puedes realizar la actualización de los contadores basada en `seleccionados`
-      // Ejemplo:
-      console.log(`Total de checkboxes seleccionados: ${checkBoxSeleccionadosNum}`);
-      // Lógica adicional para actualizar contadores...
-      resolve();
-    });
-  }
+	function obtenerCheckboxesSeleccionados() {
+		const checkboxesSeleccionados = document.querySelectorAll(
+			'#gvPedidosTienda_ctl00 tr input[type="checkbox"]:not(#gvPedidosTienda_ctl00_ctl02_ctl01_CheckSelectCheckBox):checked'
+		);
+		return checkboxesSeleccionados.length;
+	}
 
-  function obtenerCheckboxesSeleccionados() {
-    const checkboxesSeleccionados = document.querySelectorAll(
-      '#gvPedidosTienda_ctl00 tr input[type="checkbox"]:not(#gvPedidosTienda_ctl00_ctl02_ctl01_CheckSelectCheckBox):checked'
-    );
-    return checkboxesSeleccionados.length;
-  }
+	function insertarItems() {
+		let itemsRegistrados = 0;
 
-  function insertarItems() {
-    let itemsRegistrados = 0;
+		if (datos.length === 0) {
+			console.warn("Array de datos vacia");
+			closeModal();
+			return;
+		}
 
-    if (datos.length === 0) {
-      console.warn('Array de datos vacia');
-      closeModal();
-      return;
-    }
+		const tbody = document.querySelector("#gvPedidosTienda_ctl00 > tbody");
+		const rows = Array.from(tbody.querySelectorAll("tr"));
 
-    const tbody = document.querySelector('#gvPedidosTienda_ctl00 > tbody');
-    const rows = Array.from(tbody.querySelectorAll('tr'));
+		if (rows.length === 0) {
+			console.warn("Filas de la tabla vacia");
+			closeModal();
+			return;
+		}
 
-    if (rows.length === 0) {
-      console.warn('Filas de la tabla vacia');
-      closeModal();
-      return;
-    }
+		rows.forEach((row) => {
+			const inputCheckbox = row.querySelector('td[valign="middle"] input[type="checkbox"]');
+			const item = row.querySelector("td:nth-child(2)");
+			const itemText = item ? item.textContent.trim() : "";
 
-    rows.forEach(row => {
-      const inputCheckbox = row.querySelector('td[valign="middle"] input[type="checkbox"]');
-      const item = row.querySelector('td:nth-child(2)');
-      const itemText = item ? item.textContent.trim() : '';
+			if (datos.includes(itemText) && inputCheckbox) {
+				inputCheckbox.click();
+				itemsRegistrados++;
+			}
+		});
 
-      if (datos.includes(itemText) && inputCheckbox) {
-        inputCheckbox.click();
-        itemsRegistrados++;
-      }
-    });
+		// Filas insertadas
+		badgleButtonList({ itemsRegistrados, total: datos.length });
+		closeModal();
 
-    // Filas insertadas
-    badgleButtonList({ itemsRegistrados, total: datos.length });
-    closeModal();
+		// Cerrar modal
+		closeModal();
+	}
 
-    // Cerrar modal
-    closeModal();
-  }
+	function closeModal() {
+		setTimeout(() => {
+			const modal = document.getElementById("myModalInserToItem");
+			modal && (modal.style.display = "none");
+		}, 150);
+	}
 
-  function closeModal() {
-    setTimeout(() => {
-      const modal = document.getElementById('myModalInserToItem');
-      modal && (modal.style.display = 'none');
-    }, 150);
-  }
+	async function registrarDatos(e) {
+		e.preventDefault();
 
-  async function registrarDatos(e) {
-    e.preventDefault();
+		const formItem = e.target;
+		const textarea = formItem.itemsRegisters;
 
-    const formItem = e.target;
-    const textarea = formItem.itemsRegisters;
+		if (!formItem || !textarea) return console.error("Error: no se encontro el formulario insertItem");
 
-    if (!formItem || !textarea)
-      return console.error('Error: no se encontro el formulario insertItem');
+		const continuar = await verificarLineas();
 
-    setValueSessionStorage(textarea.value.trim());
+		if (continuar) {
+			console.warn("Se ha detenido la ejecucion");
+			deleteBadgle();
+			closeModal();
+			return;
+		}
 
-    const continuar = await verificarLineas();
+		// limpiamos los datos almacenados anteriormente
+		datos.length = 0;
 
-    if (continuar) {
-      console.warn('Se ha detenido la ejecucion');
-      deleteBadgle();
-      closeModal();
-      return;
-    }
+		// Dividir el texto en lineas
+		const lineas = textarea.value.trim().split("\n");
 
-    // limpiamos los datos almacenados anteriormente
-    datos.length = 0;
+		// Procesar cada linea
+		lineas.forEach((linea) => {
+			const regex = /^(\d+-\d+-\d+),?\s*$/;
+			const match = linea.match(regex);
 
-    // Dividir el texto en lineas
-    const lineas = textarea.value.trim().split('\n');
+			if (match) {
+				const item = match[1];
 
-    // Procesar cada linea
-    lineas.forEach(linea => {
-      const regex = /^(\d+-\d+-\d+),?\s*$/;
-      const match = linea.match(regex);
+				/**
+				 * Si el item a registrar ya existe en el array,o si se intenta registrar mas de una vez el mismo ITEM.
+				 * No de agrega al array
+				 */
+				if (!datos.includes(item)) {
+					datos.push(item);
+				}
+			}
+		});
 
-      if (match) {
-        const item = match[1];
+		// Limpiar el campo de texto
+		formItem.reset();
 
-        /**
-         * Si el item a registrar ya existe en el array,o si se intenta registrar mas de una vez el mismo ITEM.
-         * No de agrega al array
-         */
-        if (!datos.includes(item)) {
-          datos.push(item);
-        }
-      }
-    });
+		// Insertar datos
+		insertarItems();
+	}
 
-    // Limpiar el campo de texto
-    formItem.reset();
+	function badgleButtonList({ itemsRegistrados = 0, total = 0 } = {}) {
+		const button = document.getElementById("insertList");
+		const badgleOld = document.getElementById("badgleItem");
 
-    // Insertar datos
-    insertarItems();
-  }
+		// Crear el badge
+		const badgeNew = document.createElement("span");
+		badgeNew.className = "position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger";
+		badgeNew.id = "badgleItem";
+		badgeNew.innerHTML = `${total}<span class="msg"> total</span><span class="visually-hidden">item total</span>`;
 
-  function badgleButtonList({ itemsRegistrados = 0, total = 0 } = {}) {
-    const button = document.getElementById('insertList');
-    const badgleOld = document.getElementById('badgleItem');
+		// Agregar el badge al botón
+		if (badgleOld) {
+			button.replaceChild(badgeNew, badgleOld);
+		} else {
+			button.insertAdjacentElement("beforeend", badgeNew);
+		}
 
-    // Crear el badge
-    const badgeNew = document.createElement('span');
-    badgeNew.className =
-      'position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger';
-    badgeNew.id = 'badgleItem';
-    badgeNew.innerHTML = `${total}<span class="msg"> total</span><span class="visually-hidden">item total</span>`;
+		// Actualizar el contenido del badge
+		setTimeout(() => {
+			badgeNew.innerHTML = `${itemsRegistrados}<span class="msg"> registrados</span><span class="visually-hidden">item registrados</span>`;
+		}, 2000);
+	}
 
-    // Agregar el badge al botón
-    if (badgleOld) {
-      button.replaceChild(badgeNew, badgleOld);
-    } else {
-      button.insertAdjacentElement('beforeend', badgeNew);
-    }
+	function deleteBadgle() {
+		const badgle = document.getElementById("badgleItem");
 
-    // Actualizar el contenido del badge
-    setTimeout(() => {
-      badgeNew.innerHTML = `${itemsRegistrados}<span class="msg"> registrados</span><span class="visually-hidden">item registrados</span>`;
-    }, 2000);
-  }
+		if (!badgle) {
+			console.error("Error: no se encontro el elemento [badgle]");
+			return;
+		}
 
-  function deleteBadgle() {
-    const badgle = document.getElementById('badgleItem');
-
-    if (!badgle) {
-      console.error('Error: no se encontro el elemento [badgle]');
-      return;
-    }
-
-    badgle.remove();
-  }
+		badgle.remove();
+	}
 }
 
 async function verificarLineas() {
-  console.log('[verificarLineas] se ha ejecutado');
+	console.log("[verificarLineas] se ha ejecutado");
 
-  const totalNumber = obtenerTotalNumber();
-  const numFilas = obtenerNumFilas();
+	const totalNumber = obtenerTotalNumber();
+	const numFilas = obtenerNumFilas();
 
-  if (numFilas === null || totalNumber === null) {
-    console.warn('Error al obtener el número de filas o el total.');
-    alert('Ha ocurrido un error inesperado code:001');
-    return false;
-  }
+	if (numFilas === null || totalNumber === null) {
+		console.warn("Error al obtener el número de filas o el total.");
+		alert("Ha ocurrido un error inesperado code:001");
+		return false;
+	}
 
-  if (esImpresionCompleta(numFilas, totalNumber)) {
-    return false;
-  }
+	if (esImpresionCompleta(numFilas, totalNumber)) {
+		return false;
+	}
 
-  // Maneja filas incompletas y espera a que se resuelva la promesa
-  const result = await manejarFilasIncompletas(numFilas, totalNumber);
-  return result;
+	// Maneja filas incompletas y espera a que se resuelva la promesa
+	const result = await manejarFilasIncompletas(numFilas, totalNumber);
+	return result;
 }
 
 async function manejarFilasIncompletas(numFilas, totalNumber) {
-  return new Promise(async resolve => {
-    if (numFilas <= totalNumber) {
-      const userResponse = confirm(
-        '❌ No están activadas todas las líneas\n' +
-          '¿Desea continuar?\n' +
-          '     ⚠️                                                                      Sí        /        No'
-      );
+	return new Promise(async (resolve) => {
+		if (numFilas <= totalNumber) {
+			const userResponse = confirm(
+				"❌ No están activadas todas las líneas\n" +
+					"¿Desea continuar?\n" +
+					"     ⚠️                                                                      Sí        /        No"
+			);
 
-      if (userResponse) {
-        await insertarMessageIncompletePrint(); // Espera a que se resuelva la promesa
-        resolve(false); // El usuario decide continuar
-      } else {
-        activarFilas = true;
-        console.log('activarFilas = true');
-        resolve(true); // El usuario decide no continuar
-        setTimeout(activartodasLasLineas, 50);
-      }
-    } else {
-      resolve(false); // El número de filas es mayor al total
-    }
-  });
+			if (userResponse) {
+				await insertarMessageIncompletePrint(); // Espera a que se resuelva la promesa
+				resolve(false); // El usuario decide continuar
+			} else {
+				activarFilas = true;
+				console.log("activarFilas = true");
+				resolve(true); // El usuario decide no continuar
+				setTimeout(activartodasLasLineas, 50);
+			}
+		} else {
+			resolve(false); // El número de filas es mayor al total
+		}
+	});
 }
 
 function setValueSessionStorage(value) {
-  // Guardar en sessionStorage
-  sessionStorage.setItem('insertItemValues', value);
+	// Guardar en sessionStorage
+	sessionStorage.setItem("insertItemValues", value);
 }
 
 function getValueSessionStorage() {
-  return new Promise(resolve => resolve(sessionStorage.getItem('insertItemValues') ?? ''));
+	return new Promise((resolve) => resolve(sessionStorage.getItem("insertItemValues") ?? ""));
 }
