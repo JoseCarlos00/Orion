@@ -314,4 +314,8 @@ ul {
 	.text-center {
 		text-align: center;
 	}
+
+	@page {
+		size: letter;
+	}
 }
