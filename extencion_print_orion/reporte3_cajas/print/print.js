@@ -5,11 +5,17 @@ import {
 	createFiltersCheckboxRow,
 } from "./checkBox.js";
 
+import { FormGropHidden } from "./FormGroupHidden.js";
+
 console.log("Print.js");
 
 async function main() {
 	try {
-		setHiddenGroupDefault();
+		// setHiddenGroupDefault();
+
+		const formGropHiddenManager = new FormGropHidden();
+		formGropHiddenManager.render();
+
 		// Obtén el contenido de la URL
 		const params = new URLSearchParams(window.location.search);
 		const thead = params.get("thead");

@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Print</title>
   <link rel="stylesheet" href="./print.css">
+  <link rel="stylesheet" href="./formGroupHidden.css">
 </head>
 
 <body>
@@ -37,9 +38,33 @@
 
     <div id="checkboxContainerGroup"></div>
 
-    <div class="hidden-group-defaul">
-      <h3>Grupos Ocultos por defecto</h3>
-      <ul id="hidden-group-list"></ul>
+    <div class="hidden-group-default">
+      <div class="container-title">
+        <h3 class="container-title-title">Gestor de Grupos Ocultos</h3>
+        <p class="container-title-subtitle">Administra la lista de grupos que deseas ocultar</p>
+      </div>
+
+      <div class="section-container-form">
+        <div class="container-form  space-y-4">
+          <form id="formGroupHidden" class="flex">
+            <input class="name-group-input" required name="nameGroup" placeholder="Nombre del grupo" value=""
+              spellcheck="false" data-ms-editor="true">
+            <button class="button-add transition-colors" type="submit">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-plus h-4 w-4 mr-2">
+                <path d="M5 12h14"></path>
+                <path d="M12 5v14"></path>
+              </svg>
+              Agregar
+            </button>
+          </form>
+
+          <div class="container-list">
+            <ul id="hidden-group-list" class="divide-y"></ul>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
