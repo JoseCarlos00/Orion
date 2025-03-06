@@ -6,16 +6,12 @@ import {
 } from "./checkBox.js";
 
 import { FormGropHidden } from "./FormGroupHidden.js";
+const formGropHiddenManager = new FormGropHidden();
 
 console.log("Print.js");
 
 async function main() {
 	try {
-		// setHiddenGroupDefault();
-
-		const formGropHiddenManager = new FormGropHidden();
-		formGropHiddenManager.render();
-
 		// Obtén el contenido de la URL
 		const params = new URLSearchParams(window.location.search);
 		const thead = params.get("thead");
@@ -59,13 +55,15 @@ async function main() {
 			.then((msg) => {
 				console.log(msg);
 
-				const hiddenGroup = ["YY PROMO/BZ1", "ZMUEBLE TDAS", "YY TIAN5"];
+				const hiddenGroup = Array.from(formGropHiddenManager.hiddenGroupList);
 				createFiltersCheckboxRow(hiddenGroup, false);
 			})
 			.catch((err) => console.error("Error al crear el evento click mostrar:", err));
 
 		await sortValueNumeric();
 		hiddenRows();
+
+		formGropHiddenManager.render();
 
 		setTimeout(() => window.print(), 500);
 	} catch (error) {
@@ -175,7 +173,7 @@ function hiddenRows() {
 	const table = document.getElementById("content");
 	const rows = Array.from(table.querySelectorAll("tbody tr"));
 	const position = 8;
-	const hiddenGroup = ["YY PROMO/BZ1", "ZMUEBLE TDAS", "YY TIAN5"];
+	const hiddenGroup = formGropHiddenManager.hiddenGroupList;
 
 	if (!rows || !table) {
 		console.error("No se encontraron los elementos <table> and <tbody>");
@@ -194,7 +192,7 @@ function hiddenRows() {
 			const grupoText = grupoElement.textContent.trim();
 
 			// Verificar si el texto de la celda está en el grupo de valores para ocultar
-			if (hiddenGroup.includes(grupoText)) {
+			if (hiddenGroup.has(grupoText)) {
 				tr.classList.add("hidden");
 			}
 		}
@@ -287,17 +285,6 @@ async function exportTable(table) {
 	} catch (error) {
 		console.error("Error:", error);
 	}
-}
-
-function setHiddenGroupDefault() {
-	const hiddenGroup = ["YY PROMO/BZ1", "ZMUEBLE TDAS", "YY TIAN5"];
-	const hiddenGroupList = document.querySelector("#hidden-group-list");
-	hiddenGroup.forEach((item) => {
-		const li = document.createElement("li");
-		li.classList.add("item");
-		li.textContent = item;
-		hiddenGroupList.appendChild(li);
-	});
 }
 
 // Espera a que la página haya cargado antes de ejecutar la función inicio

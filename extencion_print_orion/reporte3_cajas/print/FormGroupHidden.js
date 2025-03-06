@@ -4,7 +4,7 @@ export class FormGropHidden {
 		this.formGroupHidden = document.querySelector("#formGroupHidden");
 
 		this.nameStorage = "hiddenGroupList";
-		this.defaultHiddenGroup = new Set(["YY PROMO/BZ1", "ZMUEBLE TDAS", "YY TIAN5"]);
+		this.defaultHiddenGroup = new Set(["YY PROMO/BZ1", "ZMUEBLE TDAS", "YY TIAN5", "NAV MADERA"]);
 
 		this.recoveryData = {};
 		this.hiddenGroupList = new Set(this.recoveryData.hiddenGroupList || [...this.defaultHiddenGroup]);
@@ -55,6 +55,7 @@ export class FormGropHidden {
 
 		// Eliminar el elemento del DOM
 		liElement.remove();
+		this.saveDataListHiddenGroupStorage();
 	};
 
 	setEventClickList() {
@@ -69,14 +70,9 @@ export class FormGropHidden {
 		});
 	}
 
-	insertElementLiInDOM(value) {
-		const liElement = this.getElementLi(value);
-		this.hiddenGroupListElement.appendChild(liElement);
-	}
-
 	handleEventSubmit = (e) => {
 		e.preventDefault();
-		const nameGroupValue = e.target.nameGroup?.value?.toUpperCase();
+		const nameGroupValue = e.target.nameGroup?.value?.trim()?.toUpperCase();
 		console.log(nameGroupValue);
 
 		if (this.hiddenGroupList.has(nameGroupValue)) {
@@ -85,8 +81,9 @@ export class FormGropHidden {
 		}
 
 		this.hiddenGroupList.add(nameGroupValue);
-		// this.insertElementLiInDOM(nameGroupValue);
+		this.saveDataListHiddenGroupStorage();
 		this.insertDataInDOM();
+		e.target.reset();
 	};
 
 	setEventFormSubmit() {
