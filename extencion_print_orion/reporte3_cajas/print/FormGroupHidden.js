@@ -1,10 +1,10 @@
-export class FormGropHidden {
+export class FormGroupHidden {
 	constructor() {
 		this.hiddenGroupListElement = document.querySelector("#hidden-group-list");
 		this.formGroupHidden = document.querySelector("#formGroupHidden");
 
 		this.nameStorage = "hiddenGroupList";
-		this.defaultHiddenGroup = new Set(["YY PROMO/BZ1", "ZMUEBLE TDAS", "YY TIAN5", "NAV MADERA"]);
+		this.defaultHiddenGroup = new Set(["ZMUEBLE TDAS"]);
 
 		this.recoveryData = {};
 		this.hiddenGroupList = new Set(this.recoveryData.hiddenGroupList || [...this.defaultHiddenGroup]);

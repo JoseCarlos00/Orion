@@ -46,13 +46,13 @@ export function insertColumn(table, columnIndex, headerText, cellContentGenerato
 // 	columnIndexToInsert,
 // 	'Code', // Texto del encabezado para la nueva columna
 // 	(rowElement, rowIndex) => {
-// 		// Lógica para generar el contenido de cada celda en la nueva columna.
-// 		// Puedes acceder a otras celdas de la fila actual si es necesario.
-// 		// Ejemplo: Tomar el texto de la primera celda y añadirle un sufijo.
-// 		// const firstCell = rowElement.querySelector('td');
-// 		// if (firstCell) {
-// 		//   return `${firstCell.textContent.trim()}-SKU`;
-// 		// }
+// Lógica para generar el contenido de cada celda en la nueva columna.
+// Puedes acceder a otras celdas de la fila actual si es necesario.
+// Ejemplo: Tomar el texto de la primera celda y añadirle un sufijo.
+// const firstCell = rowElement.querySelector('td');
+// if (firstCell) {
+//   return `${firstCell.textContent.trim()}-SKU`;
+// }
 
 // 		return rowElement.children[2]; // Contenido de ejemplo
 // 	}
@@ -68,8 +68,102 @@ export function insertColumn(table, columnIndex, headerText, cellContentGenerato
 // [0, 2, 3, 4] < 5, se mantienen.
 // [9] >= 5, se convierte en 9 + 1 = 10.
 // Nuevos índices ocultos: [0, 2, 3, 4, 10]
-const originalHiddenColumns1Based = [1, 3, 4, 5, 10];
-const adjustedHiddenColumns = originalHiddenColumns1Based.map((col) => {
-	const zeroBasedCol = col - 1;
-	return zeroBasedCol >= columnIndexToInsert ? zeroBasedCol + 1 : zeroBasedCol;
-});
+// const originalHiddenColumns1Based = [1, 3, 4, 5, 10];
+// const adjustedHiddenColumns = originalHiddenColumns1Based.map((col) => {
+// 	const zeroBasedCol = col - 1;
+// 	return zeroBasedCol >= columnIndexToInsert ? zeroBasedCol + 1 : zeroBasedCol;
+// });
+
+/**
+ * Ordena la tabla por una o varias columnas dadas.
+ * @param {object} params - Parámetros de la función.
+ * @param {HTMLTableElement} params.table - El elemento <table>.
+ * @param {number[]} params.columns - Un array de números de columna (1-indexado) que especifican el orden de prioridad para el ordenamiento.
+ *                                    Por ejemplo, [3, 1] ordenará primero por la columna 3, y luego por la columna 1 para las filas con valores iguales en la columna 3.
+ * @param {'asc'|'desc'} [params.order='asc'] - El orden de clasificación ('asc' para ascendente, 'desc' para descendente). Se aplica a todas las columnas.
+ */
+export function OrderBYColumns({ table, columns, order = 'asc' }) {
+	try {
+		if (!table) {
+			throw new Error('Error: Tabla no encontrada');
+		}
+		if (!columns || !Array.isArray(columns) || columns.length === 0) {
+			throw new Error('Error: Se debe proporcionar un array de índices de columna (mayor que 0) para ordenar.');
+		}
+		for (const colIndex of columns) {
+			if (typeof colIndex !== 'number' || colIndex <= 0) {
+				throw new Error(`Error: Índice de columna inválido: ${colIndex}. Deben ser números mayores que 0.`);
+			}
+		}
+
+		const rows = Array.from(table.querySelectorAll('tbody tr'));
+
+		if (!rows.length) {
+			console.warn('No hay filas para ordenar');
+			return;
+		}
+
+		const incompleteRows = rows.filter((row) => row.classList.contains('mensaje-incompleto'));
+		const sortableRows = rows.filter((row) => !row.classList.contains('mensaje-incompleto'));
+
+		sortableRows.sort((rowA, rowB) => {
+			for (const columnIndex of columns) { // columnIndex es 1-indexado
+				const cellA = rowA.querySelector(`td:nth-child(${columnIndex})`);
+				const cellB = rowB.querySelector(`td:nth-child(${columnIndex})`);
+
+				
+				
+				// Manejar celdas que podrían no existir
+				if (!cellA && !cellB) continue; // Ambas faltan, se consideran iguales para esta columna, se prueba la siguiente.
+				// Si una celda falta, esa fila se considera "menor" (va primero en asc, último en desc).
+				if (!cellA) return order === 'asc' ? -1 : 1;
+				if (!cellB) return order === 'asc' ? 1 : -1;
+				
+				const valueA = cellA.innerText.trim();
+				const valueB = cellB.innerText.trim();
+				
+				// Lugar más seguro para un log de depuración si es necesario:
+				console.log({ columnIndex, comparing_valueA: valueA, comparing_valueB: valueB });
+
+				const numA = parseFloat(valueA);
+				const numB = parseFloat(valueB);
+
+				const aIsNumeric = !isNaN(numA) && isFinite(numA);
+				const bIsNumeric = !isNaN(numB) && isFinite(numB);
+
+				let comparisonResult = 0;
+
+				if (aIsNumeric && bIsNumeric) {
+					// Ambos son números (o pueden ser parseados como tales)
+					comparisonResult = numA - numB;
+				} else if (aIsNumeric && !bIsNumeric) {
+					// A es número, B no lo es. Los números van primero.
+					comparisonResult = -1;
+				} else if (!aIsNumeric && bIsNumeric) {
+					// B es número, A no lo es. Los números van primero (A va después).
+					comparisonResult = 1;
+				} else {
+					// Ambos son cadenas no numéricas. Usar localeCompare con opción numérica para orden natural.
+					comparisonResult = valueA.localeCompare(valueB, undefined, { numeric: true, sensitivity: 'base' });
+				}
+
+				if (comparisonResult !== 0) {
+					return order === 'desc' ? comparisonResult * -1 : comparisonResult;
+				}
+			}
+			return 0; // Todas las columnas especificadas son iguales para estas dos filas
+		});
+
+		const tbody = table.querySelector('tbody');
+		if (tbody) {
+			tbody.innerHTML = ''; // Limpia el tbody
+			sortableRows.forEach((row) => tbody.appendChild(row));
+			incompleteRows.forEach((row) => tbody.appendChild(row));
+			// console.log('Tabla ordenada correctamente.'); // Puedes descomentar esto si quieres una confirmación en la consola.
+		} else {
+			console.warn('Elemento tbody no encontrado en la tabla.');
+		}
+	} catch (error) {
+		console.error(`Error al ordenar la tabla: ${error.message || error}`);
+	}
+}
