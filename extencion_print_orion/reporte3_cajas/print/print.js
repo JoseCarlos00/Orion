@@ -151,8 +151,8 @@ class PrintReport3Cajas {
 			// this.params = new URLSearchParams(window.location.search);;
 			this.params = urlSchema;
 
-			this.thead = params.get('thead') || null;
-			this.tbody = params.get('tbody') || null;
+			this.thead = this.params.get('thead') || null;
+			this.tbody = this.params.get('tbody') || null;
 
 			if (!this.thead || !this.tbody) {
 				throw new Error('Error: No se encontró [thead] and [tbody] en los parametros de la URL');
@@ -204,8 +204,8 @@ class PrintReport3Cajas {
 				})
 				.catch((err) => console.error('Error al crear el evento click Rows:', err));
 
-			OrderBYColumns({ table: this.table, columns: [3, 8], order: 'asc' });
-			hiddenRows();
+			OrderBYColumns({ table: this.table, columns: [9, 3], order: 'asc' });
+			this.hiddenRows();
 
 			this.formGroupHiddenManager.render();
 
@@ -243,7 +243,7 @@ class PrintReport3Cajas {
 
 // Espera a que la página haya cargado antes de ejecutar la función inicio
 // window.addEventListener("load", main, { once: true });
-Window.addEventListener("load", () => {
+window.addEventListener("load", () => {
 	const printReport3Cajas = new PrintReport3Cajas();
 	printReport3Cajas.render()
 		.then(() => console.log('PrintReport3Cajas renderizado exitosamente'))

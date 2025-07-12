@@ -107,51 +107,23 @@ export function OrderBYColumns({ table, columns, order = 'asc' }) {
 		const sortableRows = rows.filter((row) => !row.classList.contains('mensaje-incompleto'));
 
 		sortableRows.sort((rowA, rowB) => {
-			for (const columnIndex of columns) { // columnIndex es 1-indexado
-				const cellA = rowA.querySelector(`td:nth-child(${columnIndex})`);
-				const cellB = rowB.querySelector(`td:nth-child(${columnIndex})`);
+			for (const colIndex of columns) {
+				const cellA = rowA.cells[colIndex - 1]?.textContent?.trim() ?? '';
+				const cellB = rowB.cells[colIndex - 1]?.textContent?.trim() ?? '';
 
-				
-				
-				// Manejar celdas que podrían no existir
-				if (!cellA && !cellB) continue; // Ambas faltan, se consideran iguales para esta columna, se prueba la siguiente.
-				// Si una celda falta, esa fila se considera "menor" (va primero en asc, último en desc).
-				if (!cellA) return order === 'asc' ? -1 : 1;
-				if (!cellB) return order === 'asc' ? 1 : -1;
-				
-				const valueA = cellA.innerText.trim();
-				const valueB = cellB.innerText.trim();
-				
-				// Lugar más seguro para un log de depuración si es necesario:
-				console.log({ columnIndex, comparing_valueA: valueA, comparing_valueB: valueB });
+				// Intentamos convertir a número si ambos valores son numéricos
+				const a = isNaN(cellA) ? cellA : parseFloat(cellA);
+				const b = isNaN(cellB) ? cellB : parseFloat(cellB);
 
-				const numA = parseFloat(valueA);
-				const numB = parseFloat(valueB);
+				let comparison = 0;
+				if (a < b) comparison = -1;
+				else if (a > b) comparison = 1;
 
-				const aIsNumeric = !isNaN(numA) && isFinite(numA);
-				const bIsNumeric = !isNaN(numB) && isFinite(numB);
-
-				let comparisonResult = 0;
-
-				if (aIsNumeric && bIsNumeric) {
-					// Ambos son números (o pueden ser parseados como tales)
-					comparisonResult = numA - numB;
-				} else if (aIsNumeric && !bIsNumeric) {
-					// A es número, B no lo es. Los números van primero.
-					comparisonResult = -1;
-				} else if (!aIsNumeric && bIsNumeric) {
-					// B es número, A no lo es. Los números van primero (A va después).
-					comparisonResult = 1;
-				} else {
-					// Ambos son cadenas no numéricas. Usar localeCompare con opción numérica para orden natural.
-					comparisonResult = valueA.localeCompare(valueB, undefined, { numeric: true, sensitivity: 'base' });
-				}
-
-				if (comparisonResult !== 0) {
-					return order === 'desc' ? comparisonResult * -1 : comparisonResult;
+				if (comparison !== 0) {
+					return order === 'asc' ? comparison : -comparison;
 				}
 			}
-			return 0; // Todas las columnas especificadas son iguales para estas dos filas
+			return 0; // Son iguales en todas las columnas especificadas
 		});
 
 		const tbody = table.querySelector('tbody');
@@ -159,7 +131,8 @@ export function OrderBYColumns({ table, columns, order = 'asc' }) {
 			tbody.innerHTML = ''; // Limpia el tbody
 			sortableRows.forEach((row) => tbody.appendChild(row));
 			incompleteRows.forEach((row) => tbody.appendChild(row));
-			// console.log('Tabla ordenada correctamente.'); // Puedes descomentar esto si quieres una confirmación en la consola.
+
+			console.log('Tabla ordenada correctamente.');
 		} else {
 			console.warn('Elemento tbody no encontrado en la tabla.');
 		}
