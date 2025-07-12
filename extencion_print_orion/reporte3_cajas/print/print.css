@@ -319,3 +319,13 @@ ul {
 		size: letter;
 	}
 }
+
+@media print {
+  .page-break {
+    page-break-after: always;
+  }
+
+  table {
+    font-size: 13px;
+  }
+}

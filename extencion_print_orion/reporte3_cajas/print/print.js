@@ -143,6 +143,8 @@ async function exportTable(table) {
 	}
 }
 
+
+
 class PrintReport3Cajas {
 	constructor() {
 		try {
@@ -210,6 +212,7 @@ class PrintReport3Cajas {
 			this.formGroupHiddenManager.render();
 
 			// setTimeout(() => window.print(), 500);
+			this.insertarPageBreak(9);
 		} catch (error) {
 			console.error('Error al renderizar PrintReport3Cajas:', error);
 		}
@@ -219,7 +222,6 @@ class PrintReport3Cajas {
 		const rows = Array.from(this.table.querySelectorAll('tbody tr'));
 		const position = 8;
 		const hiddenGroup = this.formGroupHiddenManager.hiddenGroupList;
-
 
 		if (!rows || rows.length === 0) {
 			console.warn('No hay filas <tr>');
@@ -238,6 +240,54 @@ class PrintReport3Cajas {
 				}
 			}
 		});
+	}
+
+	insertarPageBreak(positionElement) {
+		try {
+			if (!this.table) {
+				throw new Error('No se encontró la tabla con el id: #tablePreview');
+			}
+
+			if (!positionElement) {
+				throw new Error('No se encontró la posición del elemento');
+			}
+
+			// filtrar y agregar clase al primer TD de cada grupo
+			const filas = this.table.querySelectorAll('tr');
+
+			if (!filas && filas.length === 0) {
+				console.warn('No hay filas <tr> en la tabla');
+				return;
+			}
+
+			// Iterar sobre las filas
+			filas.forEach((fila, index) => {
+				// Ignorar la primera fila (encabezados)
+				if (index === 0) return;
+
+				const valorDeLaFilaActual = fila.querySelector(`td:nth-child(${positionElement})`)?.textContent;
+
+				// Obtener el valor de la primera celda de la fila anterior
+				const valorDeLaFilaAnterior = filas[index - 1].querySelector(`td:nth-child(${positionElement})`)?.textContent;
+
+				console.log({valorDeLaFilaActual, valorDeLaFilaAnterior, bool: valorDeLaFilaActual !== valorDeLaFilaAnterior, index})
+
+				if (!valorDeLaFilaActual || !valorDeLaFilaAnterior) {
+					return;
+				}
+
+				// Verificar si el valor actual es diferente al valor anterior
+				if (valorDeLaFilaActual !== valorDeLaFilaAnterior) {
+					if (index > 1) {
+						filas[index - 1].querySelector(`td:nth-child(${positionElement})`).classList.add('page-break');
+					}
+				}
+			});
+
+		} catch (error) {
+			console.error('Error al insertar PageBreak:', error);
+			
+		}
 	}
 }
 
