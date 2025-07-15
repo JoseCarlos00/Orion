@@ -318,14 +318,16 @@ ul {
 	@page {
 		size: letter;
 	}
-}
 
-@media print {
-  .page-break {
+	.page-break {
     page-break-after: always;
   }
 
   table {
     font-size: 13px;
   }
+	th, td {
+		padding: 0.08em;
+	}
+	
 }

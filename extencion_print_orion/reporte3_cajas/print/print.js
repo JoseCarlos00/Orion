@@ -149,9 +149,10 @@ class PrintReport3Cajas {
 	constructor() {
 		try {
 			this.formGroupHiddenManager = new FormGroupHidden();
+			this.filterFormCajas = document.getElementById('filterFormCajas');
 
-			// this.params = new URLSearchParams(window.location.search);;
-			this.params = urlSchema;
+			this.params = new URLSearchParams(window.location.search);
+			// this.params = urlSchema;
 
 			this.thead = this.params.get('thead') || null;
 			this.tbody = this.params.get('tbody') || null;
@@ -174,6 +175,8 @@ class PrintReport3Cajas {
 
 			this.table.insertAdjacentElement('beforeend', this.theadElement);
 			this.table.insertAdjacentElement('beforeend', this.tbodyElement);
+
+			this.setEventFilterForm();
 		} catch (error) {
 			console.error('Error al inicializar PrintReport3Cajas:', error);
 		}
@@ -212,7 +215,10 @@ class PrintReport3Cajas {
 			this.formGroupHiddenManager.render();
 
 			// setTimeout(() => window.print(), 500);
-			this.insertarPageBreak(9);
+			setTimeout(() => {
+				this.insertarPageBreak(9);
+				window.print();
+			}, 200);
 		} catch (error) {
 			console.error('Error al renderizar PrintReport3Cajas:', error);
 		}
@@ -244,6 +250,8 @@ class PrintReport3Cajas {
 
 	insertarPageBreak(positionElement) {
 		try {
+			console.log('Insertando PageBreak en la tabla...');
+			
 			if (!this.table) {
 				throw new Error('No se encontró la tabla con el id: #tablePreview');
 			}
@@ -253,12 +261,22 @@ class PrintReport3Cajas {
 			}
 
 			// filtrar y agregar clase al primer TD de cada grupo
-			const filas = this.table.querySelectorAll('tr');
+			const filas = this.table.querySelectorAll('tr:not(.hidden)');
 
 			if (!filas && filas.length === 0) {
 				console.warn('No hay filas <tr> en la tabla');
 				return;
 			}
+
+
+			// Limpiar las clases de page-break antes de aplicar nuevas
+			filas.forEach((fila) => {
+				const td = fila.querySelector(`td:nth-child(${positionElement})`);
+				if (td) {
+					td.classList.remove('page-break');
+				}
+			});
+			
 
 			// Iterar sobre las filas
 			filas.forEach((fila, index) => {
@@ -270,8 +288,6 @@ class PrintReport3Cajas {
 				// Obtener el valor de la primera celda de la fila anterior
 				const valorDeLaFilaAnterior = filas[index - 1].querySelector(`td:nth-child(${positionElement})`)?.textContent;
 
-				console.log({valorDeLaFilaActual, valorDeLaFilaAnterior, bool: valorDeLaFilaActual !== valorDeLaFilaAnterior, index})
-
 				if (!valorDeLaFilaActual || !valorDeLaFilaAnterior) {
 					return;
 				}
@@ -279,15 +295,48 @@ class PrintReport3Cajas {
 				// Verificar si el valor actual es diferente al valor anterior
 				if (valorDeLaFilaActual !== valorDeLaFilaAnterior) {
 					if (index > 1) {
+						console.log({
+							valorDeLaFilaActual,
+							valorDeLaFilaAnterior,
+							bool: valorDeLaFilaActual !== valorDeLaFilaAnterior,
+							index,
+						});
+						console.log(
+							`Agregando PageBreak en la fila: ${index - 1} con valor: ${valorDeLaFilaActual}`,
+							filas[index - 1]
+						);
+
 						filas[index - 1].querySelector(`td:nth-child(${positionElement})`).classList.add('page-break');
 					}
 				}
 			});
 
+			
+
 		} catch (error) {
 			console.error('Error al insertar PageBreak:', error);
 			
 		}
+	}
+
+	setEventFilterForm() {
+		if (!this.filterFormCajas) {
+			console.error('No se encontró el formulario de filtro de cajas');
+			return;
+		}
+
+		this.filterFormCajas.addEventListener('change', (event) => {
+			event.preventDefault();
+			const formData = new FormData(this.filterFormCajas);
+
+			for (const [key, value] of formData.entries()) {
+				if (value) {
+					console.log(`Filtro aplicado: ${key} = ${value}`);
+					
+				}
+			}
+
+		});
 	}
 }
 
