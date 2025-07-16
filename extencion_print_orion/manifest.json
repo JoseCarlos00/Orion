@@ -73,6 +73,10 @@
 				"trabajos_activos/visualizador/trabajosActivoVisualizador.js"
 			],
 			"css": ["trabajos_activos/alertPrint.css", "trabajos_activos/visualizador/trabajosActivoVisualizador.css"]
+		},
+		{
+			"matches": ["http://fmorion.dnsalias.com/orion/paginas/Bodega/BodegaPedidosTienda.aspx"],
+			"css": ["pedidos_tienda/style.css"]
 		}
 	],
 	"action": {

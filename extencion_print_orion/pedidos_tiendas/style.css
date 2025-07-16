@@ -1,0 +1,60 @@
+@media print {
+	body.modal-open {
+		.modal-backdrop.fade.show {
+			display: none !important;
+		}
+
+		.grid-container {
+			.header,
+			.sidenav,
+			.footer {
+				display: none !important;
+			}
+
+			#frmReciboListas .main {
+				display: none !important;
+			}
+
+			#exampleModal {
+				position: initial !important;
+				overflow-y: initial !important;
+				overflow-x: initial !important;
+				height: 100vh;
+
+				.modal-content {
+					background: transparent !important;
+				}
+
+				.modal-dialog {
+					width: 100% !important;
+					max-width: 100% !important;
+					margin: 0 !important;
+					padding: 0 !important;
+				}
+
+				.modal-content {
+					background: transparent !important;
+					border: none !important;
+					box-shadow: none !important;
+				}
+
+				.modal-header {
+					border: none !important;
+					box-shadow: none !important;
+
+					.close {
+						display: none !important;
+					}
+
+					.modal-title {
+						font-size: 1.65rem;
+					}
+				}
+
+				.modal-footer {
+					display: none !important;
+				}
+			}
+		}
+	}
+}
