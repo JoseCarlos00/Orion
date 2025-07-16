@@ -76,7 +76,7 @@
 		},
 		{
 			"matches": ["http://fmorion.dnsalias.com/orion/paginas/Bodega/BodegaPedidosTienda.aspx"],
-			"css": ["pedidos_tienda/style.css"]
+			"css": ["pedidos_tiendas/style.css"]
 		}
 	],
 	"action": {
