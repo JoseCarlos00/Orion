@@ -127,19 +127,28 @@ function getVisibleTableData(table) {
 	});
 }
 
-async function exportTable(table) {
+function exportTable(table) {
 	try {
 		if (!table) {
-			throw new Error("No se encontro la <table> para exportar");
+			throw new Error('No se encontró la <table> para exportar');
 		}
+
+		// Obtén fecha actual
+		const now = new Date();
+		const day = String(now.getDate()).padStart(2, '0');
+		const month = String(now.getMonth() + 1).padStart(2, '0'); // Los meses van de 0 a 11
+		const year = now.getFullYear();
+
+		const fecha = `${day}-${month}-${year}`;
+		const fileName = `reporte3Cajas_${fecha}.xlsx`;
 
 		// Usa SheetJS para crear un libro y agregar una hoja con los datos de la tabla
 		const workbook = XLSX.utils.table_to_book(table);
 
-		XLSX.writeFile(workbook, "reporte3Cajas.xlsx");
-		console.log("El archivo se ha descargado exitosamente.");
+		XLSX.writeFile(workbook, fileName);
+		console.log(`El archivo ${fileName} se ha descargado exitosamente.`);
 	} catch (error) {
-		console.error("Error:", error);
+		console.error('Error:', error);
 	}
 }
 
