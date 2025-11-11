@@ -28,7 +28,7 @@ async function insertarLIsta() {
 
 		return new Promise((resolve, reject) => {
 			const elementToInsert = document.querySelector(
-				"#frmReciboListas > main > div.row > div > div.d-flex.bd-highlight.mb-3 > div.mr-auto.p-2.bd-highlight"
+				'#frmReciboListas > div.d-flex.bd-highlight.row > div.mr-auto.bd-highlight.col-sm-12.col-lg-auto'
 			);
 
 			if (elementToInsert) {

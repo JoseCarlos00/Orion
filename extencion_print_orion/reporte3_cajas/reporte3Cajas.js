@@ -24,18 +24,16 @@ async function main() {
 
 function insertarButtonPrint() {
   const buttonPrint = `
-      <div class="p-2 bd-highlight">
-          <button id="printButtonInventory" type="button" class="btn btn-sm btn-purple mt-3"><i class="fas fa-print"></i>Imprimir</button>
-      </div>
+        <button id="printButtonInventory" type="button" class="btn btn-sm btn-purple my-2"><i class="fas fa-print"></i>Imprimir</button>
       `;
 
   return new Promise(resolve => {
     const elementoInsert = document.querySelector(
-      '#frmReciboListas > main > div.row > div > div.d-flex.bd-highlight.mb-3 > div:nth-child(1)'
-    );
+			'#frmReciboListas > div.d-flex.bd-highlight.row > div.mr-auto.bd-highlight.col-sm-12.col-lg-auto'
+		);
 
     if (elementoInsert) {
-      elementoInsert.insertAdjacentHTML('afterend', buttonPrint);
+      elementoInsert.insertAdjacentHTML('beforeend', buttonPrint);
 
       resolve();
     } else {
